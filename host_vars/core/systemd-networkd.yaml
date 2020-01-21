@@ -1,7 +1,7 @@
 ---
 interfaces:
 - name: onboard
-  mac: d6:e5:32:d3:c3:ea
+  mac: 90:2b:34:1c:96:2b
   description: Onboard ethernet port
   primary: "true"
 - name: extended
