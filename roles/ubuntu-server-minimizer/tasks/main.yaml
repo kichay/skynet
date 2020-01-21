@@ -1,0 +1,41 @@
+---
+- name: Remove packages
+  apt:
+    name: "{{ item }}"
+    state: absent
+    autoclean: yes
+    autoremove: yes
+    purge: yes
+    update_cache: yes
+  loop:
+  - ubuntu-server
+  - ubuntu-standard
+  - unattended-upgrades
+  - apparmor
+  - ufw
+  - secureboot-db
+  - sbsigntool
+  - cloud-init
+  - uuid-runtime
+  - netplan.io
+
+- name: Remove paths
+  file:
+    state: absent
+    path: "{{ item }}"
+  loop:
+  - /usr/share/netplan/netplan/cli/commands
+  - /etc/netplan
+  - /etc/cloud/cloud.cfg.d
+  - /var/log/unattended-upgrades
+  - /var/lib/update-manager
+
+- name: Disable systemd units
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    daemon_reload: yes
+    enabled: no
+  loop:
+  - ondemand.service
+  - snap.lxd.daemon.unix.socket

@@ -1,0 +1,9 @@
+---
+- name: Install skynet cluster
+  hosts: skynet
+  become: yes
+  roles:
+  - ubuntu-server-minimizer
+  - systemd-networkd
+  - disable-swap
+  - reboot

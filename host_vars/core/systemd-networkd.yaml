@@ -1,0 +1,10 @@
+---
+interfaces:
+- name: onboard
+  mac: d6:e5:32:d3:c3:ea
+  description: Onboard ethernet port
+  primary: "true"
+- name: extended
+  mac: c8:3a:35:d8:e9:53
+  description: Extended card ethernet port
+  primary: "false"

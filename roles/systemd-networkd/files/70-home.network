@@ -1,0 +1,5 @@
+[Match]
+Name=home
+
+[Network]
+DHCP=ipv4

@@ -1,0 +1,7 @@
+[NetDev]
+Name=skynet
+Description=Skynet VLAN
+Kind=vlan
+
+[VLAN]
+Id=128
