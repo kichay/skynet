@@ -1,0 +1,29 @@
+---
+- name: Install keepalived package
+  apt:
+    name: keepalived
+    state: present
+    update_cache: yes
+
+- name: Generate keepalived.conf
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Copy notify.sh
+  copy:
+    src: notify.sh
+    dest: /etc/keepalived/notify.sh
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
+- name: Enable/restart keepalived unit
+  systemd:
+    name: keepalived
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

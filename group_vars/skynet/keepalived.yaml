@@ -1,0 +1,4 @@
+---
+keepalived:
+  password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
+  id: 100

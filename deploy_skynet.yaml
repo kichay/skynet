@@ -3,7 +3,8 @@
   hosts: skynet
   become: yes
   roles:
-  - ubuntu-server-minimizer
-  - systemd-networkd
-  - disable-swap
-  - reboot
+#  - ubuntu-server-minimizer
+#  - systemd-networkd
+#  - disable-swap
+  - keepalived
+#  - reboot
