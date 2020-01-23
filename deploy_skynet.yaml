@@ -4,7 +4,7 @@
   become: yes
   roles:
 #  - ubuntu-server-minimizer
-#  - systemd-networkd
+  - systemd-networkd
   - systemd-resolved
 #  - disable-swap
   - keepalived

@@ -1,4 +1,11 @@
 ---
+- name: Clear systemd-networkd configuration files
+  file:
+    path: '/etc/systemd/network/{{ item }}'
+    state: absent
+  with_fileglob:
+     - /etc/systemd/network/*
+
 - name: Copy systemd-networkd common files
   copy:
     src: "{{ item }}"

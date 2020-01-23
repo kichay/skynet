@@ -2,7 +2,7 @@
 - name: Disable cache for systemd-resolved
   lineinfile:
     path: /etc/systemd/resolved.conf
-    regexp: '#?Cache=yes'
+    regexp: '^#?Cache='
     line: "Cache=no"
     state: present
 
