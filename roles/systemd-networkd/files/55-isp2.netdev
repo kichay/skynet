@@ -1,7 +1,0 @@
-[NetDev]
-Name=isp2
-Description=ISP2 VLAN
-Kind=vlan
-
-[VLAN]
-Id=122
