@@ -4,8 +4,8 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["instance_name"] }}" ]] && [[
 
   if [[ $3 = "MASTER" ]]; then
 
-    ip link add link management name isp1 address {{ isp["isp1"]["mac"] }} type vlan id 121
-    ip link add link management name isp2 address {{ isp["isp2"]["mac"] }} type vlan id 122
+    ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
+    ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
     systemctl restart systemd-networkd
 
   else

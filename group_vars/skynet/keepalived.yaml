@@ -3,3 +3,8 @@ keepalived:
   password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
   id: 100
   instance_name: skynet_vip
+  notify:
+    isp1:
+      mac: 00:11:22:33:44:5F
+    isp2:
+      mac: 00:11:22:33:44:55
