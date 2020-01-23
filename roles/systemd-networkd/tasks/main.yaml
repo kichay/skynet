@@ -6,7 +6,7 @@
   with_fileglob:
   - /etc/systemd/network/*
 
-- name: Copy systemd-networkd common files
+- name: Copy systemd.netdev files
   copy:
     src: "{{ item }}"
     dest: "/etc/systemd/network/{{ item }}"
@@ -19,25 +19,25 @@
   - 60-management.netdev
   - 70-home.network
 
-- name: Generate systemd-networkd link files
+- name: Generate systemd.link files
   loop: "{{ interfaces }}"
   template:
-    src: 50-ifname.link.j2
+    src: 50-interface.link.j2
     dest: "/etc/systemd/network/50-{{ item['name'] }}.link"
     owner: root
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Generate systemd-networkd link network files
+- name: Generate systemd.network files for links
   loop: "{{ interfaces }}"
   template:
-    src: 65-ifname.network.j2
+    src: 65-interface.network.j2
     dest: "/etc/systemd/network/65-{{ item['name'] }}.network"
     owner: root
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Generate systemd-networkd other network files
+- name: Generate systemd.network files for VLANs
   template:
     src: "{{ item }}.j2"
     dest: "/etc/systemd/network/{{ item }}"
