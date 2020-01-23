@@ -2,7 +2,7 @@
 
 if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["instance_name"] }}" ]] && [[ $4 = "{{ keepalived["id"] }}" ]]; then
 
-  if [[ $1 = "MASTER" ]]; then
+  if [[ $3 = "MASTER" ]]; then
 
     ip link add isp1macvlan link isp1 type macvlan mode bridge
     ip link add isp2macvlan link isp2 type macvlan mode bridge
