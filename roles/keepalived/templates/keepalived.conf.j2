@@ -2,7 +2,7 @@ global_defs {{ "{" }}
 
 {{ "}" }}
 
-vrrp_instance skynet_vip {{ "{" }}
+vrrp_instance {{ keepalived["instance_name"] }} {{ "{" }}
     state SLAVE
     notify /etc/keepalived/notify.sh
     interface management
