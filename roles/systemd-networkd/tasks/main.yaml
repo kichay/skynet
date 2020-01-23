@@ -4,7 +4,7 @@
     path: '/etc/systemd/network/{{ item }}'
     state: absent
   with_fileglob:
-     - /etc/systemd/network/*
+  - /etc/systemd/network/*
 
 - name: Copy systemd-networkd common files
   copy:
