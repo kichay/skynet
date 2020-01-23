@@ -4,14 +4,13 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["instance_name"] }}" ]] && [[
 
   if [[ $3 = "MASTER" ]]; then
 
-    ip link add isp1macvlan link isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type macvlan mode bridge
-    ip link add isp1macvlan link isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type macvlan mode bridge
-    systemctl restart systemd-networkd
+    ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
+    ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
 
   else
 
-    ip link del isp1macvlan
-    ip link del isp2macvlan
+    ip link del isp1
+    ip link del isp2
 
   fi
 

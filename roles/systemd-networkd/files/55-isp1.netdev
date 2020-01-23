@@ -1,7 +1,0 @@
-[NetDev]
-Name=isp1
-Description=ISP1 VLAN
-Kind=vlan
-
-[VLAN]
-Id=121
