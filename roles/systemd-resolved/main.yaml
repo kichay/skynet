@@ -1,0 +1,14 @@
+---
+- name: Disable cache for systemd-resolved
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '#?Cache=yes'
+    line: "Cache=no"
+    state: present
+
+- name: Enable/restart systemd-resolved unit
+  systemd:
+    name: systemd-resolved
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

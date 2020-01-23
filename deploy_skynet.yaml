@@ -5,6 +5,7 @@
   roles:
 #  - ubuntu-server-minimizer
 #  - systemd-networkd
+  - systemd-resolved
 #  - disable-swap
   - keepalived
 #  - reboot

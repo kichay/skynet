@@ -40,3 +40,10 @@
   loop:
   - 65-management.network
   - 70-skynet.network
+
+- name: Enable/restart systemd-networkd unit
+  systemd:
+    name: systemd-networkd
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
