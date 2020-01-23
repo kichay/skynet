@@ -5,6 +5,13 @@
     state: present
     update_cache: yes
 
+- name: Clear keepalived configuration files
+  file:
+    path: '/etc/keepalived/{{ item }}'
+    state: absent
+  with_fileglob:
+     - /etc/keepalived/*
+
 - name: Generate keepalived.conf
   template:
     src: keepalived.conf.j2
