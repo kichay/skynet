@@ -15,6 +15,8 @@
     mode: u=rw,g=r,o=r
   loop:
   - 55-home.netdev
+  - 55-isp1.netdev
+  - 55-isp2.netdev
   - 55-skynet.netdev
   - 60-management.netdev
   - 70-home.network
