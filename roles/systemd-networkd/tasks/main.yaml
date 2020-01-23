@@ -46,6 +46,8 @@
   loop:
   - 65-management.network
   - 70-skynet.network
+  - 70-isp1.network
+  - 70-isp2.network
   - 70-home.network
 
 - name: Enable/restart systemd-networkd unit
