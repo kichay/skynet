@@ -17,7 +17,6 @@
   - 55-home.netdev
   - 55-skynet.netdev
   - 60-management.netdev
-  - 70-home.network
 
 - name: Generate systemd.link files
   loop: "{{ interfaces }}"
@@ -47,6 +46,7 @@
   loop:
   - 65-management.network
   - 70-skynet.network
+  - 70-home.network
 
 - name: Enable/restart systemd-networkd unit
   systemd:
