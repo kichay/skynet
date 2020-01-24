@@ -1,4 +1,9 @@
 ---
+- name: Add cassandra debian repo key
+  apt_key:
+    url: https://www.apache.org/dist/cassandra/KEYS
+    state: present
+
 - name: Add cassandra debian repo
   apt_repository:
     repo: deb http://www.apache.org/dist/cassandra/debian 39x main
