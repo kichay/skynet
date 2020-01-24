@@ -10,7 +10,7 @@
   lineinfile:
     path: /etc/systemd/resolved.conf
     regexp: '^#?DNSOverTLS='
-    line: "DNSOverTLS=yes"
+    line: "DNSOverTLS=opportunistic"
     state: present
 
 - name: Use Cloudflare DNS for systemd-resolved
@@ -32,6 +32,13 @@
     path: /etc/systemd/resolved.conf
     regexp: '^#?DNSStubListener='
     line: "DNSStubListener=yes"
+    state: present
+
+- name: Enable ReadEtcHosts mode for systemd-resolved
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^#?ReadEtcHosts='
+    line: "ReadEtcHosts=yes"
     state: present
 
 - name: Create a symbolic link for resolv.conf
