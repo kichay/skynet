@@ -1,8 +1,8 @@
 ---
-- name: Install systemd-networkd package
+- name: Install/update systemd package
   apt:
-    name: systemd-networkd
-    state: present
+    name: systemd
+    state: latest
     update_cache: yes
 
 - name: Clear systemd-networkd configuration files

@@ -4,8 +4,8 @@
     repo: deb http://debian.datastax.com/datastax-ddc 3.9 main
     state: present
 
-- name: Install cassandra package
+- name: Install/update cassandra package
   apt:
     name: datastax-ddc
-    state: present
+    state: latest
     update_cache: yes

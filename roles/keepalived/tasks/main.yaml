@@ -1,8 +1,8 @@
 ---
-- name: Install keepalived package
+- name: Install/update keepalived package
   apt:
     name: keepalived
-    state: present
+    state: latest
     update_cache: yes
 
 - name: Generate keepalived.conf

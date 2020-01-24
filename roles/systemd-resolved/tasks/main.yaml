@@ -1,4 +1,10 @@
 ---
+- name: Install/update systemd package
+  apt:
+    name: systemd
+    state: latest
+    update_cache: yes
+
 - name: Enable cache for systemd-resolved
   lineinfile:
     path: /etc/systemd/resolved.conf
