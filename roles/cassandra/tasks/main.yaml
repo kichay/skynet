@@ -1,4 +1,10 @@
 ---
+
+- name: Add an Apt signing key for datastax
+  apt_key:
+    url: https://debian.datastax.com/debian/repo_key
+    state: present
+
 - name: Add datastax-ddc repository
   apt_repository:
     repo: deb http://debian.datastax.com/datastax-ddc 3.9 main
