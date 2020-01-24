@@ -1,12 +1,7 @@
 ---
-- name: Add the key for the cassandra debian repo
-  apt_key:
-    keyserver: pgp.mit.edu
-    id: F758CE318D77295D
-
 - name: Add cassandra debian repo
   apt_repository:
-    repo: deb http://www.apache.org/dist/cassandra/debian 30x main
+    repo: deb http://www.apache.org/dist/cassandra/debian 39x main
     state: present
 
 - name: Install/update cassandra package
