@@ -8,4 +8,5 @@
   - systemd-resolved
   #- disable-swap
   - keepalived
+  - cassandra
   #- reboot

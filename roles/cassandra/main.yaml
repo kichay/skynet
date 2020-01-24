@@ -1,0 +1,11 @@
+---
+- name: Add datastax-ddc repository
+  apt_repository:
+    repo: deb http://debian.datastax.com/datastax-ddc 3.9 main
+    state: present
+
+- name: Install cassandra package
+  apt:
+    name: datastax-ddc
+    state: present
+    update_cache: yes
