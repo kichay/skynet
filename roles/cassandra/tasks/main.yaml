@@ -1,17 +1,16 @@
 ---
-
-- name: Add an Apt signing key for datastax
+- name: Add the key for the cassandra debian repo
   apt_key:
-    url: https://debian.datastax.com/debian/repo_key
-    state: present
+    keyserver: pgp.mit.edu
+    id: F758CE318D77295D
 
-- name: Add datastax-ddc repository
+- name: Add cassandra debian repo
   apt_repository:
-    repo: deb http://debian.datastax.com/datastax-ddc 3.9 main
+    repo: deb http://www.apache.org/dist/cassandra/debian 30x main
     state: present
 
 - name: Install/update cassandra package
   apt:
-    name: datastax-ddc
+    name: cassandra
     state: latest
     update_cache: yes
