@@ -4,6 +4,7 @@
     name: systemd
     state: latest
     update_cache: yes
+    upgrade: yes
 
 - name: Enable cache for systemd-resolved
   lineinfile:
