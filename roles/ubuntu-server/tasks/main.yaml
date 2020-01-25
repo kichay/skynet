@@ -46,3 +46,9 @@
   loop:
   - ondemand.service
   - snap.lxd.daemon.unix.socket
+
+- name: Install/update systemd package
+  apt:
+    name: systemd
+    state: latest
+    update_cache: yes
