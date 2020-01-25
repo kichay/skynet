@@ -15,9 +15,6 @@
     state: latest
     update_cache: yes
 
-- name: Kill cassandra daemon
-  shell: if [[ -f /var/run/cassandra/cassandra.pid ]]; then kill -s SIGKILL $(cat /var/run/cassandra/cassandra.pid); fi
-
 - name: Stop cassandra unit
   systemd:
     name: cassandra
