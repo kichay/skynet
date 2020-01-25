@@ -48,8 +48,8 @@
   - snap.lxd.daemon.unix.socket
 
 - name: Add repositories keys
-  apt_key: "{{ item }}"
-    url: 
+  apt_key:
+    url: "{{ item }}"
     state: present
   loop:
   - https://www.apache.org/dist/cassandra/KEYS
