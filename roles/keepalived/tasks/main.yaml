@@ -1,10 +1,4 @@
 ---
-- name: Install/update keepalived package
-  apt:
-    name: keepalived
-    state: latest
-    update_cache: yes
-
 - name: Generate keepalived.conf
   template:
     src: keepalived.conf.j2

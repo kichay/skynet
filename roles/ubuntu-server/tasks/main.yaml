@@ -19,13 +19,6 @@
   - uuid-runtime
   - netplan.io
 
-- name: Upgrade packages
-  apt:
-    upgrade: yes
-    autoclean: yes
-    autoremove: yes
-    update_cache: yes
-
 - name: Remove paths
   file:
     state: absent
@@ -37,6 +30,13 @@
   - /var/log/unattended-upgrades
   - /var/lib/update-manager
 
+- name: Upgrade packages
+  apt:
+    upgrade: yes
+    autoclean: yes
+    autoremove: yes
+    update_cache: yes
+
 - name: Disable systemd units
   systemd:
     name: "{{ item }}"
@@ -47,8 +47,27 @@
   - ondemand.service
   - snap.lxd.daemon.unix.socket
 
-- name: Install/update systemd package
+- name: Add repositories keys
+  apt_key: "{{ item }}"
+    url: 
+    state: present
+  loop:
+  - https://www.apache.org/dist/cassandra/KEYS
+
+- name: Add repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop:
+  - deb http://www.apache.org/dist/cassandra/debian 39x main
+
+- name: Install/update packages
   apt:
-    name: systemd
+    name: "{{ item }}"
     state: latest
     update_cache: yes
+  loop:
+  - systemd
+  - nftables
+  - cassandra
+  - keepalived
