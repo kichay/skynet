@@ -7,7 +7,6 @@
     autoremove: yes
     purge: yes
     update_cache: yes
-    upgrade: yes
   loop:
   - ubuntu-server
   - ubuntu-standard
@@ -19,6 +18,13 @@
   - cloud-init
   - uuid-runtime
   - netplan.io
+
+- name: Upgrade packages
+  apt:
+    upgrade: yes
+    autoclean: yes
+    autoremove: yes
+    update_cache: yes
 
 - name: Remove paths
   file:
