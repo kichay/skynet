@@ -14,3 +14,48 @@
     name: cassandra
     state: latest
     update_cache: yes
+
+- name: Stop cassandra unit
+  systemd:
+    name: cassandra
+    state: stopped
+    daemon_reload: yes
+
+- name: Remove cassandra files
+  file:
+    path: '/var/lib/cassandra'
+    state: "{{item}}"
+    owner: cassandra
+    group: cassandra
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
+
+- name: Create cassandra directory structure
+  file:
+    path: "/var/lib/cassandra/{{ item }}"
+    state: directory
+    owner: cassandra
+    group: cassandra
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - data
+  - commitlog
+  - hints
+  - saved_caches
+
+- name: Generate cassandra.yaml configuration file
+  template:
+    src: cassandra.yaml.j2
+    dest: /etc/cassandra/cassandra.yaml
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable/start cassandra unit
+  systemd:
+    name: cassandra
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

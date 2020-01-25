@@ -5,7 +5,7 @@
     state: latest
     update_cache: yes
 
-- name: Clear systemd-networkd configuration files
+- name: Remove systemd-networkd configuration files
   file:
     path: '/etc/systemd/network/{{ item }}'
     state: absent
