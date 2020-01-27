@@ -71,3 +71,4 @@
   - nftables
   - cassandra
   - keepalived
+  - kea-dhcp4-server
