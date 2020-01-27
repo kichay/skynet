@@ -1,6 +1,9 @@
 cluster_name: 'skynet'
 
 commitlog_directory: /var/lib/cassandra/commitlog
+commitlog_sync: periodic
+commitlog_sync_period_in_ms: 10000
+commitlog_segment_size_in_mb: 32
 
 saved_caches_directory: /var/lib/cassandra/saved_caches
 
@@ -13,4 +16,3 @@ seed_provider:
   - seeds: "192.168.128.11,192.168.128.12,192.168.128.13"
 
 listen_address: 192.168.128.1{{ node_id }}
-rpc_address: 192.168.128.1{{ node_id }}
