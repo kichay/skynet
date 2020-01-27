@@ -37,9 +37,9 @@
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Enable/restart cassandra unit
+- name: Enable/start cassandra unit
   systemd:
     name: cassandra
-    state: restarted
+    state: started
     daemon_reload: yes
     enabled: yes
