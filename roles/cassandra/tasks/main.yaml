@@ -40,6 +40,6 @@
 - name: Enable/start cassandra unit
   systemd:
     name: cassandra
-    state: started
+    state: restarted
     daemon_reload: yes
     enabled: yes
