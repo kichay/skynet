@@ -3,11 +3,11 @@
   hosts: skynet
   become: yes
   roles:
-  - #ubuntu-server
-  - #systemd-networkd
-  - #systemd-resolved
-  - #disable-swap
-  - #keepalived
-  - #cassandra
+  #- ubuntu-server
+  #- systemd-networkd
+  #- systemd-resolved
+  #- disable-swap
+  #- keepalived
+  #- cassandra
   - kea-dhcp4
-  - #reboot
+  #- reboot

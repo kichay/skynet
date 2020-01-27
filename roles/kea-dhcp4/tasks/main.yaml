@@ -1,5 +1,4 @@
 ---
-
 - name: Generate kea-dhcp4.conf configuration file
   template:
     src: kea-dhcp4.conf.j2
