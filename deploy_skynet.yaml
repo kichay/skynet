@@ -8,4 +8,6 @@
   - systemd-resolved
   - disable-swap
   - keepalived
+  - etcd
+  - isc-dhcp-server
   - reboot

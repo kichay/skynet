@@ -47,20 +47,6 @@
   - ondemand.service
   - snap.lxd.daemon.unix.socket
 
-#- name: Add repositories keys
-#  apt_key:
-#    url: "{{ item }}"
-#    state: absent
-#  loop:
-#  - https://www.apache.org/dist/cassandra/KEYS
-
-#- name: Add repositories
-#  apt_repository:
-#    repo: "{{ item }}"
-#    state: absent
-#  loop:
-#  - deb http://www.apache.org/dist/cassandra/debian 39x main
-
 - name: Install/update packages
   apt:
     name: "{{ item }}"
@@ -70,3 +56,5 @@
   - systemd
   - nftables
   - keepalived
+  - etcd
+  - isc-dhcp-server
