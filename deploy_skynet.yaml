@@ -10,5 +10,6 @@
   - nftables
   - etcd
   - isc-dhcp-server
+  - sysctl
   - disable-swap
   - reboot
