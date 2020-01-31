@@ -1,4 +1,12 @@
 ---
+- name: Create systemd unit override directory for etcd
+  file:
+    path: /etc/systemd/system/etcd.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
 - name: Generate override.conf for etcd unit
   template:
     src: override.conf.j2
