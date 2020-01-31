@@ -5,6 +5,6 @@ interfaces:
   description: Onboard ethernet port
   primary: "true"
 - name: extended
-  mac: c8:3a:35:d8:e9:53
+  mac: 50:3e:aa:10:f5:dd
   description: Extended card ethernet port
   primary: "false"
