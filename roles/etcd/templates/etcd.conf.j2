@@ -4,7 +4,7 @@
 name: '{{ inventory_hostname }}'
 
 # Path to the data directory.
-data-dir: /var/lib/etcd/default
+data-dir: /var/lib/etcd/cluster-1
 
 # Path to the dedicated wal directory.
 wal-dir:
@@ -26,7 +26,7 @@ quota-backend-bytes: 0
 listen-peer-urls: http://192.168.128.1{{ node_id }}:2380
 
 # List of comma separated URLs to listen on for client traffic.
-listen-client-urls: http://192.168.128.1{{ node_id }}:2379
+listen-client-urls: http://192.168.128.1{{ node_id }}:2379,http://127.0.0.1:2379
 
 # Maximum number of snapshot files to retain (0 is unlimited).
 max-snapshots: 5
@@ -58,10 +58,10 @@ discovery-proxy:
 discovery-srv:
 
 # Initial cluster configuration for bootstrapping.
-initial-cluster:
+initial-cluster: core=http://192.68.128.11:2380,celeron=http://192.168.128.12:2380,ryzen=http://192.168.128.13:2380
 
 # Initial cluster token for the etcd cluster during bootstrap.
-initial-cluster-token: 'etcd-cluster'
+initial-cluster-token: 'etcd-cluster-1'
 
 # Initial cluster state ('new' or 'existing').
 initial-cluster-state: 'new'
