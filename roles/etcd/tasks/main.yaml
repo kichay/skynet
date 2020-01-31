@@ -1,1 +1,23 @@
 ---
+- name: Generate override.conf for etcd unit
+  template:
+    src: override.conf.j2
+    dest: /etc/systemd/system/etcd.service.d/override.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Generate etcd.conf file
+  template:
+    src: etcd.conf.j2
+    dest: /etc/etcd.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable/restart etcd unit
+  systemd:
+    name: etcd
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
