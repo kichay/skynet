@@ -8,3 +8,11 @@ interfaces:
   mac: 50:3e:aa:11:31:7f
   description: Extended card ethernet port
   primary: "false"
+
+addresses:
+  management:
+    address: 192.168.111.13
+    network: "24"
+  skynet:
+    address: 192.168.128.13
+    network: "17"

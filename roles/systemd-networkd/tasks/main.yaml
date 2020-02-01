@@ -6,9 +6,9 @@
   with_fileglob:
   - /etc/systemd/network/*
 
-- name: Copy systemd.netdev files
-  copy:
-    src: "{{ item }}"
+- name: Generate systemd.netdev files
+  template:
+    src: "{{ item }}.j2"
     dest: "/etc/systemd/network/{{ item }}"
     owner: root
     group: root

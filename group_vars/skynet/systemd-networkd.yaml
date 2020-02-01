@@ -1,0 +1,6 @@
+---
+shared_addresses:
+  arp_mon: 192.168.111.1 192.168.111.2
+  skynet_router:
+    address: 192.168.128.1
+    network: "17"

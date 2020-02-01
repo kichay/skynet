@@ -7,5 +7,5 @@ Mode=active-backup
 PrimaryReselectPolicy=always
 ARPValidate=active
 ARPIntervalSec=1
-ARPIPTargets=192.168.111.1 192.168.111.2
+ARPIPTargets={{ shared_addresses["arp_mon"] }}
 ARPAllTargets=any
