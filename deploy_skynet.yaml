@@ -12,4 +12,4 @@
   - nftables
   - sysctl
   - disable-swap
-  #- reboot
+  - reboot

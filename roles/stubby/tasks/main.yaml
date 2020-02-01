@@ -15,7 +15,7 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
-- name: Enable/restart stubby unit
+- name: Disable/stop stubby unit
   systemd:
     name: stubby
     state: stopped
