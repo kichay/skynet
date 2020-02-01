@@ -1,4 +1,9 @@
 ---
+- name: Stop etcd unit
+  systemd:
+    name: etcd
+    state: stopped
+
 - name: Create systemd unit override directory for etcd
   file:
     path: /etc/systemd/system/etcd.service.d
@@ -22,6 +27,17 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
+
+- name: Override etcd data with an empty directory
+  file:
+    path: /var/lib/etcd
+    state: "{{ item }}"
+    owner: etcd
+    group: etcd
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
 
 - name: Enable/restart etcd unit
   systemd:

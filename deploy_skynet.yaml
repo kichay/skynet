@@ -3,13 +3,13 @@
   hosts: skynet
   become: yes
   roles:
-  #- ubuntu-server
+  - ubuntu-server
   - systemd-networkd
   - stubby
+  - etcd
+  - isc-dhcp-server
   - keepalived
   - nftables
-  #- etcd
-  - isc-dhcp-server
   - sysctl
   - disable-swap
   #- reboot
