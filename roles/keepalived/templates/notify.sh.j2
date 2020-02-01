@@ -8,9 +8,11 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["instance_name"] }}" ]] && [[
     ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
     killall systemd-networkd
     systemctl start systemd-networkd
+    systemctl start stubby
 
   else
 
+    systemctl stop stubby
     ip link del isp1
     ip link del isp2
 

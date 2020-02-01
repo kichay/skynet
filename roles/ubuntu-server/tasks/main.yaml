@@ -37,16 +37,6 @@
     autoremove: yes
     update_cache: yes
 
-- name: Disable systemd units
-  systemd:
-    name: "{{ item }}"
-    state: stopped
-    daemon_reload: yes
-    enabled: no
-  loop:
-  - ondemand.service
-  - snap.lxd.daemon.unix.socket
-
 - name: Install/update packages
   apt:
     name: "{{ item }}"
@@ -58,3 +48,15 @@
   - keepalived
   - etcd
   - isc-dhcp-server
+  - stubby
+
+- name: Disable systemd units
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    daemon_reload: yes
+    enabled: no
+  loop:
+  - ondemand.service
+  - snap.lxd.daemon.unix.socket
+  - systemd-resolved
