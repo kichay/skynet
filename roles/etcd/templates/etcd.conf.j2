@@ -16,7 +16,7 @@ discovery:
 discovery-fallback: 'proxy'
 discovery-proxy:
 discovery-srv:
-initial-cluster: core=http://192.68.128.11:2380,celeron=http://192.168.128.12:2380,ryzen=http://192.168.128.13:2380
+initial-cluster: core=http://192.168.128.11:2380,celeron=http://192.168.128.12:2380,ryzen=http://192.168.128.13:2380
 initial-cluster-token: '{{ etcd["cluster_token"] }}'
 initial-cluster-state: 'new'
 strict-reconfig-check: false
