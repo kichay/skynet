@@ -5,11 +5,11 @@
   roles:
   - ubuntu-server
   - systemd-networkd
+  - disable-swap
   - stubby
+  - reboot
   - etcd
   - isc-dhcp-server
   - keepalived
   - nftables
   - sysctl
-  - disable-swap
-  - reboot
