@@ -4,3 +4,6 @@ shared_addresses:
   skynet_router:
     address: 192.168.128.1
     network: "17"
+  home_router:
+    address: 192.168.123.5
+    network: "24"

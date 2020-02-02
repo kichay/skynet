@@ -7,6 +7,7 @@ edns_client_subnet_private : 1
 idle_timeout: 9000
 listen_addresses:
   - {{ shared_addresses["skynet_router"]["address"] }}
+  - {{ shared_addresses["home_router"]["address"] }}
 round_robin_upstreams: 1
 upstream_recursive_servers:
   - address_data: 1.1.1.1

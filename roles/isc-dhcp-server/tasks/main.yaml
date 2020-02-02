@@ -1,1 +1,18 @@
 ---
+- name: Generate dhcpd.conf
+  template:
+    src: dhcpd.conf.j2
+    dest: /etc/dhcp/dhcpd.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Disable/stop isc-dhcpd units
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    daemon_reload: yes
+    enabled: no
+  loop:
+  - isc-dhcp-server
+  - isc-dhcp-server6

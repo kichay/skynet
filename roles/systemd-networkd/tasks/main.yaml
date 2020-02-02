@@ -14,7 +14,6 @@
     group: root
     mode: u=rw,g=r,o=r
   loop:
-  - 55-home.netdev
   - 55-skynet.netdev
   - 60-management.netdev
 
