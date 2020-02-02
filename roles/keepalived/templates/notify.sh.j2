@@ -9,6 +9,8 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["instance_name"] }}" ]] && [[
     ip link add link management name home type vlan id 123
     killall systemd-networkd
     systemctl start systemd-networkd
+    /usr/lib/systemd/systemd-networkd-wait-online --interface=skynet
+    /usr/lib/systemd/systemd-networkd-wait-online --interface=home
     systemctl start stubby
     systemctl start isc-dhcp-server
 
