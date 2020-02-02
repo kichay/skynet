@@ -9,6 +9,26 @@ ddns-update-style none;
 authoritative;
 
 subnet {{ dhcpd["home"]["subnet"] }} netmask {{ dhcpd["home"]["netmask"] }} {
-    option routers {{ shared_addresses["home_router"]["address"] }};
-    range {{ dhcpd["home"]["range"] }};
+
+  option routers {{ shared_addresses["home_router"]["address"] }};
+  range {{ dhcpd["home"]["range"] }};
+
+  on commit {
+    #set clip = binary-to-ascii(10, 8, ".", leased-address);
+    #set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+    #execute("/usr/local/sbin/dhcpevent", "commit", clip, clhw, host-decl-name);
+  }
+
+  on release {
+    #set clip = binary-to-ascii(10, 8, ".", leased-address);
+    #set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+    #execute("/usr/local/sbin/dhcpevent", "release", clip, clhw, host-decl-name);
+  }
+
+  on expiry {
+    #set clip = binary-to-ascii(10, 8, ".", leased-address);
+    #set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+    #execute("/usr/local/sbin/dhcpevent", "expiry", clip, clhw, host-decl-name);
+  }
+
 }
