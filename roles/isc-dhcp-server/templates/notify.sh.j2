@@ -7,3 +7,9 @@ if [[ $1 = "commit" ]] || [[ $1 = "release" ]] || [[ $1 = "expiry" ]]; then
   etcdctl mk dhcp.leases "$(cat $LEASES)" || etcdctl update dhcp.leases "$(cat $LEASES)"
 
 fi
+
+if [[ $1 = "pull" ]]; then
+
+  etcdctl get dhcp.leases >$LEASES || true
+
+fi
