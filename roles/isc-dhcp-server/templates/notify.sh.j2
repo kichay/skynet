@@ -5,19 +5,18 @@ TIMEOUT=3
 
 if [[ $1 = "schedule" ]]; then
 
-  $0 push &
+  /bin/bash -c "sleep $TIMEOUT; $0 push" &
 
 fi
 
 if [[ $1 = "pull" ]]; then
 
-  etcdctl get dhcpd.leases >$LEASES || true
+  etcdctl get dhcpd.leases 1>$LEASES 2>/dev/null || true
 
 fi
 
 if [[ $1 = "push" ]]; then
 
-  sleep $TIMEOUT
-  etcdctl mk dhcpd.leases "$(cat $LEASES)" || etcdctl update dhcpd.leases "$(cat $LEASES)"
+  etcdctl mk dhcpd.leases "$(cat $LEASES)" 1>/dev/null 2>/dev/null || etcdctl update dhcpd.leases "$(cat $LEASES)"  1>/dev/null 2>/dev/null
 
 fi
