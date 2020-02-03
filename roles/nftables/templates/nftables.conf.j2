@@ -4,12 +4,31 @@ flush ruleset
 
 table inet filter {
 	chain input {
-		type filter hook input priority 0;
+
+		type filter hook input priority 0
+		policy drop;
+    	ct state established,related accept
+	    iifname lo accept
+	    iifname skynet accept
+    	icmp type echo-request accept
+    	tcp dport {ssh, http, https} iif isp1 accept
+    	tcp dport {ssh, http, https} iif isp2 accept
+    	tcp dport {ssh} iif management accept
+
 	}
 	chain forward {
-		type filter hook forward priority 0;
+
+		type filter hook forward priority 0
+		policy drop
+		iifname skynet accept
+		iifname home oifname isp1 accept
+		iifname home oifname isp2 accept
+
 	}
 	chain output {
-		type filter hook output priority 0;
+
+		type filter hook output priority 0
+		policy accept
+
 	}
 }
