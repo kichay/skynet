@@ -4,6 +4,7 @@ LEASES=/var/lib/dhcp/dhcpd.leases
 
 if [[ $1 = "commit" ]] || [[ $1 = "release" ]] || [[ $1 = "expiry" ]]; then
 
+  sleep 3
   etcdctl mk dhcpd.leases "$(cat $LEASES)" || etcdctl update dhcpd.leases "$(cat $LEASES)"
 
 fi
