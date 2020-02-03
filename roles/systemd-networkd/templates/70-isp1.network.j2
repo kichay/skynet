@@ -2,4 +2,7 @@
 Name=isp1
 
 [Network]
-DHCP=ipv4
+Address={{ shared_addresses["isp1"]["address"] }}/{{ shared_addresses["isp1"]["network"] }}
+
+[Route]
+Gateway={{ shared_addresses["isp1"]["gateway"] }}

@@ -7,3 +7,7 @@ shared_addresses:
   home_router:
     address: 192.168.123.1
     network: "24"
+  isp1:
+    address: 5.130.78.89
+    network: "24"
+    gateway: 5.130.78.1
