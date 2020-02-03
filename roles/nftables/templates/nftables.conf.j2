@@ -3,6 +3,7 @@
 flush ruleset
 
 table inet filter {
+
 	chain input {
 
 		type filter hook input priority 0
@@ -27,25 +28,35 @@ table inet filter {
 	}
 	chain output {
 
-		type filter hook output priority 0
+		type filter hook output
+		priority 0
 		policy accept
 
 	}
+
 }
 
 table ip nat {
+
 	chain prerouting {
-		type nat hook prerouting priority 0
+
+		type nat hook prerouting
+		priority 0
 		policy drop
 		iifname home oifname isp1 accept
 		iifname home oifname isp2 accept
 		iifname skynet accept
+
 	}
 
 	chain postrouting {
-		type nat hook postrouting priority 100
+
+		type nat hook postrouting
+		priority 0
 		policy drop
 		oifname isp1 masquerade
 		oifname isp2 masquerade
+
 	}
+
 }
