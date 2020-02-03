@@ -36,12 +36,15 @@ table inet filter {
 table ip nat {
 	chain prerouting {
 		type nat hook prerouting priority 0
-		policy accept
+		policy drop
+		iifname home oifname isp1 accept
+		iifname home oifname isp2 accept
+		iifname skynet accept
 	}
 
 	chain postrouting {
 		type nat hook postrouting priority 100
-		policy accept
+		policy drop
 		oifname isp1 masquerade
 		oifname isp2 masquerade
 	}
