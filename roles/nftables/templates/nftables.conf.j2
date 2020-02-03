@@ -9,12 +9,10 @@ table inet filter {
 		type filter hook input priority 0
 		policy drop;
     	ct state established,related accept
-	    iifname lo accept
-	    iifname skynet accept
+	    iifname {lo, skynet} accept
     	iifname management tcp dport ssh accept
     	icmp type echo-request accept
-    	tcp dport {ssh, http, https} iif isp1 accept
-    	tcp dport {ssh, http, https} iif isp2 accept
+    	tcp dport {ssh, http, https} iif {isp1, isp2} accept
 
 	}
 
@@ -23,8 +21,7 @@ table inet filter {
 		type filter hook forward priority 0
 		policy drop
 		iifname skynet accept
-		iifname home oifname isp1 accept
-		iifname home oifname isp2 accept
+		iifname home oifname {isp1, isp2} accept
 
 	}
 
@@ -45,8 +42,7 @@ table ip nat {
 		type nat hook prerouting
 		priority 0
 		policy drop
-		iifname home oifname isp1 accept
-		iifname home oifname isp2 accept
+		iifname home oifname {isp1, isp2} accept
 		iifname skynet accept
 
 	}
@@ -56,8 +52,7 @@ table ip nat {
 		type nat hook postrouting
 		priority 0
 		policy drop
-		oifname isp1 masquerade
-		oifname isp2 masquerade
+		oifname {isp1, isp2} masquerade
 
 	}
 
