@@ -11,12 +11,13 @@ table inet filter {
     	ct state established,related accept
 	    iifname lo accept
 	    iifname skynet accept
+    	iifname management tcp dport ssh accept
     	icmp type echo-request accept
     	tcp dport {ssh, http, https} iif isp1 accept
     	tcp dport {ssh, http, https} iif isp2 accept
-    	tcp dport {ssh} iif management accept
 
 	}
+
 	chain forward {
 
 		type filter hook forward priority 0
@@ -26,6 +27,7 @@ table inet filter {
 		iifname home oifname isp2 accept
 
 	}
+
 	chain output {
 
 		type filter hook output
