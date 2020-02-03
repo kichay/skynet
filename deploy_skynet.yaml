@@ -11,5 +11,5 @@
   - etcd
   - isc-dhcp-server
   - keepalived
-  - nftables
+  #- nftables
   - sysctl
