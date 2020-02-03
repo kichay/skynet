@@ -14,11 +14,11 @@ subnet {{ dhcpd["home"]["subnet"] }} netmask {{ dhcpd["home"]["netmask"] }} {
   range {{ dhcpd["home"]["range"] }};
 
   on commit {
-    execute("/etc/dhcp/notify.sh", "shchedule");
+    execute("/etc/dhcp/notify.sh", "schedule");
   }
 
   on release {
-    execute("/etc/dhcp/notify.sh", "shchedule");
+    execute("/etc/dhcp/notify.sh", "schedule");
   }
 
 }
