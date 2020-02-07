@@ -2,9 +2,21 @@
 keepalived:
   password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
   id: 100
-  instance_name: skynet_vip
+  name: skynet_vip
   notify:
     isp1:
       mac: 60:a4:4c:6d:c6:00
+      address: 5.130.78.89
+      network: "24"
+      gateway: 5.130.78.1
     isp2:
       mac: 00:11:22:33:44:5F
+      address: ""
+      network: "24"
+      gateway: ""
+    home:
+      address: 192.168.123.1
+      network: "24"
+    skynet:
+      address: 192.168.128.1
+      network: "17"
