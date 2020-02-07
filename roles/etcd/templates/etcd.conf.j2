@@ -5,18 +5,18 @@ snapshot-count: 10000
 heartbeat-interval: 100
 election-timeout: 1000
 quota-backend-bytes: 0
-listen-peer-urls: 'http://{{ addresses["skynet"]["address"] }}:2380'
-listen-client-urls: 'http://{{ addresses["skynet"]["address"] }}:2379,http://127.0.0.1:2379'
+listen-peer-urls: 'http://{{ networkd.networks.skynet.address }}:2380'
+listen-client-urls: 'http://{{ networkd.networks.skynet.address }}:2379,http://127.0.0.1:2379'
 max-snapshots: 5
 max-wals: 5
 cors:
-initial-advertise-peer-urls: 'http://{{ addresses["skynet"]["address"] }}:2380'
-advertise-client-urls: 'http://{{ addresses["skynet"]["address"] }}:2379'
+initial-advertise-peer-urls: 'http://{{ networkd.networks.skynet.address }}:2380'
+advertise-client-urls: 'http://{{ networkd.networks.skynet.address }}:2379'
 discovery:
 discovery-fallback: 'proxy'
 discovery-proxy:
 discovery-srv:
-initial-cluster: '{% for member in groups["skynet"] %}{{ member }}=http://{{ hostvars[member]["addresses"]["skynet"]["address"] }}:2380{% if not loop.last %},{% endif %}{% endfor %}'
+initial-cluster: '{% for member in groups.skynet %}{{ member }}=http://{{ hostvars[member].networks.skynet.address }}:2380{% if not loop.last %},{% endif %}{% endfor %}'
 initial-cluster-token: '{{ etcd["cluster_token"] }}'
 initial-cluster-state: 'new'
 strict-reconfig-check: false

@@ -10,7 +10,7 @@ keepalived:
       network: "24"
       gateway: 5.130.78.1
     isp2:
-      mac: 00:11:22:33:44:5F
+      mac: c8:3a:35:d8:e9:53
       address: ""
       network: "24"
       gateway: ""

@@ -1,5 +1,5 @@
 option domain-name "skynet";
-option domain-name-servers {{ shared_addresses["home_router"]["address"] }};
+option domain-name-servers {{ networkd.networks.home.address }};
 
 default-lease-time 600;
 max-lease-time 7200;
@@ -8,10 +8,10 @@ ddns-update-style none;
 
 authoritative;
 
-subnet {{ dhcpd["home"]["subnet"] }} netmask {{ dhcpd["home"]["netmask"] }} {
+subnet {{ dhcpd.home.subnet }} netmask {{ dhcpd.home.netmask }} {
 
-  option routers {{ shared_addresses["home_router"]["address"] }};
-  range {{ dhcpd["home"]["range"] }};
+  option routers {{ networkd.networks.home.address }};
+  range {{ dhcpd.home.range }};
 
   on commit {
     execute("/etc/dhcp/notify.sh", "schedule");

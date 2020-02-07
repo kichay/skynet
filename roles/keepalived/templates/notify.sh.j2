@@ -19,7 +19,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived.name }}" ]] && [[ $4 = "{{ ke
     ip a add {{ keepalived.notify.home.address }}/{{ keepalived.notify.home.network }} dev home
     ip link set dev home up
 
-    # dhcpd
+    # ha_gateway
     sudo -u dhcpd /etc/dhcp/notify.sh pull
     /usr/lib/systemd/systemd-networkd-wait-online --interface=home
     systemctl start stubby
