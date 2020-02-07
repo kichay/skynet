@@ -2,6 +2,6 @@
 Name=management
 
 [Network]
-Address={{ networkd["networks"]["management"]["address"] }}
+Address={{ networkd["networks"]["management"]["address"] }}/{{ networkd["networks"]["management"]["network"] }}
 VLAN=home
 VLAN=skynet
