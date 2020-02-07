@@ -11,3 +11,7 @@ shared_addresses:
     address: 5.130.78.89
     network: "24"
     gateway: 5.130.78.1
+  isp2:
+    address: ""
+    network: "24"
+    gateway: ""

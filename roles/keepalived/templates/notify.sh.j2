@@ -4,13 +4,22 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["instance_name"] }}" ]] && [[
 
   if [[ $3 = "MASTER" ]]; then
 
+    # isp1
     ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
+    ip a add {{ shared_addresses["isp1"]["address"] }}/{{ shared_addresses["isp1"]["network"] }} dev isp1
+    ip link set dev isp1 up
+
+    # isp2
     ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
+    #ip a add {{ shared_addresses["isp2"]["address"] }}/{{ shared_addresses["isp2"]["network"] }} dev isp2
+    #ip link set dev home up
+
+    # home
     ip link add link management name home type vlan id 123
-    killall systemd-networkd
-    systemctl start systemd-networkd
+    ip a add {{ shared_addresses["home_router"]["address"] }}/{{ shared_addresses["home_router"]["network"] }} dev home
+    ip link set dev home up
+
     sudo -u dhcpd /etc/dhcp/notify.sh pull
-    /usr/lib/systemd/systemd-networkd-wait-online --interface=skynet
     /usr/lib/systemd/systemd-networkd-wait-online --interface=home
     systemctl start stubby
     systemctl start isc-dhcp-server
