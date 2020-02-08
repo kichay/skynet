@@ -22,11 +22,9 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
     ip link set dev home up
     sudo -u dhcpd /etc/dhcp/notify.sh pull
-    /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state routable --timeout $TIMEOUT
-    if [ $? -eq 0 ]; then
-      systemctl start stubby
-      systemctl start isc-dhcp-server
-    fi
+    /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state routable --timeout $TIMEOUT || true
+    systemctl start stubby
+    systemctl start isc-dhcp-server
 
   else
 
