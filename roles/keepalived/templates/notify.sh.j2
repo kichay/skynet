@@ -13,7 +13,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
     ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
     ip link set dev isp1 up
-    ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1
+    ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 75
     /usr/lib/systemd/systemd-networkd-wait-online --interface=isp1 --operational-state off --timeout $TIMEOUT
     nft add rule inet main postrouting oifname isp1 masquerade
 
@@ -21,7 +21,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     #ip link add link management name isp1 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
     #ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
     #ip link set dev isp2 up
-    #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2
+    #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75
     #/usr/lib/systemd/systemd-networkd-wait-online --interface=isp2 --operational-state off --timeout $TIMEOUT
     #nft add rule inet main postrouting oifname isp2 masquerade
 

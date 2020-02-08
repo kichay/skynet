@@ -3,3 +3,7 @@ Name=skynet
 
 [Network]
 Address={{ networkd["networks"]["skynet"]["address"] }}/{{ networkd["networks"]["skynet"]["network"] }}
+
+[Route]
+Gateway={{ keepalived["notify"]["skynet"]["address"] }}
+Metric=100

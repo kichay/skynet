@@ -4,7 +4,7 @@
   become: yes
   roles:
   #- ubuntu-server
-  #- systemd-networkd
+  - systemd-networkd
   #- disable-swap
   #- sysctl
   #- reboot
