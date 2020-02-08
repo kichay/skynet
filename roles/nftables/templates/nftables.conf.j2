@@ -4,7 +4,7 @@ flush ruleset
 
 table inet filter {
 
-	chain input {
+    chain input {
 
         type filter hook input priority 0; policy drop;
         ct state established,related accept
@@ -12,12 +12,12 @@ table inet filter {
         iifname management tcp dport ssh accept
         icmp type echo-request accept
 
-	}
+    }
 
-	chain forward {
+    chain forward {
 
-		type filter hook forward priority 0; policy drop;
+        type filter hook forward priority 0; policy drop;
 
-	}
+    }
 
 }
