@@ -7,7 +7,7 @@
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Enable/restart nftables unit
+- name: Enable, start/restart nftables unit
   systemd:
     name: nftables
     state: restarted

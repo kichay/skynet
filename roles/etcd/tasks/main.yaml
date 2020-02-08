@@ -39,7 +39,7 @@
   - absent
   - directory
 
-- name: Enable/restart etcd unit
+- name: Enable, start/restart etcd unit
   systemd:
     name: etcd
     state: restarted
