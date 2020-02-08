@@ -23,9 +23,10 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     ip link set dev home up
     sudo -u dhcpd /etc/dhcp/notify.sh pull
     /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state routable --timeout $TIMEOUT
-    if [ $? -ne 0 ]; then exit 1; fi
-    systemctl start stubby
-    systemctl start isc-dhcp-server
+    if [ $? -eq 0 ]; then
+      systemctl start stubby
+      systemctl start isc-dhcp-server
+    fi
 
   else
 
