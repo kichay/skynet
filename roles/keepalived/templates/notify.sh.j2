@@ -30,11 +30,11 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
   else
 
-    ip link del isp1 2>/dev/null || true
-    #ip link del isp2 || true
+    ip link del isp1
+    #ip link del isp2
     systemctl stop stubby
     systemctl stop isc-dhcp-server
-    ip link del home 2>/dev/null || true
+    ip link del home
 
   fi
 
