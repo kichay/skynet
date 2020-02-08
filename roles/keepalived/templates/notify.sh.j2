@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TIMEOUT=15
+
 if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{ keepalived["id"] }}" ]]; then
 
   if [[ $3 = "MASTER" ]]; then
@@ -10,18 +12,17 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     ip link set dev isp1 up
 
     # isp2
-    ip link add link management name isp1 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
-    ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
+    #ip link add link management name isp1 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
+    #ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
     #ip link set dev isp2 up
 
     # home
     ip link add link management name home type vlan id 123
     ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
     ip link set dev home up
-
-    # ha_gateway
     sudo -u dhcpd /etc/dhcp/notify.sh pull
-    /usr/lib/systemd/systemd-networkd-wait-online --interface=home
+    /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state routable --timeout $TIMEOUT
+    if [ $? -ne 0 ]; then exit 1; fi
     systemctl start stubby
     systemctl start isc-dhcp-server
 
@@ -30,7 +31,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     systemctl stop stubby
     systemctl stop isc-dhcp-server
     ip link del isp1
-    ip link del isp2
+    #ip link del isp2
     ip link del home
 
   fi
