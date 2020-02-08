@@ -22,4 +22,10 @@ table inet main {
 
     }
 
+    chain prerouting {
+
+        type nat hook prerouting priority 100; policy accept;
+
+    }
+
 }

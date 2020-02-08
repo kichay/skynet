@@ -6,12 +6,16 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
   if [[ $3 = "MASTER" ]]; then
 
+    # nft
+    nft add chain inet main postrouting { type nat hook postrouting priority 75\; policy accept\; }
+
     # isp1
     ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
     ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
     ip link set dev isp1 up
     ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1
     /usr/lib/systemd/systemd-networkd-wait-online --interface=isp1 --operational-state off --timeout $TIMEOUT
+    nft add rule inet main postrouting oifname isp1 masquerade
 
     # isp2
     #ip link add link management name isp1 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
@@ -19,6 +23,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     #ip link set dev isp2 up
     #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2
     #/usr/lib/systemd/systemd-networkd-wait-online --interface=isp2 --operational-state off --timeout $TIMEOUT
+    #nft add rule inet main postrouting oifname isp2 masquerade
 
     # home
     ip link add link management name home type vlan id 123
@@ -36,6 +41,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
   else
 
+    nft delete chain inet main postrouting
     ip link del isp1
     #ip link del isp2
     systemctl stop stubby
