@@ -6,10 +6,10 @@
   #- ubuntu-server
   #- systemd-networkd
   #- disable-swap
+  #- sysctl
   #- reboot
   #- stubby
   #- etcd
   #- isc-dhcp-server
-  #- keepalived
+  - keepalived
   - nftables
-  - sysctl

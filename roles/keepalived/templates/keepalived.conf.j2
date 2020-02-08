@@ -1,19 +1,26 @@
-global_defs {{ "{" }}
+global_defs {
+}
 
-{{ "}" }}
+vrrp_instance {{ keepalived["name"] }} {
 
-vrrp_instance {{ keepalived["name"] }} {{ "{" }}
     state SLAVE
     notify /etc/keepalived/notify.sh
     interface skynet
     virtual_router_id {{ keepalived["id"] }}
     priority 0
     advert_int 1
-    authentication {{ "{" }}
+
+    authentication {
+
         auth_type PASS
         auth_pass {{ keepalived["password"] }}
-    {{ "}" }}
-    virtual_ipaddress {{ "{" }}
+
+    }
+
+    virtual_ipaddress {
+
         {{ keepalived["notify"]["skynet"]["address"] }}
-    {{ "}" }}
-{{ "}" }}
+
+    {
+
+}
