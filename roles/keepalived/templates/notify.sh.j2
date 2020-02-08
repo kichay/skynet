@@ -10,6 +10,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
     ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
     ip link set dev isp1 up
+    ip ro add default via keepalived["notify"]["isp1"]["gateway"] dev isp1
 
     # isp2
     #ip link add link management name isp1 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
@@ -30,9 +31,10 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
     systemctl stop stubby
     systemctl stop isc-dhcp-server
-    ip link del isp1
-    #ip link del isp2
-    ip link del home
+    ip ro del default via keepalived["notify"]["isp1"]["gateway"] dev isp1 2>/dev/null || true
+    ip link del isp1 2>/dev/null || true
+    #ip link del isp2 || true
+    ip link del home 2>/dev/null || true
 
   fi
 
