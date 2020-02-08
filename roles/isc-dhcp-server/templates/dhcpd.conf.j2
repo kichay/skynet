@@ -1,5 +1,5 @@
 option domain-name "skynet";
-option domain-name-servers {{ networkd["networks"]["home"]["address"] }};
+option domain-name-servers {{ keepalived["notify"]["home"]["address"] }};
 
 default-lease-time 600;
 max-lease-time 7200;
@@ -10,7 +10,7 @@ authoritative;
 
 subnet {{ dhcpd["home"]["subnet"] }} netmask {{ dhcpd["home"]["netmask"] }} {
 
-  option routers {{ networkd["networks"]["home"]["address"] }};
+  option routers {{ keepalived["notify"]["home"]["address"] }};
   range {{ dhcpd["home"]["range"] }};
 
   on commit {

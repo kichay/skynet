@@ -1,10 +1,14 @@
 ---
-- name: Remove systemd-networkd configuration files
+- name: Override systemd-networkd network data with an empty directory
   file:
-    path: '/etc/systemd/network/{{ item }}'
-    state: absent
-  with_fileglob:
-  - /etc/systemd/network/*
+    path: /etc/systemd/network
+    state: "{{ item }}"
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
 
 - name: Generate systemd.netdev files
   template:

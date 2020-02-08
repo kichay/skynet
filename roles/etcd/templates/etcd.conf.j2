@@ -16,7 +16,7 @@ discovery:
 discovery-fallback: 'proxy'
 discovery-proxy:
 discovery-srv:
-initial-cluster: '{% for member in groups["skynet"] %}{{ member }}=http://{{ hostvars[member]["networks"]["skynet"]["address"] }}:2380{% if not loop["last"] %},{% endif %}{% endfor %}'
+initial-cluster: '{% for member in groups["skynet"] %}{{ member }}=http://{{ hostvars[member]["networkd"]["networks"]["skynet"]["address"] }}:2380{% if not loop["last"] %},{% endif %}{% endfor %}'
 initial-cluster-token: '{{ etcd["cluster_token"] }}'
 initial-cluster-state: 'new'
 strict-reconfig-check: false
