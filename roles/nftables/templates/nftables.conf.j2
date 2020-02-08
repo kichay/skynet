@@ -6,7 +6,7 @@ table inet filter {
 
     chain input {
 
-        type filter hook input priority 0; policy drop;
+        type filter hook input priority 100; policy drop;
         ct state established,related accept
         iifname {lo, skynet} accept
         iifname management tcp dport ssh accept
@@ -16,7 +16,7 @@ table inet filter {
 
     chain forward {
 
-        type filter hook forward priority 0; policy drop;
+        type filter hook forward priority 100; policy drop;
         ct state established,related accept
         iifname skynet accept
 
