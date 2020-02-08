@@ -26,14 +26,17 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state routable --timeout $TIMEOUT || true
     systemctl start stubby
     systemctl start isc-dhcp-server
+    nft add chain inet main input_home { type filter hook input priority 75 \; policy accept\; }
+    nft add rule inet main input_home iifname home tcp dport 53 accept
+    nft add rule inet main input_home iifname home udp dport 53 accept
 
   else
 
-    nft delete rule inet filter input iifname isp1 tcp dport ssh accept
     ip link del isp1
     #ip link del isp2
     systemctl stop stubby
     systemctl stop isc-dhcp-server
+    nft delete chain inet main input_home
     ip link del home
 
   fi
