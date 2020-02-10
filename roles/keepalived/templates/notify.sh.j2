@@ -37,7 +37,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     nft add rule inet main input_home iifname home tcp dport 53 accept
     nft add rule inet main input_home iifname home udp dport 53 accept
     nft add chain inet main forward_home { type filter hook forward priority 75 \; policy accept\; }
-    nft add rule inet main forward_home iifname home oifname {isp1, isp2} accept
+    nft add rule inet main forward_home iifname home oifname isp1 accept # {isp1, isp2}
 
   else
 
