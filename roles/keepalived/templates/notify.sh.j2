@@ -17,7 +17,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     /usr/lib/systemd/systemd-networkd-wait-online --interface=isp1 --operational-state off --timeout $TIMEOUT
     nft add rule inet main postrouting oifname isp1 masquerade
     nft add chain inet main prerouting_isp1 { type nat hook prerouting priority 75\; policy accept\; }
-    nft add rule nat prerouting_isp1 iif isp1 tcp dport { 80, 443 } dnat 192.168.123.3
+    nft add rule inet main prerouting_isp1 iif isp1 tcp dport { 80, 443 } dnat ip to 192.168.123.3
 
     # isp2
     #ip link add link management name isp1 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
