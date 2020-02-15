@@ -36,10 +36,10 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     systemctl start stubby
     systemctl start isc-dhcp-server
     nft add chain inet main input_home { type filter hook input priority 75\; policy accept\; }
-    nft add rule inet main input_home iifname home tcp dport 53 accept
-    nft add rule inet main input_home iifname home udp dport 53 accept
+    nft add rule inet main input_home iifname home tcp dport 53 queue
+    nft add rule inet main input_home iifname home udp dport 53 queue
     nft add chain inet main forward_home { type filter hook forward priority 75\; policy accept\; }
-    nft add rule inet main forward_home iifname home oifname isp1 accept # {isp1, isp2}
+    nft add rule inet main forward_home iifname home oifname isp1 queue # {isp1, isp2}
 
   else
 
