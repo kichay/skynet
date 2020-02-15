@@ -6,19 +6,21 @@ table inet main {
 
     chain input {
 
-        type filter hook input priority 100; policy drop;
+        type filter hook input priority 100; policy accept;
         ct state established,related accept
         iifname {lo, skynet} accept
         tcp dport ssh accept
         icmp type echo-request accept
+        drop
 
     }
 
     chain forward {
 
-        type filter hook forward priority 100; policy drop;
+        type filter hook forward priority 100; policy accept;
         ct state established,related accept
         iifname skynet accept
+        drop
 
     }
 
