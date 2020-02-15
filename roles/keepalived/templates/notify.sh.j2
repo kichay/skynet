@@ -6,26 +6,22 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
   if [[ $3 = "MASTER" ]]; then
 
-    # nft
-    nft add chain inet main postrouting { type nat hook postrouting priority 75\; policy accept\; }
-
     # isp1
     ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
     ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
     ip link set dev isp1 up
-    ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 75
+    ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 50
     /usr/lib/systemd/systemd-networkd-wait-online --interface=isp1 --operational-state off --timeout $TIMEOUT
-    nft add rule inet main postrouting oifname isp1 masquerade
-    nft add chain inet main prerouting_isp1 { type nat hook prerouting priority 75\; policy accept\; }
-    nft add rule inet main prerouting_isp1 iif isp1 tcp dport { 80, 443 } dnat ip to 192.168.123.3
 
     # isp2
     #ip link add link management name isp1 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
     #ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
     #ip link set dev isp2 up
-    #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75
+    #ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp2 metric 75
     #/usr/lib/systemd/systemd-networkd-wait-online --interface=isp2 --operational-state off --timeout $TIMEOUT
-    #nft add rule inet main postrouting oifname isp2 masquerade
+
+    # isp_common
+    nft -f /etc/keepalive/isp_common.nft
 
     # home
     ip link add link management name home type vlan id 123
@@ -35,22 +31,16 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state off --timeout $TIMEOUT
     systemctl start stubby
     systemctl start isc-dhcp-server
-    nft add chain inet main input_home { type filter hook input priority 75\; policy accept\; }
-    nft add rule inet main input_home iifname home tcp dport 53 accept
-    nft add rule inet main input_home iifname home udp dport 53 accept
-    nft add chain inet main forward_home { type filter hook forward priority 75\; policy accept\; }
-    nft add rule inet main forward_home iifname home oifname isp1 accept # {isp1, isp2}
+    nft -f /etc/keepalive/home.nft
 
   else
 
-    nft delete chain inet main postrouting
-    nft delete chain inet main prerouting_isp1
+    nft delete table inet isp_common
     ip link del isp1
     #ip link del isp2
     systemctl stop stubby
     systemctl stop isc-dhcp-server
-    nft delete chain inet main input_home
-    nft delete chain inet main forward_home
+    nft delete table inet home
     ip link del home
 
   fi

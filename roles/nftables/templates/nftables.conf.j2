@@ -6,7 +6,7 @@ table inet main {
 
     chain input {
 
-        type filter hook input priority 100; policy drop;
+        type filter hook input priority 49; policy drop;
         ct state established,related accept
         iifname {lo, skynet} accept
         tcp dport ssh accept
@@ -16,7 +16,7 @@ table inet main {
 
     chain forward {
 
-        type filter hook forward priority 100; policy drop;
+        type filter hook forward priority 49; policy drop;
         ct state established,related accept
         iifname skynet accept
 
@@ -24,7 +24,7 @@ table inet main {
 
     chain prerouting {
 
-        type nat hook prerouting priority 100; policy accept;
+        type nat hook prerouting priority -100; policy accept;
 
     }
 

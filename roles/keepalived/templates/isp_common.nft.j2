@@ -1,0 +1,19 @@
+#!/usr/sbin/nft -f
+
+table inet isp_common {
+
+    postrouting {
+
+        type nat hook postrouting priority 100; policy accept;
+        oifname isp1 masquerade # {isp1, isp2}
+        
+    }
+
+    prerouting {
+        
+        type nat hook prerouting priority -149; policy accept;
+        iifname isp1 tcp dport { 80, 443 } dnat ip to 192.168.123.3 # {isp1, isp2}
+        
+    }
+
+}
