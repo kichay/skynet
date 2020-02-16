@@ -49,6 +49,7 @@
   loop:
   - ns.home
   - nikolaeva18.ru
+  - xn--b1aactjgcxb5cxb9e.xn--p1ai
 
 - name: Disable, stop bind unit
   systemd:
