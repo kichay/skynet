@@ -11,5 +11,5 @@
   #- stubby
   #- etcd
   #- isc-dhcp-server
-  - keepalived
   - nftables
+  - keepalived

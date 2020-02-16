@@ -1,10 +1,10 @@
 #!/usr/sbin/nft -f
 
-table inet home {
+table inet main {
+
 
     chain input {
 
-        type filter hook input priority 0; policy accept;
         iifname home tcp dport 53 accept
         iifname home udp dport 53 accept
 
@@ -12,9 +12,6 @@ table inet home {
 
     chain forward {
 
-        type filter hook forward priority 0; policy accept;
-        # iifname home oifname { skynet, lo } drop
-        # iifname home accept
         iifname home oifname != { skynet, lo } accept
 
     }
