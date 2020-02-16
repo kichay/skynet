@@ -12,14 +12,14 @@ table inet isp_common {
     chain prerouting {
         
         type nat hook prerouting priority -100; policy accept;
-        # iifname isp1 tcp dport { 80, 443 } dnat ip to 192.168.123.3
-        ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.123.3
+        iifname isp1 tcp dport { 80, 443 } dnat ip to 192.168.123.3
+        # ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.123.3
         
     }
 
     chain forward {
 
-        iifname { isp1, home } ip daddr 192.168.123.3 tcp dport { 80, 443 } accept
+        iifname isp1 ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } accept
 
     }
 
