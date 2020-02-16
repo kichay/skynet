@@ -27,7 +27,7 @@
     mode: u=rwx,g=rx,o=rx
   loop:
   - skynet
-  - homenet
+  - home
 
 - name: Generate skynet db files
   template:
@@ -39,15 +39,15 @@
   loop:
   - ns.skynet
 
-- name: Generate homenet db files
+- name: Generate home db files
   template:
-    src: "homenet/{{ item }}.j2"
-    dest: "/etc/bind/homenet/{{ item }}"
+    src: "home/{{ item }}.j2"
+    dest: "/etc/bind/home/{{ item }}"
     owner: root
     group: root
     mode: u=rw,g=r,o=r
   loop:
-  - ns.homenet
+  - ns.home
 
 - name: Disable, stop bind unit
   systemd:

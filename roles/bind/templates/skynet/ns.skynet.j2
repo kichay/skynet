@@ -1,0 +1,10 @@
+$TTL	30
+@	IN	SOA	ns.skynet. root.ns.skynet. (
+			      1		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			  86400 )	; Negative Cache TTL
+;
+@	IN	NS	ns.skynet.
+@   IN  A   {{ keepalived["notify"]["skynet"]["address"] }}
