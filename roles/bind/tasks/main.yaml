@@ -7,6 +7,25 @@
     group: root
     mode: u=rw,g=r,o=r
 
+- name: Generate named.conf.local
+  template:
+    src: named.conf.local.j2
+    dest: /etc/bind/named.conf.local
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Generate db files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/bind/{{ item }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  loop:
+  - db.nikolaeva18.ru
+  - db.xn--b1aactjgcxb5cxb9e.xn--p1ai
+
 - name: Disable, stop bind unit
   systemd:
     name: bind9
