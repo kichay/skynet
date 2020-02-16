@@ -4,7 +4,7 @@ options {
         listen-on port 53 { {{ keepalived["notify"]["skynet"]["address"] }}; {{ keepalived["notify"]["home"]["address"] }}; };
 
 	forwarders {
-	 	127.0.0.1:5353;
+	 	127.0.0.1 port 5353;
 	};
 
 	listen-on-v6 { none; };
