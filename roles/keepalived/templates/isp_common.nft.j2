@@ -1,25 +1,25 @@
 #!/usr/sbin/nft -f
 
-table inet isp_common {
+table inet main {
 
     chain postrouting {
 
         type nat hook postrouting priority 100; policy accept;
         oifname isp1 masquerade
+        # ip saddr 192.168.123.3 tcp sport { 80, 443 } snat ip {{ keepalived["notify"]["isp1"]["address"] }}
         
     }
 
     chain prerouting {
         
         type nat hook prerouting priority -100; policy accept;
-        iifname isp1 tcp dport { 80, 443 } dnat ip to 192.168.123.3
-        # ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.123.3
+        ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.123.3
         
     }
 
     chain forward {
 
-        iifname isp1 ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } accept
+        iifname isp1 ip daddr 192.168.123.3 tcp dport { 80, 443 } accept
 
     }
 
