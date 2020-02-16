@@ -7,7 +7,7 @@ table inet main {
     chain input {
 
         type filter hook input priority 0; policy drop;
-        ct state established,related accept
+        ct state { established, related } accept
         iifname { lo, skynet } accept
         tcp dport ssh accept
         icmp type echo-request accept

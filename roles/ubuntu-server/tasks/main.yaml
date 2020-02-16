@@ -49,6 +49,7 @@
   - etcd
   - isc-dhcp-server
   - stubby
+  - bind9
 
 - name: Disable systemd units
   systemd:

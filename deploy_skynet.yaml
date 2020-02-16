@@ -9,6 +9,8 @@
   #- sysctl
   #- reboot
   #- stubby
+  #- bind
+  #- resolve
   #- etcd
   #- isc-dhcp-server
   - nftables
