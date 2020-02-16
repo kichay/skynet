@@ -13,7 +13,9 @@ table inet home {
     chain forward {
 
         type filter hook forward priority 0; policy accept;
-        iifname home oifname != skynet accept
+        # iifname home oifname { skynet, lo } drop
+        # iifname home accept
+        iifname home oifname != { skynet, lo } accept
 
     }
 
