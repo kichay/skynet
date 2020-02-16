@@ -10,3 +10,13 @@ options {
 	listen-on-v6 { none; };
 
 };
+
+zone "ns.skynet" {
+    type master;
+    file "/etc/bind/skynet/ns.skynet";
+};
+
+zone "ns.homenet" {
+    type master;
+    file "/etc/bind/homenet/ns.homenet";
+};

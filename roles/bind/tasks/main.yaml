@@ -1,30 +1,53 @@
 ---
-- name: Generate named.conf.options
+- name: Override /etc/bind with an empty directory
+  file:
+    path: /etc/bind
+    state: "{{ item }}"
+    owner: root
+    group: bind
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
+
+- name: Generate named.conf
   template:
-    src: named.conf.options.j2
-    dest: /etc/bind/named.conf.options
+    src: named.conf.j2
+    dest: /etc/bind/named.conf
     owner: root
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Generate named.conf.local
-  template:
-    src: named.conf.local.j2
-    dest: /etc/bind/named.conf.local
+- name: Generate /etc/bind directory structure
+  file:
+    path: "/etc/bind/{{ item }}"
+    state: directory
     owner: root
-    group: root
-    mode: u=rw,g=r,o=r
+    group: bind
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - skynet
+  - homenet
 
-- name: Generate db files
+- name: Generate skynet db files
   template:
-    src: "{{ item }}.j2"
-    dest: "/etc/bind/{{ item }}"
+    src: "skynet/{{ item }}.j2"
+    dest: "/etc/bind/skynet/{{ item }}"
     owner: root
     group: root
     mode: u=rw,g=r,o=r
   loop:
-  - db.nikolaeva18.ru
-  - db.xn--b1aactjgcxb5cxb9e.xn--p1ai
+  - ns.skynet
+
+- name: Generate homenet db files
+  template:
+    src: "homenet/{{ item }}.j2"
+    dest: "/etc/bind/homenet/{{ item }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  loop:
+  - ns.homenet
 
 - name: Disable, stop bind unit
   systemd:
