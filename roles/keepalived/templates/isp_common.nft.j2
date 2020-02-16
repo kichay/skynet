@@ -6,7 +6,6 @@ table inet main {
 
         type nat hook postrouting priority 100; policy accept;
         oifname isp1 masquerade
-        # ip saddr 192.168.123.3 tcp sport { 80, 443 } snat ip {{ keepalived["notify"]["isp1"]["address"] }}
         
     }
 
@@ -19,7 +18,7 @@ table inet main {
 
     chain forward {
 
-        iifname isp1 ip daddr 192.168.123.3 tcp dport { 80, 443 } accept
+        ip daddr 192.168.123.3 tcp dport { 80, 443 } accept
 
     }
 
