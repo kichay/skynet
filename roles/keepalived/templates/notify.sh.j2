@@ -21,7 +21,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     #/usr/lib/systemd/systemd-networkd-wait-online --interface=isp2 --operational-state off --timeout $TIMEOUT
 
     # isp_common
-    nft -f /etc/keepalive/isp_common.nft
+    nft -f /etc/keepalived/isp_common.nft
 
     # home
     ip link add link management name home type vlan id 123
@@ -31,7 +31,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state off --timeout $TIMEOUT
     systemctl start stubby
     systemctl start isc-dhcp-server
-    nft -f /etc/keepalive/home.nft
+    nft -f /etc/keepalived/home.nft
 
   else
 
