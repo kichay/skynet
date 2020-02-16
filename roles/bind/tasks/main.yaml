@@ -48,6 +48,7 @@
     mode: u=rw,g=r,o=r
   loop:
   - ns.home
+  - nikolaeva18.ru
 
 - name: Disable, stop bind unit
   systemd:
