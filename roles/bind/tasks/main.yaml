@@ -1,15 +1,4 @@
 ---
-- name: Override /etc/bind with an empty directory
-  file:
-    path: /etc/bind
-    state: "{{ item }}"
-    owner: root
-    group: bind
-    mode: u=rwx,g=rx,o=rx
-  loop:
-  - absent
-  - directory
-
 - name: Generate named.conf
   template:
     src: named.conf.j2
@@ -17,39 +6,6 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
-
-- name: Generate /etc/bind directory structure
-  file:
-    path: "/etc/bind/{{ item }}"
-    state: directory
-    owner: root
-    group: bind
-    mode: u=rwx,g=rx,o=rx
-  loop:
-  - skynet
-  - home
-
-- name: Generate skynet db files
-  template:
-    src: "skynet/{{ item }}.j2"
-    dest: "/etc/bind/skynet/{{ item }}"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  loop:
-  - ns.skynet
-
-- name: Generate home db files
-  template:
-    src: "home/{{ item }}.j2"
-    dest: "/etc/bind/home/{{ item }}"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  loop:
-  - ns.home
-  - nikolaeva18.ru
-  - xn--b1aactjgcxb5cxb9e.xn--p1ai
 
 - name: Disable, stop bind unit
   systemd:

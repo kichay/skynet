@@ -12,13 +12,13 @@ table inet main {
     chain prerouting {
         
         type nat hook prerouting priority -100; policy accept;
-        ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.123.3
+        ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.128.14
         
     }
 
     chain forward {
 
-        ip daddr 192.168.123.3 tcp dport { 80, 443 } accept
+        ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
 
     }
 
