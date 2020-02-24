@@ -12,7 +12,7 @@ table inet main {
 
     chain forward {
 
-        iifname home oifname != { skynet, lo } accept
+        iifname home oifname != { skynet, lo, management } accept
 
     }
 
