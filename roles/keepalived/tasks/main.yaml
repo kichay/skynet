@@ -17,16 +17,8 @@
 
 - name: Generate home.nft
   template:
-    src: home.nft.j2
-    dest: /etc/keepalived/home.nft
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-
-- name: Generate isp_common.nft
-  template:
-    src: isp_common.nft.j2
-    dest: /etc/keepalived/isp_common.nft
+    src: append.nft.j2
+    dest: /etc/keepalived/append.nft
     owner: root
     group: root
     mode: u=rwx,g=rx,o=rx

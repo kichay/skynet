@@ -1,0 +1,34 @@
+#!/usr/sbin/nft -f
+
+table inet main {
+
+
+    chain input {
+
+        iifname home tcp dport 53 accept
+        iifname home udp dport 53 accept
+
+    }
+
+    chain forward {
+
+        iifname home oifname isp1 accept
+        ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
+
+    }
+
+    chain prerouting {
+        
+        type nat hook prerouting priority -100; policy accept;
+        ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.128.14
+        
+    }
+
+    chain postrouting {
+
+        type nat hook postrouting priority 100; policy accept;
+        oifname isp1 masquerade
+        
+    }
+
+}

@@ -20,9 +20,6 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     #ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp2 metric 75
     #/usr/lib/systemd/systemd-networkd-wait-online --interface=isp2 --operational-state off --timeout $TIMEOUT
 
-    # isp_common
-    nft -f /etc/keepalived/isp_common.nft
-
     # home
     ip link add link management name home type vlan id 123
     ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
@@ -32,7 +29,9 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     systemctl start stubby
     systemctl start bind9
     systemctl start isc-dhcp-server
-    nft -f /etc/keepalived/home.nft
+
+    # nftables
+    nft -f /etc/keepalived/append.nft
 
   else
 
