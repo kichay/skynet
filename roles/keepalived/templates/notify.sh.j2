@@ -49,7 +49,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     #ip link del dev isp2
     ip link del dev home
 
-    #services
+    # services
     systemctl stop stubby
     systemctl stop isc-dhcp-server
 
