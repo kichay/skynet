@@ -15,6 +15,7 @@ keepalived:
       network: "24"
       gateway: ""
     home:
+      mac: fe:12:34:56:78:90
       address: 192.168.123.1
       network: "24"
     skynet:
