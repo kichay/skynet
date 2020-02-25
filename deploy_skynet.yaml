@@ -12,6 +12,5 @@
   #- etcd
   #- isc-dhcp-server
   - stubby
-  - bind
   - nftables
   - keepalived

@@ -24,14 +24,17 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     ip link add link management name home type vlan id 123
     ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
     ip link set dev home up
-    sudo -u dhcpd /etc/dhcp/notify.sh pull
     /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state off --timeout $TIMEOUT
-    systemctl start stubby
-    systemctl start bind9
-    systemctl start isc-dhcp-server
 
     # nftables
     nft -f /etc/keepalived/append.nft
+
+    # dhcp
+    sudo -u dhcpd /etc/dhcp/notify.sh pull
+    systemctl start isc-dhcp-server
+
+    # dns
+    systemctl start stubby
 
   else
 
