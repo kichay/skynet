@@ -6,28 +6,37 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
   if [[ $3 = "MASTER" ]]; then
 
+    # wait
+    while [[ -e /sys/class/net/home/operstate ]]; do
+    
+      sleep $TIMEOUT;
+      
+    done
+
     # isp1
     ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
     ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
     ip link set dev isp1 up
     ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 50
-    /usr/lib/systemd/systemd-networkd-wait-online --interface=isp1 --operational-state off --timeout $TIMEOUT
-    arping -I isp1 0.0.0.0 -c 1
 
     # isp2
     #ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
     #ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
     #ip link set dev isp2 up
-    #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75
-    #/usr/lib/systemd/systemd-networkd-wait-online --interface=isp2 --operational-state off --timeout $TIMEOUT
-    #arping -I isp2 0.0.0.0 -c 1
+    #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75    
 
     # home
     ip link add link management name home address {{ keepalived["notify"]["home"]["mac"] }} type vlan id 123
     ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
     ip link set dev home up
-    /usr/lib/systemd/systemd-networkd-wait-online --interface=home --operational-state off --timeout $TIMEOUT
-    arping -I home 0.0.0.0 -c 1
+
+    # wait
+    /usr/lib/systemd/systemd-networkd-wait-online --operational-state off --timeout $TIMEOUT --interface=home --interface=isp1 #--interface=isp2
+
+    # arping
+    arping -I isp1 0.0.0.0 -c 1 &
+    #arping -I isp2 0.0.0.0 -c 1 &
+    arping -I home 0.0.0.0 -c 1 &
 
     # nftables
     nft -f /etc/keepalived/append.nft
@@ -44,14 +53,14 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     # nftables
     nft -f /etc/nftables.conf
 
+    # services
+    systemctl stop stubby
+    systemctl stop isc-dhcp-server
+
     # interfaces
     ip link del dev isp1
     #ip link del dev isp2
     ip link del dev home
-
-    # services
-    systemctl stop stubby
-    systemctl stop isc-dhcp-server
 
   fi
 

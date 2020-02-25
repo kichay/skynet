@@ -3,11 +3,11 @@ global_defs {
 
 vrrp_instance {{ keepalived["name"] }} {
 
-    state SLAVE
+    state BACKUP
     notify /etc/keepalived/notify.sh
     interface skynet
     virtual_router_id {{ keepalived["id"] }}
-    priority 0
+    priority 100
     advert_int 1
 
     authentication {
