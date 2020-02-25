@@ -11,6 +11,6 @@
   #- resolve
   #- etcd
   #- isc-dhcp-server
-  - stubby
+  #- stubby
   #- nftables
-  - keepalived
+  #- keepalived
