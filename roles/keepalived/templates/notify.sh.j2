@@ -41,12 +41,17 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
   else
 
+    # nftables
     nft -f /etc/nftables.conf
-    ip link del isp1
-    #ip link del isp2
+
+    # interfaces
+    ip link del dev isp1
+    #ip link del dev isp2
+    ip link del dev home
+
+    #services
     systemctl stop stubby
     systemctl stop isc-dhcp-server
-    ip link del home
 
   fi
 
