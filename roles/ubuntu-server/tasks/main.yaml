@@ -45,6 +45,7 @@
   loop:
   - systemd
   - nftables
+  - arping
   - keepalived
   - etcd
   - isc-dhcp-server
