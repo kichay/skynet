@@ -5,3 +5,32 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
+
+- name: Remove volume for DHCP
+  gluster_volume:
+    state: absent
+    name: dhcp
+
+- name: Override /var/lib/dhcp.brick with an empty directory
+  file:
+    path: /var/lib/dhcp.brick
+    state: "{{ item }}"
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
+
+- name: Create, start volume for DHCP
+  gluster_volume:
+    state: "{{ item }}"
+    name: dhcp
+    bricks: /var/lib/dhcp.brick
+    rebalance: yes
+    force: true
+    replicas: "{{ groups[\"skynet\"] | length }}"
+    cluster: "[{% for member in groups[\"skynet\"] %}\"{{ hostvars[member][\"networkd\"][\"networks\"][\"skynet\"][\"address\"] }}\"{% if not loop[\"last\"] %},{% endif %}{% endfor %}]"
+  loop:
+  - present
+  - started
