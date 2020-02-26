@@ -13,12 +13,4 @@ subnet {{ dhcpd["home"]["subnet"] }} netmask {{ dhcpd["home"]["netmask"] }} {
   option routers {{ keepalived["notify"]["home"]["address"] }};
   range {{ dhcpd["home"]["range"] }};
 
-  on commit {
-    execute("/etc/dhcp/notify.sh", "schedule");
-  }
-
-  on release {
-    execute("/etc/dhcp/notify.sh", "schedule");
-  }
-
 }

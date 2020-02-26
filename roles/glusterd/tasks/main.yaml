@@ -6,6 +6,11 @@
     daemon_reload: yes
     enabled: yes
 
+- name: Unmount DHCP volume
+  mount:
+    path: /var/lib/dhcp
+    state: unmounted
+
 - name: Remove volume for DHCP
   gluster_volume:
     state: absent
@@ -16,8 +21,8 @@
   file:
     path: /var/lib/dhcp.brick
     state: "{{ item }}"
-    owner: root
-    group: root
+    owner: dhcpd
+    group: dhcpd
     mode: u=rwx,g=rx,o=rx
   loop:
   - absent
@@ -35,3 +40,14 @@
   loop:
   - present
   - started
+
+- name: Mount DHCP volume
+  mount:
+    path: /var/lib/dhcp
+    src: "{{ keepalived[\"notify\"][\"skynet\"][\"address\"] }}:/dhcp"
+    fstype: glusterfs
+    opts: defaults,_netdev
+    state: "{{ item }}"
+  loop:
+  - present
+  - mounted

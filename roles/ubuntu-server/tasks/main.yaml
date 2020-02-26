@@ -47,7 +47,6 @@
   - nftables
   - keepalived
   - glusterfs-server
-  - etcd
   - isc-dhcp-server
   - stubby
 

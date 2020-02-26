@@ -10,7 +10,6 @@
   #- sysctl
   #- stubby
   - glusterd
-  #- etcd
-  #- isc-dhcp-server
+  - isc-dhcp-server
   #- nftables
   #- keepalived
