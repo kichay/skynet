@@ -50,6 +50,13 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
 
   else
 
+    # exit
+    if [[ ! -e /sys/class/net/home/operstate ]]; then
+
+      exit 0
+
+    fi
+
     # nftables
     nft -f /etc/nftables.conf
 
