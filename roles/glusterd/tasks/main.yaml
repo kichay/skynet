@@ -1,0 +1,7 @@
+---
+- name: Enable, start/restart glusterd unit
+  systemd:
+    name: glusterd
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
