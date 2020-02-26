@@ -7,9 +7,17 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
-- name: Disable, stop stubby unit
+- name: Enable, restart stubby unit
   systemd:
     name: stubby
     state: restarted
     daemon_reload: yes
     enabled: yes
+
+- name: Generate resolv.conf
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx

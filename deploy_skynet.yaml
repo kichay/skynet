@@ -8,9 +8,8 @@
   #- disable-swap
   #- reboot
   - sysctl
-  - resolve
+  - stubby
   #- etcd
   #- isc-dhcp-server
-  - stubby
   - nftables
   - keepalived
