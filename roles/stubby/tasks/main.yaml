@@ -10,6 +10,6 @@
 - name: Disable, stop stubby unit
   systemd:
     name: stubby
-    state: stopped
+    state: restarted
     daemon_reload: yes
-    enabled: no
+    enabled: yes

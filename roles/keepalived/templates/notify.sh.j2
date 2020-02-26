@@ -33,20 +33,12 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     # wait
     /usr/lib/systemd/systemd-networkd-wait-online --operational-state off --timeout $TIMEOUT --interface=home --interface=isp1 #--interface=isp2
 
-    # arping
-    arping -I isp1 0.0.0.0 -c 1 &
-    #arping -I isp2 0.0.0.0 -c 1 &
-    arping -I home 0.0.0.0 -c 1 &
-
     # nftables
     nft -f /etc/keepalived/append.nft
 
     # dhcp
     sudo -u dhcpd /etc/dhcp/notify.sh pull
     systemctl start isc-dhcp-server
-
-    # dns
-    systemctl start stubby
 
   else
 
@@ -60,8 +52,7 @@ if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{
     # nftables
     nft -f /etc/nftables.conf
 
-    # services
-    systemctl stop stubby
+    # dhcp
     systemctl stop isc-dhcp-server
 
     # interfaces

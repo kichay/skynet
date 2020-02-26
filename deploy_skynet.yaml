@@ -7,10 +7,10 @@
   #- systemd-networkd
   #- disable-swap
   #- reboot
-  #- sysctl
-  #- resolve
+  - sysctl
+  - resolve
   #- etcd
   #- isc-dhcp-server
-  #- stubby
-  #- nftables
-  #- keepalived
+  - stubby
+  - nftables
+  - keepalived

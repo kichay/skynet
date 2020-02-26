@@ -6,6 +6,7 @@ tls_query_padding_blocksize: 128
 edns_client_subnet_private : 1
 idle_timeout: 9000
 listen_addresses:
+  - 127.0.0.1
   - {{ keepalived["notify"]["skynet"]["address"] }}
   - {{ keepalived["notify"]["home"]["address"] }}
 round_robin_upstreams: 0
