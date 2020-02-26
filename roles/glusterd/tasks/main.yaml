@@ -10,6 +10,7 @@
   gluster_volume:
     state: absent
     name: dhcp
+  run_once: true
 
 - name: Override /var/lib/dhcp.brick with an empty directory
   file:
@@ -27,10 +28,10 @@
     state: "{{ item }}"
     name: dhcp
     bricks: /var/lib/dhcp.brick
-    rebalance: yes
     force: true
     replicas: "{{ groups[\"skynet\"] | length }}"
     cluster: "[{% for member in groups[\"skynet\"] %}\"{{ hostvars[member][\"networkd\"][\"networks\"][\"skynet\"][\"address\"] }}\"{% if not loop[\"last\"] %},{% endif %}{% endfor %}]"
+  run_once: true
   loop:
   - present
   - started
