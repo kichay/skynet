@@ -9,7 +9,7 @@
   #- reboot
   #- sysctl
   #- stubby
-  - glusterd
-  - isc-dhcp-server
+  #- glusterd
+  #- isc-dhcp-server
   #- nftables
   #- keepalived
