@@ -13,7 +13,6 @@ table inet main {
     chain forward {
 
         iifname home oifname isp1 accept
-        iifname home oifname management accept
         ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
 
     }
