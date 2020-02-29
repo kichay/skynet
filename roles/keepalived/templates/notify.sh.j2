@@ -2,64 +2,60 @@
 
 TIMEOUT=5
 
-if [[ $1 = "INSTANCE" ]] && [[ $2 = "{{ keepalived["name"] }}" ]] && [[ $4 = "{{ keepalived["id"] }}" ]]; then
+if [[ $3 = "MASTER" ]]; then
 
-  if [[ $3 = "MASTER" ]]; then
-
-    # wait
-    while [[ -e /sys/class/net/home/operstate ]]; do
+  # wait
+  while [[ -e /sys/class/net/home/operstate ]]; do
+  
+    sleep $TIMEOUT;
     
-      sleep $TIMEOUT;
-      
-    done
+  done
 
-    # isp1
-    ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
-    ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
-    ip link set dev isp1 up
-    ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 50
+  # isp1
+  ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
+  ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
+  ip link set dev isp1 up
+  ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 50
 
-    # isp2
-    #ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
-    #ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
-    #ip link set dev isp2 up
-    #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75    
+  # isp2
+  #ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
+  #ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
+  #ip link set dev isp2 up
+  #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75    
 
-    # home
-    ip link add link management name home address {{ keepalived["notify"]["home"]["mac"] }} type vlan id 123
-    ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
-    ip link set dev home up
+  # home
+  ip link add link management name home address {{ keepalived["notify"]["home"]["mac"] }} type vlan id 123
+  ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
+  ip link set dev home up
 
-    # wait
-    /usr/lib/systemd/systemd-networkd-wait-online --operational-state off --timeout $TIMEOUT --interface=home --interface=isp1 #--interface=isp2
+  # wait
+  /usr/lib/systemd/systemd-networkd-wait-online --operational-state off --timeout $TIMEOUT --interface=home --interface=isp1 #--interface=isp2
 
-    # nftables
-    nft -f /etc/keepalived/append.nft
+  # nftables
+  nft -f /etc/keepalived/append.nft
 
-    # dhcp
-    sudo -u dhcpd /etc/dhcp/notify.sh pull
-    systemctl start isc-dhcp-server
+  # dhcp
+  sudo -u dhcpd /etc/dhcp/notify.sh pull
+  systemctl start isc-dhcp-server
 
-  else
+else
 
-    # exit
-    if [[ ! -e /sys/class/net/home/operstate ]]; then
+  # exit
+  if [[ ! -e /sys/class/net/home/operstate ]]; then
 
-      exit 0
-
-    fi
-
-    # nftables
-    nft -f /etc/nftables.conf
-
-    # dhcp
-    systemctl stop isc-dhcp-server
-
-    # interfaces
-    ip link del dev isp1
-    #ip link del dev isp2
-    ip link del dev home
+    exit 0
 
   fi
+
+  # nftables
+  nft -f /etc/nftables.conf
+
+  # dhcp
+  systemctl stop isc-dhcp-server
+
+  # interfaces
+  ip link del dev isp1
+  #ip link del dev isp2
+  ip link del dev home
 
 fi

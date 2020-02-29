@@ -44,7 +44,7 @@
 - name: Mount DHCP volume
   mount:
     path: /var/lib/dhcp
-    src: "{{ keepalived[\"notify\"][\"skynet\"][\"address\"] }}:/dhcp"
+    src: "127.0.0.1:/dhcp"
     fstype: glusterfs
     opts: defaults,_netdev
     state: "{{ item }}"

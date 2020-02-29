@@ -1,8 +1,11 @@
 ---
 keepalived:
-  password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
-  id: 100
-  name: skynet_vip
+  vrrp_instance:
+  - name: skynet
+    id: 100
+    password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
+    address: 192.168.128.1
+    network: "17"
   notify:
     isp1:
       mac: 60:a4:4c:6d:c6:00
@@ -18,6 +21,3 @@ keepalived:
       mac: fe:12:34:56:78:90
       address: 192.168.123.1
       network: "24"
-    skynet:
-      address: 192.168.128.1
-      network: "17"

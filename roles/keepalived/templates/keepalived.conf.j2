@@ -1,25 +1,25 @@
 global_defs {
 }
 
-vrrp_instance {{ keepalived["name"] }} {
+vrrp_instance {{ keepalived["vrrp_instance"][0]["name"] }} {
 
     state BACKUP
     notify /etc/keepalived/notify.sh
     interface skynet
-    virtual_router_id {{ keepalived["id"] }}
+    virtual_router_id {{ keepalived["vrrp_instance"][0]["id"] }}
     priority 100
     advert_int 1
 
     authentication {
 
         auth_type PASS
-        auth_pass {{ keepalived["password"] }}
+        auth_pass {{ keepalived["vrrp_instance"][0]["password"] }}
 
     }
 
     virtual_ipaddress {
 
-        {{ keepalived["notify"]["skynet"]["address"] }}
+        {{ keepalived["vrrp_instance"][0]["address"] }}
 
     }
 
