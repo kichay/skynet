@@ -1,11 +1,19 @@
 ---
 keepalived:
+  vrrp_sync_group:
+  - name: gateway
+    group:
+    - skynet
+    - home
   vrrp_instance:
   - name: skynet
-    id: 100
     password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
+    interface: skynet
     address: 192.168.128.1
-    network: "17"
+  - name: home
+    password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
+    interface: home
+    address: 192.168.123.1
   notify:
     isp1:
       mac: 60:a4:4c:6d:c6:00

@@ -5,10 +5,8 @@ vrrp_instance {{ keepalived["vrrp_instance"][0]["name"] }} {
 
     state BACKUP
     notify /etc/keepalived/notify.sh
-    interface skynet
-    virtual_router_id {{ keepalived["vrrp_instance"][0]["id"] }}
-    priority 100
-    advert_int 1
+    interface {{ keepalived["vrrp_instance"][0]["interface"] }}
+    virtual_router_id 1
 
     authentication {
 

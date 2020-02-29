@@ -16,3 +16,53 @@
   loop:
   - isc-dhcp-server
   - isc-dhcp-server6
+
+- name: Unmount DHCP volume
+  mount:
+    path: /var/lib/dhcp
+    state: unmounted
+
+- name: Remove volume for DHCP
+  gluster_volume:
+    state: absent
+    name: dhcp
+  run_once: true
+
+- name: Override /var/lib/dhcp.brick with an empty directory
+  file:
+    path: /var/lib/dhcp.brick
+    state: "{{ item }}"
+    owner: dhcpd
+    group: dhcpd
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
+
+- name: Create, start volume for DHCP
+  gluster_volume:
+    state: "{{ item }}"
+    name: dhcp
+    bricks: /var/lib/dhcp.brick
+    force: true
+    replicas: "{{ groups[\"skynet\"] | length }}"
+    cluster: "[{% for member in groups[\"skynet\"] %}\"{{ hostvars[member][\"networkd\"][\"networks\"][\"skynet\"][\"address\"] }}\"{% if not loop[\"last\"] %},{% endif %}{% endfor %}]"
+  run_once: true
+  loop:
+  - present
+  - started
+
+- name: Wait for replication
+  pause:
+    seconds: 15
+
+- name: Mount DHCP volume
+  mount:
+    path: /var/lib/dhcp
+    src: "127.0.0.1:/dhcp"
+    fstype: glusterfs
+    opts: defaults,_netdev
+    state: "{{ item }}"
+  loop:
+  - present
+  - mounted
