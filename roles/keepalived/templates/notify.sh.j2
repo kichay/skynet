@@ -1,15 +1,6 @@
 #!/bin/bash
 
-TIMEOUT=5
-
 if [[ $3 = "MASTER" ]]; then
-
-  # wait
-  while [[ -e /sys/class/net/home/operstate ]]; do
-  
-    sleep $TIMEOUT;
-    
-  done
 
   # isp1
   ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
@@ -23,29 +14,13 @@ if [[ $3 = "MASTER" ]]; then
   #ip link set dev isp2 up
   #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75    
 
-  # home
-  ip link add link management name home address {{ keepalived["notify"]["home"]["mac"] }} type vlan id 123
-  ip a add {{ keepalived["notify"]["home"]["address"] }}/{{ keepalived["notify"]["home"]["network"] }} dev home
-  ip link set dev home up
-
-  # wait
-  /usr/lib/systemd/systemd-networkd-wait-online --operational-state off --timeout $TIMEOUT --interface=home --interface=isp1 #--interface=isp2
-
   # nftables
   nft -f /etc/keepalived/append.nft
 
   # dhcp
-  sudo -u dhcpd /etc/dhcp/notify.sh pull
   systemctl start isc-dhcp-server
 
 else
-
-  # exit
-  if [[ ! -e /sys/class/net/home/operstate ]]; then
-
-    exit 0
-
-  fi
 
   # nftables
   nft -f /etc/nftables.conf
@@ -56,6 +31,5 @@ else
   # interfaces
   ip link del dev isp1
   #ip link del dev isp2
-  ip link del dev home
 
 fi

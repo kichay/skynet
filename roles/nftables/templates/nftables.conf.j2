@@ -9,6 +9,8 @@ table inet main {
         type filter hook input priority 0; policy drop;
         ct state { established, related } accept
         iifname { lo, skynet } accept
+        iifname home tcp dport 53 accept
+        iifname home udp dport 53 accept
         tcp dport ssh accept
         icmp type echo-request accept
 
@@ -19,7 +21,16 @@ table inet main {
         type filter hook forward priority 0; policy drop;
         ct state established,related accept
         iifname skynet accept
+        ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
+        iifname home oifname != { lo, skynet, management } accept
 
+    }
+
+    chain prerouting {
+        
+        type nat hook prerouting priority -100; policy accept;
+        ip daddr {{ keepalived["notify"]["isp1"]["address"] }} tcp dport { 80, 443 } dnat ip to 192.168.128.14
+        
     }
 
 }

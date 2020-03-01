@@ -1,9 +1,18 @@
 global_defs {
 }
 
+{% for sync_member in keepalived["vrrp_sync_group"] %}
+vrrp_sync_group {{ sync_member["name"] }} {
+  group {
+      {% for group_member in sync_member["group"] %}
+      {{ group_member }}
+      {% endfor %}
+  }
+}
+{% endfor %}
+
 vrrp_instance {{ keepalived["vrrp_instance"][0]["name"] }} {
 
-    state BACKUP
     notify /etc/keepalived/notify.sh
     interface {{ keepalived["vrrp_instance"][0]["interface"] }}
     virtual_router_id 1
@@ -18,6 +27,26 @@ vrrp_instance {{ keepalived["vrrp_instance"][0]["name"] }} {
     virtual_ipaddress {
 
         {{ keepalived["vrrp_instance"][0]["address"] }}
+
+    }
+
+}
+
+vrrp_instance {{ keepalived["vrrp_instance"][1]["name"] }} {
+
+    interface {{ keepalived["vrrp_instance"][1]["interface"] }}
+    virtual_router_id 2
+
+    authentication {
+
+        auth_type PASS
+        auth_pass {{ keepalived["vrrp_instance"][1]["password"] }}
+
+    }
+
+    virtual_ipaddress {
+
+        {{ keepalived["vrrp_instance"][1]["address"] }}
 
     }
 

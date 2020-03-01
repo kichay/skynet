@@ -17,27 +17,13 @@
   - isc-dhcp-server
   - isc-dhcp-server6
 
-- name: Unmount DHCP volume
-  mount:
-    path: /var/lib/dhcp
-    state: unmounted
-
-- name: Remove volume for DHCP
-  gluster_volume:
-    state: absent
-    name: dhcp
-  run_once: true
-
-- name: Override /var/lib/dhcp.brick with an empty directory
+- name: Create /var/lib/dhcp.brick directory
   file:
     path: /var/lib/dhcp.brick
-    state: "{{ item }}"
+    state: directory
     owner: dhcpd
     group: dhcpd
     mode: u=rwx,g=rx,o=rx
-  loop:
-  - absent
-  - directory
 
 - name: Create, start volume for DHCP
   gluster_volume:
@@ -51,10 +37,6 @@
   loop:
   - present
   - started
-
-- name: Wait for replication
-  pause:
-    seconds: 15
 
 - name: Mount DHCP volume
   mount:
