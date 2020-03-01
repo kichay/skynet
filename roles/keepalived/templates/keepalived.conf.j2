@@ -7,27 +7,26 @@ global_defs {
 
 }
 
-vrrp_instance {{ keepalived["vrrp_instance"]["name"] }} {
+vrrp_instance gateway {
 
-    notify /etc/keepalived/notify.sh
     notify_master "/usr/bin/systemctl start isc-dhcp-server"
     notify_backup "/usr/bin/systemctl stop isc-dhcp-server"
     notify_fault "/usr/bin/systemctl stop isc-dhcp-server"
-    interface {{ keepalived["vrrp_instance"]["interface"] }}
-    virtual_router_id {{ keepalived["vrrp_instance"]["id"] }}
+    interface skynet
+    virtual_router_id 1
 
     authentication {
 
         auth_type PASS
-        auth_pass {{ keepalived["vrrp_instance"]["password"] }}
+        auth_pass {{ lookup("password", "/tmp/keepalived.pass length=8 chars=ascii_letters") }}
 
     }
 
     virtual_ipaddress {
 
-        {% for member in keepalived["vrrp_instance"]["virtual_ipaddress"] %}
-        {{ member }}
-        {% endfor %}
+        192.168.128.1/17 dev skynet
+        192.168.123.1/24 dev home
+        5.130.78.89/24 dev novotelecom
 
     }
 

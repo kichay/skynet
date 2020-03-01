@@ -20,6 +20,7 @@
   loop:
   - 55-skynet.netdev
   - 55-home.netdev
+  - 55-novotelecom.netdev
   - 60-management.netdev
 
 - name: Generate systemd.link files
@@ -49,8 +50,9 @@
     mode: u=rw,g=r,o=r
   loop:
   - 65-management.network
-  - 70-home.network
   - 70-skynet.network
+  - 70-home.network
+  - 70-novotelecom.network
 
 - name: Enable, start/restart systemd-networkd unit
   systemd:

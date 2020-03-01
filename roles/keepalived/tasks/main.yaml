@@ -7,22 +7,6 @@
     group: root
     mode: u=rw,g=r,o=r
 
-- name: Generate notify.sh
-  template:
-    src: notify.sh.j2
-    dest: /etc/keepalived/notify.sh
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-
-- name: Generate append.nft
-  template:
-    src: append.nft.j2
-    dest: /etc/keepalived/append.nft
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-
 - name: Enable, start/restart keepalived unit
   systemd:
     name: keepalived
