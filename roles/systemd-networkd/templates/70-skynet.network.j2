@@ -5,5 +5,5 @@ Name=skynet
 Address={{ networkd["networks"]["skynet"]["address"] }}/{{ networkd["networks"]["skynet"]["network"] }}
 
 [Route]
-Gateway={{ keepalived["vrrp_instance"][0]["address"] }}
+Gateway=192.168.128.1
 Metric=100

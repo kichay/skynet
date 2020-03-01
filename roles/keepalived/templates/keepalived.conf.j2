@@ -1,13 +1,19 @@
 global_defs {
+
+    path
+        enable_script_security
+    keepalived_script
+        script_user root root
+
 }
 
 {% for sync_member in keepalived["vrrp_sync_group"] %}
 vrrp_sync_group {{ sync_member["name"] }} {
-  group {
-      {% for group_member in sync_member["group"] %}
-      {{ group_member }}
-      {% endfor %}
-  }
+    group {
+        {% for group_member in sync_member["group"] %}
+        {{ group_member }}
+        {% endfor %}
+    }
 }
 {% endfor %}
 
@@ -36,6 +42,9 @@ vrrp_instance {{ keepalived["vrrp_instance"][1]["name"] }} {
 
     interface {{ keepalived["vrrp_instance"][1]["interface"] }}
     virtual_router_id 2
+    notify_master "/usr/bin/systemctl start isc-dhcp-server"
+    notify_backup "/usr/bin/systemctl stop isc-dhcp-server"
+    notify_fault "/usr/bin/systemctl stop isc-dhcp-server"
 
     authentication {
 

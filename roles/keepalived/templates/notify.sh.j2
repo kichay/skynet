@@ -6,30 +6,17 @@ if [[ $3 = "MASTER" ]]; then
   ip link add link management name isp1 address {{ keepalived["notify"]["isp1"]["mac"] }} type vlan id 121
   ip a add {{ keepalived["notify"]["isp1"]["address"] }}/{{ keepalived["notify"]["isp1"]["network"] }} dev isp1
   ip link set dev isp1 up
-  ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 50
-
-  # isp2
-  #ip link add link management name isp2 address {{ keepalived["notify"]["isp2"]["mac"] }} type vlan id 122
-  #ip a add {{ keepalived["notify"]["isp2"]["address"] }}/{{ keepalived["notify"]["isp2"]["network"] }} dev isp2
-  #ip link set dev isp2 up
-  #ip ro add default via {{ keepalived["notify"]["isp2"]["gateway"] }} dev isp2 metric 75    
+  ip ro add default via {{ keepalived["notify"]["isp1"]["gateway"] }} dev isp1 metric 50   
 
   # nftables
   nft -f /etc/keepalived/append.nft
-
-  # dhcp
-  systemctl start isc-dhcp-server
 
 else
 
   # nftables
   nft -f /etc/nftables.conf
 
-  # dhcp
-  systemctl stop isc-dhcp-server
-
   # interfaces
   ip link del dev isp1
-  #ip link del dev isp2
 
 fi

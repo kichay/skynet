@@ -9,11 +9,11 @@ keepalived:
   - name: skynet
     password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
     interface: skynet
-    address: 192.168.128.1
+    address: 192.168.128.1/17
   - name: home
     password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
     interface: home
-    address: 192.168.123.1
+    address: 192.168.123.1/24
   notify:
     isp1:
       mac: 60:a4:4c:6d:c6:00
@@ -25,7 +25,3 @@ keepalived:
       address: ""
       network: "24"
       gateway: ""
-    home:
-      mac: fe:12:34:56:78:90
-      address: 192.168.123.1
-      network: "24"
