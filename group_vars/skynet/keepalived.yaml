@@ -7,11 +7,11 @@ keepalived:
     - home
   vrrp_instance:
   - name: skynet
-    password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
+    password: "{{ lookup('password', '/tmp/skynet.keepalived.pass length=8 chars=ascii_letters') }}"
     interface: skynet
     address: 192.168.128.1/17
   - name: home
-    password: "{{ lookup('password', '/tmp/keepalived.pass chars=ascii_letters') }}"
+    password: "{{ lookup('password', '/tmp/home.keepalived.pass length=8 chars=ascii_letters') }}"
     interface: home
     address: 192.168.123.1/24
   notify:

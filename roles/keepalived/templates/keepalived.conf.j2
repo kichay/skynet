@@ -10,8 +10,7 @@ global_defs {
 {% for sync_member in keepalived["vrrp_sync_group"] %}
 vrrp_sync_group {{ sync_member["name"] }} {
     group {
-        {% for group_member in sync_member["group"] %}
-        {{ group_member }}
+        {% for group_member in sync_member["group"] %}{{ group_member }}
         {% endfor %}
     }
 }
