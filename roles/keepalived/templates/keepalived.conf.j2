@@ -18,7 +18,7 @@ vrrp_instance gateway {
     authentication {
 
         auth_type PASS
-        auth_pass {{ lookup("password", "/tmp/keepalived.pass length=8 chars=ascii_letters") }}
+        auth_pass skynet
 
     }
 

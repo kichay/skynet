@@ -16,6 +16,13 @@ table inet main {
 
     }
 
+    chain output {
+
+        type filter hook output priority 0; policy accept;
+        oifname novotelecom ip saddr != 5.130.78.89 drop
+
+    }
+
     chain forward {
 
         type filter hook forward priority 0; policy drop;
