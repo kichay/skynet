@@ -11,5 +11,5 @@
   #- stubby
   #- glusterd
   #- isc-dhcp-server
-  - nftables
-  - keepalived
+  #- nftables
+  #- keepalived
