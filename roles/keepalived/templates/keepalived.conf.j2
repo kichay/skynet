@@ -9,11 +9,13 @@ global_defs {
 
 vrrp_instance gateway {
 
-    notify_master "/bin/bash -c '/usr/bin/systemctl start isc-dhcp-server; /usr/bin/ip link set dev novotelecom address 60:a4:4c:6d:c6:00'"
-    notify_backup "/bin/bash -c '/usr/bin/systemctl stop isc-dhcp-server; /usr/bin/ip link set dev novotelecom address fe:12:34:56:78:90'"
-    notify_fault "/bin/bash -c '/usr/bin/systemctl stop isc-dhcp-server; /usr/bin/ip link set dev novotelecom address fe:12:34:56:78:90'"
+    notify_master "/bin/bash -c '/usr/bin/systemctl start isc-dhcp-server; /usr/bin/ip link set dev novotelecom   up'"
+    notify_backup "/bin/bash -c '/usr/bin/systemctl stop  isc-dhcp-server; /usr/bin/ip link set dev novotelecom down'"
+    notify_fault  "/bin/bash -c '/usr/bin/systemctl stop  isc-dhcp-server; /usr/bin/ip link set dev novotelecom down'"
+    notify_stop   "/bin/bash -c '/usr/bin/systemctl stop  isc-dhcp-server; /usr/bin/ip link set dev novotelecom down'"
     interface skynet
     virtual_router_id 1
+    dont_track_primary
 
     authentication {
 
@@ -27,6 +29,12 @@ vrrp_instance gateway {
         192.168.128.1/17 dev skynet
         192.168.123.1/24 dev home
         5.130.78.89/24 dev novotelecom
+
+    }
+
+    virtual_routes {
+
+        0.0.0.0/0 via 5.130.78.1 dev novotelecom
 
     }
 
