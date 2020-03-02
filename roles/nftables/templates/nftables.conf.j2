@@ -7,12 +7,20 @@ table inet main {
     chain input {
 
         type filter hook input priority 0; policy drop;
+        ether daddr fe:12:34:56:78:90 drop
         ct state { established, related } accept
         iifname { lo, skynet } accept
         iifname home tcp dport 53 accept
         iifname home udp dport 53 accept
         tcp dport ssh accept
         icmp type echo-request accept
+
+    }
+
+    chain output {
+
+        type filter hook output priority 0; policy accept;
+        ether saddr fe:12:34:56:78:90 drop
 
     }
 
