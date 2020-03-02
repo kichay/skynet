@@ -19,7 +19,6 @@ table inet filter {
     chain output {
 
         type filter hook output priority 0; policy accept;
-        oifname novotelecom ip saddr != 5.130.78.89 drop
 
     }
 
@@ -45,17 +44,6 @@ table inet filter {
         type nat hook postrouting priority 100; policy accept;
         oifname novotelecom masquerade
         
-    }
-
-}
-
-table arp filter {
-
-    chain output {
-
-        type filter hook output priority 0; policy accept;
-        oifname novotelecom arp saddr ip != 5.130.78.89 drop
-
     }
 
 }
