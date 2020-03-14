@@ -24,14 +24,14 @@ vrrp_instance gateway {
     virtual_ipaddress {
 
         192.168.128.1/17 dev skynet
-        192.168.123.1/24 dev home
-        5.130.78.89/24 dev novotelecom
+        192.168.123.1/24 dev home no_track
+        5.130.78.89/24 dev novotelecom no_track
 
     }
 
     virtual_routes {
 
-        0.0.0.0/0 via 5.130.78.1 dev novotelecom metric 75
+        0.0.0.0/0 via 5.130.78.1 dev novotelecom metric 75 no_track
 
     }
 
