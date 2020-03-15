@@ -1,0 +1,36 @@
+#!/bin/bash
+
+INTERFACES="home novotelecom"
+BLACKHOLE="blackhole"
+
+case "$1" in
+
+  "start" )
+    ip link add dev $BLACKHOLE type bridge
+    for INTERFACE in $INTERFACES; do
+      ip link set dev $INTERFACE master $BLACKHOLE
+      ip link set dev $INTERFACE up
+    done
+  ;;
+
+  "take" )
+    for INTERFACE in $INTERFACES; do
+      ip link set dev $INTERFACE master $BLACKHOLE
+    done
+  ;;
+
+  "return" )
+    for INTERFACE in $INTERFACES; do
+      ip link set dev $INTERFACE nomaster
+    done
+  ;;
+
+  "stop" )
+    for INTERFACE in $INTERFACES; do
+      ip link set dev $INTERFACE down
+      ip link set dev $INTERFACE nomaster
+    done
+    ip link del dev blackhole
+  ;;
+
+esac

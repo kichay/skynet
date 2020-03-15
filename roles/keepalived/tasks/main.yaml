@@ -7,6 +7,30 @@
     group: root
     mode: u=rw,g=r,o=r
 
+- name: Generate blackhole.bash
+  template:
+    src: blackhole.bash.j2
+    dest: /etc/keepalived/blackhole.bash
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
+- name: Create override directory
+  file:
+    path: /etc/systemd/system/keepalived.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
+- name: Generate override.conf
+  template:
+    src: override.conf.j2
+    dest: /etc/systemd/system/keepalived.service.d/override.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
 - name: Enable, start/restart keepalived unit
   systemd:
     name: keepalived

@@ -7,10 +7,10 @@ global_defs {
 
 vrrp_instance gateway {
 
-    notify_master "/bin/bash -c 'ip link set dev novotelecom nomaster; ip link set dev home nomaster'"
-    notify_backup "/bin/bash -c 'ip link set dev novotelecom master blackhole; ip link set dev home master blackhole'"
-    notify_fault "/bin/bash -c 'ip link set dev novotelecom master blackhole; ip link set dev home master blackhole'"
-    notify_stop "/bin/bash -c 'ip link set dev novotelecom master blackhole; ip link set dev home master blackhole'"
+    notify_master "/etc/keepalived/blackhole.bash return"
+    notify_backup "/etc/keepalived/blackhole.bash take"
+    notify_fault "/etc/keepalived/blackhole.bash take"
+    notify_stop "/etc/keepalived/blackhole.bash take"
     interface skynet
     virtual_router_id 1
 
