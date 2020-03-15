@@ -1,0 +1,15 @@
+---
+- name: Generate dnsmasq.conf
+  template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable, restart dnsmasq units
+  systemd:
+    name: dnsmasq
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

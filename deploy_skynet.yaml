@@ -4,13 +4,12 @@
   become: yes
   roles:
   #- ubuntu-server
-  - systemd-networkd
+  #- systemd-networkd
   #- disable-swap
   #- reboot
-  - sysctl
-  - stubby
-  - resolve
-  #- glusterd
-  - isc-dhcp-server
+  #- sysctl
+  #- stubby
+  #- dnsmasq
+  #- resolve
   #- nftables
   #- keepalived

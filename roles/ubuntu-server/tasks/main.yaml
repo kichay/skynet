@@ -46,8 +46,7 @@
   - systemd
   - nftables
   - keepalived
-  - glusterfs-server
-  - isc-dhcp-server
+  - dnsmasq
   - stubby
 
 - name: Disable systemd units
