@@ -23,6 +23,7 @@ case "$1" in
     for INTERFACE in $INTERFACES; do
       ip link set dev $INTERFACE nomaster
     done
+    systemctl start isc-dhcp-server # TODO: delete command
   ;;
 
   "stop" )
