@@ -7,10 +7,10 @@ global_defs {
 
 vrrp_instance gateway {
 
-    notify_master "/bin/bash -c '/usr/bin/systemctl start isc-dhcp-server; /usr/bin/ip link set dev novotelecom address 60:a4:4c:6d:c6:00'"
-    notify_backup "/bin/bash -c '/usr/bin/systemctl stop isc-dhcp-server; /usr/bin/ip link set dev novotelecom address de:ad:de:ad:de:ad'"
-    notify_fault "/bin/bash -c '/usr/bin/systemctl stop isc-dhcp-server; /usr/bin/ip link set dev novotelecom address de:ad:de:ad:de:ad'"
-    notify_stop "/bin/bash -c '/usr/bin/systemctl stop isc-dhcp-server; /usr/bin/ip link set dev novotelecom address de:ad:de:ad:de:ad'"
+    notify_master "/bin/bash -c 'ip link set dev novotelecom nomaster; ip link set dev home nomaster'"
+    notify_backup "/bin/bash -c 'ip link set dev novotelecom master blackhole; ip link set dev home master blackhole'"
+    notify_fault "/bin/bash -c 'ip link set dev novotelecom master blackhole; ip link set dev home master blackhole'"
+    notify_stop "/bin/bash -c 'ip link set dev novotelecom master blackhole; ip link set dev home master blackhole'"
     interface skynet
     virtual_router_id 1
 

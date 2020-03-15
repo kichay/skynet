@@ -21,6 +21,7 @@
   - 55-skynet.netdev
   - 55-home.netdev
   - 55-novotelecom.netdev
+  - 55-blackhole.netdev
   - 60-management.netdev
 
 - name: Generate systemd.link files
@@ -53,6 +54,7 @@
   - 70-skynet.network
   - 70-home.network
   - 70-novotelecom.network
+  - 70-blackhole.network
 
 - name: Enable, start/restart systemd-networkd unit
   systemd:
