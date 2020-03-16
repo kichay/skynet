@@ -1,0 +1,14 @@
+---
+- name: Enable linux modules
+  lineinfile:
+    path: /etc/modules
+    regexp: '^{{ item }}'
+    state: present
+    line: "{{ item }}"
+  loop: "{{ linux_modules }}"
+
+- name: Load linux modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ linux_modules }}"
