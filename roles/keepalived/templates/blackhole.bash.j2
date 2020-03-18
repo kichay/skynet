@@ -6,7 +6,7 @@ BLACKHOLE="blackhole"
 case "$1" in
 
   "start" )
-    ip link add dev $BLACKHOLE type bridge
+    [[ ! -d /sys/devices/virtual/net/$BLACKHOLE ]] && ip link add dev $BLACKHOLE type bridge
     for INTERFACE in $INTERFACES; do
       ip link set dev $INTERFACE master $BLACKHOLE
       ip link set dev $INTERFACE up
@@ -30,7 +30,7 @@ case "$1" in
       ip link set dev $INTERFACE down
       ip link set dev $INTERFACE nomaster
     done
-    ip link del dev $BLACKHOLE
+    [[ -d /sys/devices/virtual/net/$BLACKHOLE ]] && ip link del dev $BLACKHOLE
   ;;
 
 esac
