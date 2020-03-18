@@ -30,7 +30,7 @@ case "$1" in
       ip link set dev $INTERFACE down
       ip link set dev $INTERFACE nomaster
     done
-    ip link del dev blackhole
+    ip link del dev $BLACKHOLE
   ;;
 
 esac
