@@ -64,8 +64,7 @@
   register: virtual_interfaces
 
 - name: Delete virtual network interfaces
-  shell: "ip link del dev {{ item['path'] | basename }}" 
-  loop: "{{ virtual_interfaces['files'] }}"
+  shell: "{% for interface in virtual_interfaces['files'] %}ip link del dev {{ interface['path'] | basename }}; {% endfor %}"
 
 - name: Enable, start/restart systemd-networkd unit
   systemd:
