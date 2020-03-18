@@ -6,7 +6,6 @@
   #- ubuntu-server
   #- systemd-networkd
   #- disable-swap
-  #- reboot
   #- linux_modules
   #- sysctl
   #- stubby
