@@ -54,15 +54,6 @@
   - 70-home.network
   - 70-novotelecom.network
 
-- name: Lookup for network interfaces
-  find:
-    paths: /sys/devices/virtual/net
-    file_type: directory
-    patterns: "*"
-    excludes: "lo,management"
-    recurse: no
-  register: virtual_interfaces
-
 - name: Enable, start/restart systemd-networkd unit
   systemd:
     name: systemd-networkd
