@@ -63,9 +63,6 @@
     recurse: no
   register: virtual_interfaces
 
-- name: Delete virtual network interfaces
-  shell: "{% for interface in virtual_interfaces['files'] %}ip link del dev {{ interface['path'] | basename }}; {% endfor %}"
-
 - name: Enable, start/restart systemd-networkd unit
   systemd:
     name: systemd-networkd
