@@ -10,19 +10,6 @@
   - absent
   - directory
 
-- name: Generate systemd.netdev files
-  template:
-    src: "{{ item }}.j2"
-    dest: "/etc/systemd/network/{{ item }}"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  loop:
-  - 55-skynet.netdev
-  - 55-home.netdev
-  - 55-novotelecom.netdev
-  - 60-management.netdev
-
 - name: Generate systemd.link files
   loop: "{{ interfaces }}"
   template:
@@ -32,10 +19,23 @@
     group: root
     mode: u=rw,g=r,o=r
 
+- name: Generate systemd.netdev files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/network/{{ item }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  loop:
+  - 60-skynet.netdev
+  - 60-home.netdev
+  - 60-novotelecom.netdev
+  - 60-management.netdev
+
 - name: Generate systemd.network files for links
   loop: "{{ interfaces }}"
   template:
-    src: 65-interface.network.j2
+    src: 70-interface.network.j2
     dest: "/etc/systemd/network/65-{{ item['name'] }}.network"
     owner: root
     group: root
@@ -49,10 +49,23 @@
     group: root
     mode: u=rw,g=r,o=r
   loop:
-  - 65-management.network
+  - 70-management.network
   - 70-skynet.network
   - 70-home.network
   - 70-novotelecom.network
+
+- name: Lookup for network interfaces
+  find:
+    paths: /sys/devices/virtual/net
+    file_type: directory
+    patterns: "*"
+    excludes: "lo,management"
+    recurse: no
+  register: virtual_interfaces
+
+- name: Delete virtual network interfaces
+  shell: "ip link del dev {{ item['path'] | basename }}" 
+  loop: "{{ virtual_interfaces['files'] }}"
 
 - name: Enable, start/restart systemd-networkd unit
   systemd:

@@ -3,13 +3,13 @@
   hosts: skynet
   become: yes
   roles:
-  #- ubuntu-server
-  #- systemd-networkd
-  #- disable-swap
-  #- linux_modules
-  #- sysctl
-  #- stubby
-  #- dnsmasq
-  #- resolve
-  #- nftables
-  #- keepalived
+  - ubuntu-server
+  - systemd-networkd
+  - disable-swap
+  - linux_modules
+  - sysctl
+  - stubby
+  - dnsmasq
+  - resolve
+  - nftables
+  - keepalived
