@@ -1,0 +1,17 @@
+#!/bin/bash
+
+case "$1" in
+
+  "master" )
+    ip link set dev home_vlan down
+    ip link set dev isp1_vlan down
+    ip link set dev home_vlan master home
+    ip link set dev isp1_vlan master isp1
+  ;;
+
+  "nomaster" )
+    ip link set dev home_vlan nomaster
+    ip link set dev isp1_vlan nomaster
+  ;;
+
+esac

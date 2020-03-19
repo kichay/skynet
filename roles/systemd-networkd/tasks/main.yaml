@@ -28,8 +28,12 @@
     mode: u=rw,g=r,o=r
   loop:
   - 60-skynet.netdev
+  - 60-home_vlan.netdev
+  - 60-isp1_vlan.netdev
+  - 60-home_dummy.netdev
+  - 60-isp1_dummy.netdev
   - 60-home.netdev
-  - 60-novotelecom.netdev
+  - 60-isp1.netdev
   - 60-management.netdev
 
 - name: Generate systemd.network files for links
@@ -51,8 +55,12 @@
   loop:
   - 70-management.network
   - 70-skynet.network
+  - 70-home_vlan.network
+  - 70-isp1_vlan.network
+  - 70-home_dummy.network
+  - 70-isp1_dummy.network
   - 70-home.network
-  - 70-novotelecom.network
+  - 70-isp1.network
 
 - name: Enable, start/restart systemd-networkd unit
   systemd:

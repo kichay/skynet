@@ -29,7 +29,7 @@ table inet filter {
         ct state established,related accept
         iifname skynet accept
         ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
-        iifname home oifname novotelecom accept
+        iifname home oifname isp1 accept
 
     }
 
@@ -43,7 +43,7 @@ table inet filter {
     chain postrouting {
 
         type nat hook postrouting priority 100; policy accept;
-        oifname novotelecom masquerade
+        oifname isp1 masquerade
         
     }
 
