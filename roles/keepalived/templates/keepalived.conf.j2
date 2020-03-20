@@ -2,15 +2,13 @@ global_defs {
 
     enable_script_security
     script_user root root
+    notify_fifo "/tmp/keepalived.fifo"
+    notify_fifo_script "/etc/keepalived/notify_fifo_script.sh"
 
 }
 
-vrrp_instance gateway {
+vrrp_instance "gateway" {
 
-    notify_master "/etc/keepalived/bonder.bash master"
-    notify_backup "/etc/keepalived/bonder.bash nomaster"
-    notify_fault "/etc/keepalived/bonder.bash nomaster"
-    notify_stop "/etc/keepalived/bonder.bash nomaster"
     interface skynet
     virtual_router_id 1
 
@@ -31,7 +29,7 @@ vrrp_instance gateway {
 
     virtual_routes {
 
-        0.0.0.0/0 via 5.130.78.1 dev isp1 metric 75
+        0.0.0.0/0 via 5.130.78.1 dev isp1 metric 75 no_track
 
     }
 

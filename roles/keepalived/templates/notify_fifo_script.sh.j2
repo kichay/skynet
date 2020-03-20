@@ -1,0 +1,50 @@
+#!/bin/bash
+
+FIFO=$1
+
+[[ ! -n $FIFO ]] && echo FIFO file not defined && exit 1
+[[ ! -p $FIFO ]] && echo FIFO file not found \"$FIFO\" && exit 1
+
+nomaster() {
+  ip link set dev home_vlan nomaster
+  ip link set dev isp1_vlan nomaster
+  ip link set dev home_vlan up
+  ip link set dev isp1_vlan up
+}
+
+master() {
+  ip link set dev home_vlan down
+  ip link set dev isp1_vlan down
+  ip link set dev home_vlan master home
+  ip link set dev isp1_vlan master isp1
+}
+
+close() {
+  nomaster
+  exit 0
+}
+
+trap close TERM HUP INT QUIT USR1 USR2 PIPE ALRM
+
+while read LINE; do
+
+  set $LINE
+  TYPE=$1
+  if [[ $TYPE = INSTANCE || $TYPE = GROUP ]]; then
+    VRRP_INST=${2//\"/}
+	  STATE=$3
+	  PRIORITY=$4
+  elif [[ $TYPE = VS ]]; then
+	  VS=$2
+	  STATE=$3
+  elif [[ $TYPE = RS ]]; then
+    RS=$2
+	  VS=$3
+	  STATE=$4
+  fi
+
+  [[ $TYPE = INSTANCE && $VRRP_INST = gateway && $STATE = MASTER ]] && master
+  [[ $TYPE = INSTANCE && $VRRP_INST = gateway && $STATE = BACKUP ]] && nomaster
+  [[ $TYPE = INSTANCE && $VRRP_INST = gateway && $STATE = FAULT ]] && nomaster
+
+done < $FIFO
