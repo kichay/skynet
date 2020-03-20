@@ -48,3 +48,5 @@ while read LINE; do
   [[ $TYPE = INSTANCE && $VRRP_INST = gateway && $STATE = FAULT ]] && nomaster
 
 done < $FIFO
+
+nomaster
