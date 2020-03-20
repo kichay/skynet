@@ -1,5 +1,5 @@
 ---
-- name: Override systemd-networkd network data with an empty directory
+- name: Override /etc/systemd/network with an empty directory
   file:
     path: /etc/systemd/network
     state: "{{ item }}"

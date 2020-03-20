@@ -1,4 +1,15 @@
 ---
+- name: Override /etc/keepalived with an empty directory
+  file:
+    path: /etc/keepalived
+    state: "{{ item }}"
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
+
 - name: Generate keepalived.conf
   template:
     src: keepalived.conf.j2
