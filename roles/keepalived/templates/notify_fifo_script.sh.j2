@@ -6,17 +6,17 @@ FIFO=$1
 [[ ! -p $FIFO ]] && echo FIFO file not found \"$FIFO\" && exit 1
 
 nomaster() {
-  ip link set dev home_vlan nomaster
-  ip link set dev isp1_vlan nomaster
-  ip link set dev home_vlan up
-  ip link set dev isp1_vlan up
+  ip link set dev home_vlan nomaster 2>/dev/null
+  ip link set dev isp1_vlan nomaster 2>/dev/null
+  ip link set dev home_vlan up 2>/dev/null
+  ip link set dev isp1_vlan up 2>/dev/null
 }
 
 master() {
-  ip link set dev home_vlan down
-  ip link set dev isp1_vlan down
-  ip link set dev home_vlan master home
-  ip link set dev isp1_vlan master isp1
+  ip link set dev home_vlan down 2>/dev/null
+  ip link set dev isp1_vlan down 2>/dev/null
+  ip link set dev home_vlan master home 2>/dev/null
+  ip link set dev isp1_vlan master isp1 2>/dev/null
 }
 
 close() {
