@@ -6,13 +6,13 @@ FIFO=$1
 [[ ! -p $FIFO ]] && echo FIFO file not found \"$FIFO\" && exit 1
 
 standby() {
-  ip link set dev home_dummy master home 2>/dev/null
-  ip link set dev isp1_dummy master isp1 2>/dev/null
+  ip link set dev home type bond active_slave home_dummy 2>/dev/null
+  ip link set dev isp1 type bond active_slave isp1_dummy 2>/dev/null
 }
 
 master() {
-  ip link set dev home_dummy nomaster 2>/dev/null
-  ip link set dev isp1_dummy nomaster 2>/dev/null
+  ip link set dev home type bond active_slave home_vlan 2>/dev/null
+  ip link set dev isp1 type bond active_slave isp1_vlan 2>/dev/null
 }
 
 close() {
