@@ -4,7 +4,7 @@ networkd:
   networks:
     skynet:
       address: 192.168.128.13
-      network: "17"
+      network: "24"
     management:
       address: 192.168.111.13
       network: "24"
