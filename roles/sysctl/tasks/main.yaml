@@ -11,5 +11,4 @@
   - net.ipv6.conf.default.disable_ipv6
   - net.ipv4.ip_nonlocal_bind
   - net.ipv4.ip_forward
-  - net.ipv4.ip_nonlocal_bind
   - net.netfilter.nf_conntrack_helper

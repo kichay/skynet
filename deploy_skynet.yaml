@@ -8,9 +8,9 @@
   #- linux_modules
   #- sysctl
   - systemd-networkd
-  #- reboot
+  - reboot
   #- nftables
   - keepalived
   #- stubby
-  #- dnsmasq
-  #- resolve
+  - dnsmasq
+  - resolve
