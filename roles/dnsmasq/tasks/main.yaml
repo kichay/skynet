@@ -1,4 +1,23 @@
 ---
+- name: Override /etc/systemd/dnsmasq.service.d with an empty directory
+  file:
+    path: /etc/systemd/system/dnsmasq.service.d
+    state: "{{ item }}"
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - absent
+  - directory
+
+- name: Generate override.conf
+  template:
+    src: override.conf.j2
+    dest: /etc/systemd/system/dnsmasq.service.d/override.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
 - name: Generate dnsmasq.conf
   template:
     src: dnsmasq.conf.j2
