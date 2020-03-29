@@ -11,24 +11,12 @@
   - ubuntu-server
   - ubuntu-standard
   - unattended-upgrades
-  - apparmor
   - ufw
   - secureboot-db
   - sbsigntool
   - cloud-init
   - uuid-runtime
   - netplan.io
-
-- name: Remove paths
-  file:
-    state: absent
-    path: "{{ item }}"
-  loop:
-  - /usr/share/netplan/netplan/cli/commands
-  - /etc/netplan
-  - /etc/cloud/cloud.cfg.d
-  - /var/log/unattended-upgrades
-  - /var/lib/update-manager
 
 - name: Upgrade packages
   apt:
