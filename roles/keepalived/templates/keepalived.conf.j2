@@ -2,8 +2,6 @@ global_defs {
 
     enable_script_security
     script_user root root
-    notify_fifo "/tmp/keepalived_fifo.pipe"
-    notify_fifo_script "/etc/keepalived/notify_fifo_script.sh"
 
 }
 
@@ -11,6 +9,10 @@ vrrp_instance "gateway" {
 
     interface skynet
     virtual_router_id 1
+    notify_master "/sbin/ip link set dev isp1 type bond active_slave isp1_vlan"
+    notify_backup "/sbin/ip link set dev isp1 type bond active_slave isp1_dummy"
+    notify_stop   "/sbin/ip link set dev isp1 type bond active_slave isp1_dummy"
+    notify_fault  "/sbin/ip link set dev isp1 type bond active_slave isp1_dummy"
 
     authentication {
 

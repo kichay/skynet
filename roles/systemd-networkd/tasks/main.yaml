@@ -28,9 +28,7 @@
     mode: u=rw,g=r,o=r
   loop:
   - 60-skynet.netdev
-  - 60-home_vlan.netdev
   - 60-isp1_vlan.netdev
-  - 60-home_dummy.netdev
   - 60-isp1_dummy.netdev
   - 60-home.netdev
   - 60-isp1.netdev
@@ -55,9 +53,7 @@
   loop:
   - 70-management.network
   - 70-skynet.network
-  - 70-home_vlan.network
   - 70-isp1_vlan.network
-  - 70-home_dummy.network
   - 70-isp1_dummy.network
   - 70-home.network
   - 70-isp1.network
