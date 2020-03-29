@@ -27,6 +27,7 @@ table inet filter {
 
         type filter hook forward priority 0; policy accept;
         ct state established,related accept
+        ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
         iifname { management, isp1 } drop
 
     }
