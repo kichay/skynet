@@ -33,6 +33,7 @@
   - 60-home.netdev
   - 60-isp1.netdev
   - 60-management.netdev
+  - 60-main_bond.netdev
 
 - name: Generate systemd.network files for links
   loop: "{{ interfaces }}"
@@ -53,6 +54,7 @@
   loop:
   - 70-management.network
   - 70-skynet.network
+  - 70-main_bond.network
   - 70-isp1_vlan.network
   - 70-isp1_dummy.network
   - 70-home.network
