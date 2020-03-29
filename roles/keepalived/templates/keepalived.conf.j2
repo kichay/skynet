@@ -22,6 +22,8 @@ vrrp_instance "gateway" {
     virtual_ipaddress {
 
         192.168.128.1 dev skynet
+        5.130.78.89/24 dev isp1
+        192.168.123.1/24 dev home
 
     }
 
@@ -37,6 +39,7 @@ virtual_server 192.168.128.1 7443 {
 
     delay_loop 5
     lvs_sched wlc
+    lvs_method NAT
     protocol TCP
 
     real_server 192.168.128.11 6443 {

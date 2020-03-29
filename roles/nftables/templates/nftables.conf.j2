@@ -25,11 +25,9 @@ table inet filter {
 
     chain forward {
 
-        type filter hook forward priority 0; policy drop;
+        type filter hook forward priority 0; policy accept;
         ct state established,related accept
-        iifname != { management, home, isp1 } accept
-        ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
-        iifname home oifname isp1 accept
+        iifname { management, isp1 } drop
 
     }
 
