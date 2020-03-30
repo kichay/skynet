@@ -10,7 +10,7 @@
   - systemd-networkd
   - reboot
   - nftables
-  #- keepalived
+  - keepalived
   #- stubby
   #- dnsmasq
   #- resolve

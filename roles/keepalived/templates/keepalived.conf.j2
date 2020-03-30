@@ -1,18 +1,10 @@
 global_defs {
-
-    enable_script_security
-    script_user root root
-
 }
 
 vrrp_instance "gateway" {
 
     interface skynet
     virtual_router_id 1
-    notify_master "/sbin/ip link set dev isp1 type bond active_slave isp1_vlan"
-    notify_backup "/sbin/ip link set dev isp1 type bond active_slave isp1_dummy"
-    notify_stop   "/sbin/ip link set dev isp1 type bond active_slave isp1_dummy"
-    notify_fault  "/sbin/ip link set dev isp1 type bond active_slave isp1_dummy"
 
     authentication {
 
@@ -24,14 +16,14 @@ vrrp_instance "gateway" {
     virtual_ipaddress {
 
         192.168.128.1 dev skynet
-        5.130.78.89/24 dev isp1
+        5.130.78.89/24 dev novotelecom
         192.168.123.1/24 dev home
 
     }
 
     virtual_routes {
 
-        0.0.0.0/0 via 5.130.78.1 dev isp1 metric 75 no_track
+        0.0.0.0/0 via 5.130.78.1 dev novotelecom metric 75 no_track
 
     }
 
