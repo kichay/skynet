@@ -7,10 +7,10 @@
   #- ubuntu-server
   #- linux_modules
   #- sysctl
-  - systemd-networkd
-  - reboot
+  #- systemd-networkd
+  #- reboot
   - nftables
-  - keepalived
+  #- keepalived
   #- stubby
   #- dnsmasq
   #- resolve
