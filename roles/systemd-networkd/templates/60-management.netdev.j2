@@ -1,8 +1,13 @@
 [NetDev]
 Name=management
-Description=Management bridge
-Kind=bridge
+Description=Management bond
+Kind=bond
 
-[Bridge]
-VLANFiltering=no
-STP=no
+[Bond]
+Mode=active-backup
+PrimaryReselectPolicy=always
+ARPValidate=active
+ARPIntervalSec=1
+ARPIPTargets={{ networkd["arp_mon"] }}
+ARPAllTargets=any
+FailOverMACPolicy=active

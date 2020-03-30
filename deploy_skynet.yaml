@@ -7,9 +7,9 @@
   #- ubuntu-server
   #- linux_modules
   #- sysctl
-  #- systemd-networkd
-  #- reboot
-  #- nftables
+  - systemd-networkd
+  - reboot
+  - nftables
   #- keepalived
   #- stubby
   #- dnsmasq
