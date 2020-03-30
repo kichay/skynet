@@ -18,9 +18,9 @@ table bridge filter {
     chain output {
 
         type filter hook output priority -200; policy accept;
-        oifname isp1 ip saddr 5.130.78.89 accept
-        oifname isp1 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 @nh,112,32 0x05824e59 accept
-        oifname isp1 drop
+        iifname novotelecom ip saddr 5.130.78.89 accept
+        iifname novotelecom ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 @nh,112,32 0x05824e59 accept
+        iifname novotelecom drop
 
     }
 
