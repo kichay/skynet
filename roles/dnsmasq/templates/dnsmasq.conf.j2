@@ -1,11 +1,3 @@
-interface=home
-leasefile-ro
-domain=home
-dhcp-range={{ dnsmasq['dhcp-range']['from'] }},{{ dnsmasq['dhcp-range']['to'] }},12h
-dhcp-option=option:router,192.168.123.1
-dhcp-option=option:dns-server,192.168.123.1
-dhcp-option=option:netmask,255.255.255.0
-
 no-resolv
 no-poll
 listen-address=192.168.123.1
