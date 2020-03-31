@@ -1,0 +1,23 @@
+---
+- name: Generate resolv.conf
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Generate resolved.conf
+  template:
+    src: resolved.conf.j2
+    dest: /etc/systemd/resolved.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable, start/restart systemd-resolved unit
+  systemd:
+    name: systemd-resolved
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
