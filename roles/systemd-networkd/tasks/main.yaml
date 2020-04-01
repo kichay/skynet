@@ -1,15 +1,4 @@
 ---
-- name: Override /etc/systemd/network with an empty directory
-  file:
-    path: /etc/systemd/network
-    state: "{{ item }}"
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-  loop:
-  - absent
-  - directory
-
 - name: Generate systemd.link files
   loop: "{{ interfaces }}"
   template:

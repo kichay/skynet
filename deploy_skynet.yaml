@@ -3,12 +3,10 @@
   hosts: skynet
   become: yes
   roles:
-  #- ubuntu-server
-  #- linux-modules
-  #- sysctl
-  #- systemd-networkd
-  #- reboot
-  #- nftables
-  #- keepalived
-  #- systemd-resolved
-  #- dnsmasq
+  - pacman
+  - linux-modules
+  - sysctl
+  - systemd-networkd
+  - nftables
+  - keepalived
+  - unbond

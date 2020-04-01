@@ -1,0 +1,15 @@
+---
+- name: Generate unbound.conf
+  template:
+    src: unbound.conf.j2
+    dest: /etc/unbound/unbound.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable, start/restart unbound unit
+  systemd:
+    name: unbound
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
