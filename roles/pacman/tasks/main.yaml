@@ -7,3 +7,4 @@
   loop:
   - nftables
   - keepalived
+  - unbound

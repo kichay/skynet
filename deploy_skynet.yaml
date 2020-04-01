@@ -8,6 +8,5 @@
   - sysctl
   - systemd-networkd
   - nftables
-  #- keepalived
-  - systemd-resolved
-  #- dnsmasq
+  - keepalived
+  - unbond
