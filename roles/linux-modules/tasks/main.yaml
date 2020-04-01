@@ -1,14 +1,17 @@
 ---
-- name: Enable linux modules
-  lineinfile:
-    path: /etc/modules
-    regexp: '^{{ item }}'
-    state: present
-    line: "{{ item }}"
-  loop: "{{ linux_modules }}"
-
 - name: Load linux modules
   modprobe:
     name: "{{ item }}"
     state: present
-  loop: "{{ linux_modules }}"
+  loop:
+  - nf_nat_pptp
+
+- name: Generate /etc/modules-load.d files
+  template:
+    src: "modules-load.d/{{ item }}.j2"
+    dest: "/etc/modules-load.d/{{ item }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  loop:
+  - nf_nat_pptp.conf

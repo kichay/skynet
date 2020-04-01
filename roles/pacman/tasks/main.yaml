@@ -1,0 +1,9 @@
+---
+- name: Install latest packages
+  pacman:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop:
+  - nftables
+  - keepalived
