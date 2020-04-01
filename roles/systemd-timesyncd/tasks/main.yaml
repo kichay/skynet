@@ -1,0 +1,15 @@
+---
+- name: Generate timesyncd.conf
+  template:
+    src: timesyncd.conf.j2
+    dest: /etc/systemd/timesyncd.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable, start/restart systemd-timesyncd unit
+  systemd:
+    name: systemd-timesyncd
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
