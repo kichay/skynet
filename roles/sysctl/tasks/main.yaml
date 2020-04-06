@@ -12,3 +12,11 @@
   - net.ipv4.ip_nonlocal_bind
   - net.ipv4.ip_forward
   - net.netfilter.nf_conntrack_helper
+
+- name: Create a symbolic link for sysctl.conf
+  file:
+    src: /etc/sysctl.conf
+    dest: /etc/sysctl.d/sysctl.conf
+    owner: root
+    group: root
+    state: link
