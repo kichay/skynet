@@ -59,7 +59,7 @@ table ip nat {
     chain prerouting {
 
         type nat hook prerouting priority -100; policy accept;
-        ct mark { 121, 122 } meta mark set ct mark
+        ct mark { 121, 122 } meta mark set ct mark continue
         ip daddr 5.130.78.89 tcp dport { 80, 443 } ct mark set 121 dnat ip to 192.168.128.14
         ip daddr 109.174.122.53 tcp dport { 80, 443 } ct mark set 122 dnat ip to 192.168.128.14
 
