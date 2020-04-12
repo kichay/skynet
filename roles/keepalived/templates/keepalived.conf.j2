@@ -1,6 +1,14 @@
 global_defs {
 }
 
+
+static_rules {
+
+    from 5.130.78.89/24 table 121
+    from 109.174.122.53/26 table 122
+
+}
+
 vrrp_instance "gateway" {
 
     interface skynet
@@ -24,6 +32,8 @@ vrrp_instance "gateway" {
 
     virtual_routes {
 
+        0.0.0.0/0 via 5.130.78.1 dev novotelecom table 121 no_track
+        0.0.0.0/0 via 109.174.122.1 dev mts table 122 no_track
         0.0.0.0/0 via 5.130.78.1 dev novotelecom metric 75 no_track
 
     }

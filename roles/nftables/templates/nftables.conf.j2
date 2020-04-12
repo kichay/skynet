@@ -62,13 +62,14 @@ table ip nat {
 
         type nat hook prerouting priority -100; policy accept;
         ip daddr 5.130.78.89 tcp dport { 80, 443 } dnat ip to 192.168.128.14
+        ip daddr 109.174.122.53 tcp dport { 80, 443 } dnat ip to 192.168.128.14
 
     }
 
     chain postrouting {
 
         type nat hook postrouting priority 100; policy accept;
-        oifname novotelecom masquerade
+        oifname { novotelecom, mts } masquerade
 
     }
 
