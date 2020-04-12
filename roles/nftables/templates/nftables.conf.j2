@@ -6,7 +6,7 @@ table bridge filter {
 
     chain input {
 
-        type filter hook input priority -200; policy accept;
+        type filter hook input priority filter; policy accept;
         oifname novotelecom ip daddr 5.130.78.89 accept
         oifname novotelecom ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 5.130.78.89 accept
         oifname mts ip daddr 109.174.122.53 accept
@@ -17,7 +17,7 @@ table bridge filter {
 
     chain output {
 
-        type filter hook output priority -200; policy accept;
+        type filter hook output priority filter; policy accept;
         iifname novotelecom ip saddr 5.130.78.89 accept
         iifname novotelecom ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 5.130.78.89 accept
         iifname mts ip saddr 109.174.122.53 accept
@@ -32,7 +32,7 @@ table inet filter {
 
     chain input {
 
-        type filter hook input priority 0; policy drop;
+        type filter hook input priority filter; policy drop;
         ct state { established, related } accept
         iifname { lo, skynet } accept
         iifname home tcp dport 53 accept
@@ -44,9 +44,9 @@ table inet filter {
 
     chain forward {
 
-        type filter hook forward priority 0; policy accept;
-        iifname novotelecom ct mark set 121 counter continue
-        iifname mts ct mark set 122 counter continue
+        type filter hook forward priority filter; policy accept;
+        iifname novotelecom ct mark set 121 continue
+        iifname mts ct mark set 122 continue
         ct state established,related accept
         iifname home ether saddr dc:53:60:f1:a4:41 accept
         iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
@@ -56,11 +56,22 @@ table inet filter {
 
 }
 
+table ip mangle {
+
+    chain forward {
+
+        type filter hook forward priority mangle; policy accept;
+        ct mark { 121, 122 } meta mark set ct mark continue
+
+    }
+
+}
+
 table ip nat {
 
     chain prerouting {
 
-        type nat hook prerouting priority -100; policy accept;
+        type nat hook prerouting priority dstnat; policy accept;
         ip daddr 5.130.78.89 tcp dport { 80, 443 } dnat ip to 192.168.128.14
         ip daddr 109.174.122.53 tcp dport { 80, 443 } dnat ip to 192.168.128.14
 
@@ -68,7 +79,7 @@ table ip nat {
 
     chain postrouting {
 
-        type nat hook postrouting priority 100; policy accept;
+        type nat hook postrouting priority srcnat; policy accept;
         oifname { novotelecom, mts } masquerade
 
     }
