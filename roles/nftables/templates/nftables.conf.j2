@@ -45,6 +45,8 @@ table inet filter {
     chain forward {
 
         type filter hook forward priority 0; policy accept;
+        iifname novotelecom ct mark set 121 counter continue
+        iifname mts ct mark set 122 counter continue
         ct state established,related accept
         iifname home ether saddr dc:53:60:f1:a4:41 accept
         iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
@@ -59,8 +61,8 @@ table ip nat {
     chain prerouting {
 
         type nat hook prerouting priority -100; policy accept;
-        ip daddr 5.130.78.89 tcp dport { 80, 443 } ct mark set 121 dnat ip to 192.168.128.14
-        ip daddr 109.174.122.53 tcp dport { 80, 443 } ct mark set 122 dnat ip to 192.168.128.14
+        ip daddr 5.130.78.89 tcp dport { 80, 443 } dnat ip to 192.168.128.14
+        ip daddr 109.174.122.53 tcp dport { 80, 443 } dnat ip to 192.168.128.14
 
     }
 
