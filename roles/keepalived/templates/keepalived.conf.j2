@@ -3,10 +3,10 @@ global_defs {
 
 static_rules {
 
-    fwmark 121 table 121
-    fwmark 122 table 122
-    from 5.130.78.89 table 121
-    from 109.174.122.53 table 122
+    fwmark 121 lookup 121
+    fwmark 122 lookup 122
+    from 5.130.78.89 lookup 121
+    from 109.174.122.53 lookup 122
 
 }
 
@@ -33,8 +33,8 @@ vrrp_instance "gateway" {
 
     virtual_routes {
 
-        0.0.0.0/0 via 5.130.78.1 dev novotelecom table 121 no_track
-        0.0.0.0/0 via 109.174.122.1 dev mts table 122 no_track
+        0.0.0.0/0 via 5.130.78.1 dev novotelecom lookup 121 no_track
+        0.0.0.0/0 via 109.174.122.1 dev mts lookup 122 no_track
         0.0.0.0/0 via 5.130.78.1 dev novotelecom metric 75 no_track
 
     }
