@@ -56,12 +56,14 @@ table inet filter {
 
 }
 
-table ip mangle {
+table ip marking {
 
-    chain forward {
+    chain prerouting {
 
-        type filter hook forward priority mangle; policy accept;
-        ct mark { 121, 122 } meta mark set ct mark counter continue
+        type filter hook prerouting priority mangle; policy accept;
+        #ct mark { 121, 122 } meta mark set ct mark continue
+        iifname skynet ct mark 121 meta mark set ct mark counter continue
+        iifname skynet ct mark 122 meta mark set ct mark counter continue
 
     }
 
