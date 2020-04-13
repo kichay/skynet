@@ -61,9 +61,7 @@ table ip mangle {
     chain prerouting {
 
         type filter hook prerouting priority mangle; policy accept;
-        #ct mark { 121, 122 } meta mark set ct mark continue
-        iifname skynet ct mark 121 meta mark set 121 counter continue
-        iifname skynet ct mark 122 meta mark set 122 counter continue
+        iifname skynet ct mark { 121, 122 } meta mark set ct mark counter
 
     }
 
