@@ -9,5 +9,5 @@
   #- systemd-networkd
   #- systemd-timesyncd
   #- nftables
-  - keepalived
+  #- keepalived
   #- unbound
