@@ -7,22 +7,22 @@ table bridge filter {
     chain input {
 
         type filter hook input priority filter; policy accept;
-        oifname novotelecom ip daddr 5.130.78.89 accept
-        oifname novotelecom ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 5.130.78.89 accept
-        oifname mts ip daddr 109.174.122.53 accept
-        oifname mts ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 109.174.122.53 accept
-        oifname { mts, novotelecom } drop
+        iifname isp1 ip daddr 5.130.78.89 accept
+        iifname isp1 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 5.130.78.89 accept
+        iifname isp2 ip daddr 109.174.122.53 accept
+        iifname isp2 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 109.174.122.53 accept
+        iifname { isp1, isp2 } drop
 
     }
 
     chain output {
 
         type filter hook output priority filter; policy accept;
-        iifname novotelecom ip saddr 5.130.78.89 accept
-        iifname novotelecom ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 5.130.78.89 accept
-        iifname mts ip saddr 109.174.122.53 accept
-        iifname mts ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 109.174.122.53 accept
-        oifname { mts, novotelecom } drop
+        oifname isp1 ip saddr 5.130.78.89 accept
+        oifname isp1 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 5.130.78.89 accept
+        oifname isp2 ip saddr 109.174.122.53 accept
+        oifname isp2 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 109.174.122.53 accept
+        oifname { isp1, isp2 } drop
 
     }
 
@@ -37,7 +37,8 @@ table inet filter {
         iifname { lo, skynet } accept
         iifname home tcp dport 53 accept
         iifname home udp dport 53 accept
-        tcp dport ssh accept
+        iifname mts udp sport 67 udp dport 68 accept
+        tcp dport 22 accept
         icmp type echo-request accept
 
     }
