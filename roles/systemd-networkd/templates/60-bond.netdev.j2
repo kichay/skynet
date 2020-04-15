@@ -1,0 +1,12 @@
+[NetDev]
+Name=bond
+Kind=bond
+
+[Bond]
+Mode=active-backup
+PrimaryReselectPolicy=always
+ARPValidate=active
+ARPIntervalSec=1
+ARPIPTargets={{ networkd["arp_mon"] }}
+ARPAllTargets=any
+FailOverMACPolicy=active
