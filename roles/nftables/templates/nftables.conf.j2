@@ -20,7 +20,7 @@ table bridge filter {
         type filter hook output priority filter; policy accept;
         oifname bond vlan id 121 ip saddr 5.130.78.89 accept
         oifname bond vlan id 121 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 5.130.78.89 accept
-        oifname bond vlan id 122 ip saddr 109.174.122.53 accept
+        oifname bond vlan id 122 ip saddr { 109.174.122.53, 0.0.0.0 } accept
         oifname bond vlan id 122 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 109.174.122.53 accept
         oifname bond vlan id { 121, 122 } drop
 
@@ -37,9 +37,17 @@ table inet filter {
         iifname { lo, skynet } accept
         iifname home tcp dport 53 accept
         iifname home udp dport 53 accept
-        iifname isp2 udp dport 68 udp sport 67 accept
         tcp dport 22 accept
         icmp type echo-request accept
+        iifname isp2 ip daddr 255.255.255.255 udp dport 68 udp sport 67 accept
+
+    }
+
+    chain output {
+
+        type filter hook output priority filter; policy accept;
+        oifname isp2 ip saddr 0.0.0.0 udp sport 68 udp dport 67 accept
+        oifname isp2 ip saddr 0.0.0.0 drop 
 
     }
 
