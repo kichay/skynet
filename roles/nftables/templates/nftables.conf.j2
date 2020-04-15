@@ -7,22 +7,22 @@ table bridge filter {
     chain input {
 
         type filter hook input priority filter; policy accept;
-        iifname isp1 ip daddr 5.130.78.89 accept
-        iifname isp1 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 5.130.78.89 accept
-        iifname isp2 ip daddr 109.174.122.53 accept
-        iifname isp2 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 109.174.122.53 accept
-        iifname { isp1, isp2 } drop
+        iifname bond vlan id 121 ip daddr 5.130.78.89 accept
+        iifname bond vlan id 121 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 5.130.78.89 accept
+        iifname bond vlan id 122 ip daddr 109.174.122.53 accept
+        iifname bond vlan id 122 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 109.174.122.53 accept
+        iifname bond vlan id { 121, 122 } drop
 
     }
 
     chain output {
 
         type filter hook output priority filter; policy accept;
-        oifname isp1 ip saddr 5.130.78.89 accept
-        oifname isp1 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 5.130.78.89 accept
-        oifname isp2 ip saddr 109.174.122.53 accept
-        oifname isp2 ether type arp arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 109.174.122.53 accept
-        oifname { isp1, isp2 } drop
+        oifname bond vlan id 121 ip saddr 5.130.78.89 accept
+        oifname bond vlan id 121 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 5.130.78.89 accept
+        oifname bond vlan id 122 ip saddr 109.174.122.53 accept
+        oifname bond vlan id 122 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 109.174.122.53 accept
+        oifname bond vlan id { 121, 122 } drop
 
     }
 
@@ -37,7 +37,6 @@ table inet filter {
         iifname { lo, skynet } accept
         iifname home tcp dport 53 accept
         iifname home udp dport 53 accept
-        iifname mts udp sport 67 udp dport 68 accept
         tcp dport 22 accept
         icmp type echo-request accept
 
@@ -46,12 +45,13 @@ table inet filter {
     chain forward {
 
         type filter hook forward priority filter; policy accept;
-        iifname novotelecom ct state new ct mark set 121 continue
-        iifname mts ct state new ct mark set 122 continue
+        iifname isp1 ct state new ct mark set 121 continue
+        iifname isp2 ct state new ct mark set 122 continue
         ct state established,related accept
+        iifname { isp1, isp2 } drop
         iifname home ether saddr dc:53:60:f1:a4:41 accept
         iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
-        iifname home oifname != { novotelecom, mts } drop
+        iifname home oifname != { isp1, isp2 } drop
 
     }
 
@@ -62,7 +62,7 @@ table ip mangle {
     chain prerouting {
 
         type filter hook prerouting priority mangle; policy accept;
-        iifname != { novotelecom, mts } ct mark { 121, 122 } meta mark set ct mark
+        iifname != { isp1, isp2 } ct mark { 121, 122 } meta mark set ct mark
 
     }
 
@@ -81,8 +81,7 @@ table ip nat {
     chain postrouting {
 
         type nat hook postrouting priority srcnat; policy accept;
-        oifname { novotelecom, mts } masquerade
-        iifname home ip daddr { 192.168.111.1, 192.168.111.2 } masquerade
+        oifname { isp1, isp2, management } masquerade
 
     }
 

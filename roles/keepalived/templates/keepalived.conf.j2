@@ -25,17 +25,17 @@ vrrp_instance "gateway" {
     virtual_ipaddress {
 
         192.168.128.1 dev skynet
-        5.130.78.89/24 dev novotelecom
-        109.174.122.53/26 dev mts
+        5.130.78.89/24 dev isp1
+        109.174.122.53/26 dev isp2
         192.168.123.1/24 dev home
 
     }
 
     virtual_routes {
 
-        0.0.0.0/0 via 5.130.78.1 dev novotelecom table 121 no_track
-        0.0.0.0/0 via 109.174.122.1 dev mts table 122 no_track
-        0.0.0.0/0 via 5.130.78.1 dev novotelecom metric 75 no_track
+        0.0.0.0/0 via 5.130.78.1 dev isp1 table 121 no_track
+        0.0.0.0/0 via 109.174.122.1 dev isp2 table 122 no_track
+        0.0.0.0/0 via 5.130.78.1 dev isp1 metric 75 no_track
 
     }
 

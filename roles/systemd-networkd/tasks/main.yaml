@@ -16,13 +16,12 @@
     group: root
     mode: u=rw,g=r,o=r
   loop:
-  - 60-skynet.netdev
-  - 60-novotelecom.netdev
-  - 60-mts.netdev
-  - 60-home.netdev
+  - 60-bond.netdev
+  - 60-management.netdev
   - 60-isp1.netdev
   - 60-isp2.netdev
-  - 60-management.netdev
+  - 60-skynet.netdev
+  - 60-home.netdev
 
 - name: Generate systemd.network files for links
   loop: "{{ interfaces }}"
@@ -42,12 +41,11 @@
     mode: u=rw,g=r,o=r
   loop:
   - 70-management.network
-  - 70-skynet.network
-  - 70-novotelecom.network
-  - 70-mts.network
-  - 70-home.network
+  - 70-bond.network
   - 70-isp1.network
   - 70-isp2.network
+  - 70-skynet.network
+  - 70-home.network
 
 - name: Enable, start/restart systemd-networkd unit
   systemd:
