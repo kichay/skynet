@@ -57,7 +57,6 @@ table inet filter {
         iifname isp1 ct state new ct mark set 121 continue
         iifname isp2 ct state new ct mark set 122 continue
         ct state established,related accept
-        iifname { isp1, isp2 } drop
         iifname home ether saddr dc:53:60:f1:a4:41 accept
         iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
         iifname home oifname != { isp1, isp2 } drop
