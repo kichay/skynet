@@ -1,0 +1,11 @@
+[Unit]
+Description=Fake DHCP client for MTS ISP
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/busybox udhcpc -i isp2 -q
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

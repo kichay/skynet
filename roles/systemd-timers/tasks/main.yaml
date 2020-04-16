@@ -1,0 +1,16 @@
+---
+- name: Generate fakedhcp.timer
+  template:
+    src: fakedhcp.timer.j2
+    dest: /etc/systemd/system/fakedhcp.timer
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Generate fakedhcp.service
+  template:
+    src: fakedhcp.service.j2
+    dest: /etc/systemd/system/fakedhcp.service
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r

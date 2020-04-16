@@ -1,0 +1,9 @@
+[Unit]
+Description=Fake DHCP client for MTS ISP
+
+[Timer]
+OnBootSec=0s
+OnUnitActiveSec=5m 
+
+[Install]
+WantedBy=timers.target

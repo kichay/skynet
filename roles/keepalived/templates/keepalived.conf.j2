@@ -16,7 +16,10 @@ static_rules {
 
 vrrp_instance "gateway" {
 
-    notify_master "/usr/bin/busybox udhcpc -i isp2 -q"
+    notify_master "/usr/bin/systemctl start fakedhcp.timer"
+    notify_backup "/usr/bin/systemctl stop fakedhcp.timer"
+    notify_fault "/usr/bin/systemctl stop fakedhcp.timer"
+    notify_stop "/usr/bin/systemctl stop fakedhcp.timer"
 
     interface skynet
     virtual_router_id 1

@@ -2,7 +2,7 @@
 Name=isp1
 Description=ISP1 VLAN
 Kind=vlan
-MACAddress=60:a4:4c:6d:c6:00
+MACAddress={{ networkd["networks"]["isp1"]["mac"] }}
 
 [VLAN]
 Id=121
