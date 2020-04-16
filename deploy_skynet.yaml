@@ -8,6 +8,6 @@
   #- sysctl
   #- systemd-networkd
   #- systemd-timesyncd
-  - nftables
+  #- nftables
   #- keepalived
   #- unbound

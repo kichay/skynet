@@ -1,4 +1,8 @@
 global_defs {
+
+    enable_script_security
+    script_user root root
+
 }
 
 static_rules {
@@ -11,6 +15,8 @@ static_rules {
 }
 
 vrrp_instance "gateway" {
+
+    notify_master "/usr/bin/busybox udhcpc -i isp2 -q"
 
     interface skynet
     virtual_router_id 1
