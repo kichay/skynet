@@ -1,0 +1,11 @@
+[Unit]
+Description=ping %I
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/awk "BEGIN { system(\"/usr/bin/ping -c 1 \" gensub(/_/, \" -I \", 1 , \"%I\") ) }"
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

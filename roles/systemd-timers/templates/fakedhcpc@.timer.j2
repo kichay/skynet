@@ -1,0 +1,10 @@
+[Unit]
+Description=fake DHCP client
+PartOf=keepalived-gateway.target
+
+[Timer]
+OnBootSec=0s
+OnUnitActiveSec=5m
+
+[Install]
+WantedBy=timers.target

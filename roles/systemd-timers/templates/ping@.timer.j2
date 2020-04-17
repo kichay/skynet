@@ -1,0 +1,10 @@
+[Unit]
+Description=ping timer
+PartOf=keepalived-gateway.target
+
+[Timer]
+OnBootSec=0s
+OnUnitActiveSec=30s
+
+[Install]
+WantedBy=timers.target

@@ -16,10 +16,10 @@ static_rules {
 
 vrrp_instance "gateway" {
 
-    notify_master "/usr/bin/systemctl start fakedhcp.timer"
-    notify_backup "/usr/bin/systemctl stop fakedhcp.timer"
-    notify_fault "/usr/bin/systemctl stop fakedhcp.timer"
-    notify_stop "/usr/bin/systemctl stop fakedhcp.timer"
+    notify_master "/usr/bin/systemctl start keepalived-gateway.target"
+    notify_backup "/usr/bin/systemctl stop keepalived-gateway.target"
+    notify_fault "/usr/bin/systemctl stop keepalived-gateway.target"
+    notify_stop "/usr/bin/systemctl stop keepalived-gateway.target"
 
     interface skynet
     virtual_router_id 1
