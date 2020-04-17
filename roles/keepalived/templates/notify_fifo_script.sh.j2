@@ -1,0 +1,33 @@
+#!/bin/bash
+
+FIFO=$1
+
+[[ ! -n $FIFO ]] && echo FIFO file not defined && exit 1
+[[ ! -p $FIFO ]] && echo FIFO file not found \"$FIFO\" && exit 1
+
+standby() {
+  /usr/bin/systemctl stop keepalived-gateway.target
+}
+
+master() {
+  /usr/bin/systemctl start keepalived-gateway.target
+}
+
+close() {
+  standby
+  exit 0
+}
+
+trap close TERM HUP INT QUIT USR1 USR2 PIPE ALRM
+
+while read LINE; do
+
+  set $LINE
+
+  [[ $1 = INSTANCE && ${2//\"/} = gateway && $3 = MASTER ]] && master
+  [[ $1 = INSTANCE && ${2//\"/} = gateway && $3 = BACKUP ]] && standby
+  [[ $1 = INSTANCE && ${2//\"/} = gateway && $3 = FAULT ]] && standby
+
+done < $FIFO
+
+standby

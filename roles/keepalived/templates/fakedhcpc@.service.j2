@@ -1,10 +1,11 @@
 [Unit]
 Description=fake DHCP client
 After=network.target
+PartOf=keepalived-gateway.target
 
 [Service]
-Type=oneshot
-ExecStart=/usr/bin/busybox udhcpc -q -i %I
+Type=simple
+ExecStart=/usr/bin/busybox udhcpc -f -s /dev/null -i %I
 StandardOutput=journal
 
 [Install]
