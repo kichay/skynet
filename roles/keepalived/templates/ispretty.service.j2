@@ -1,11 +1,11 @@
 [Unit]
-Description=fake DHCP client
+Description=ISP pretty checker
 After=network.target
 PartOf=keepalived-gateway.target
 
 [Service]
 Type=simple
-ExecStart=/bin/busybox udhcpc -f -s /dev/null -i %I
+ExecStart=/usr/local/bin/ispretty.py
 StandardOutput=journal
 
 [Install]

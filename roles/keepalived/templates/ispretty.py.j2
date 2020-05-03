@@ -1,0 +1,23 @@
+#!/bin/python
+
+import select, re
+from systemd import journal
+
+j = journal.Reader()
+j.log_level(journal.LOG_INFO)
+
+j.seek_tail()
+j.get_previous()
+
+r = re.compile('^ping@.*isp1\.service$')
+
+p = select.poll()
+p.register(j, j.get_events())
+
+while p.poll():
+    if j.process() != journal.APPEND:
+        continue
+
+    for entry in j:
+        if 'UNIT' in entry and r.match(entry['UNIT']) and 'JOB_RESULT' in entry:
+            print(entry['UNIT'], entry['JOB_RESULT'])

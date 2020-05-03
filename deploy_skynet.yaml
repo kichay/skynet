@@ -3,7 +3,7 @@
   hosts: skynet
   become: yes
   roles:
-  #- pacman
+  - pacman
   #- linux-modules
   #- sysctl
   #- systemd-networkd

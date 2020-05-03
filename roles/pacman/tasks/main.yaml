@@ -5,6 +5,7 @@
     state: latest
     update_cache: yes
   loop:
+  - python-systemd
   - nftables
   - keepalived
   - unbound

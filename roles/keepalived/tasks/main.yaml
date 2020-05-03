@@ -15,6 +15,14 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
+- name: Generate ispretty.py
+  template:
+    src: ispretty.py.j2
+    dest: /usr/local/bin/ispretty.py
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
 - name: Generate systemd timers
   template:
     src: "{{ item }}.j2"
@@ -35,6 +43,7 @@
   loop:
   - fakedhcpc@.service
   - ping@.service
+  - ispretty.service
 
 - name: Generate systemd targets
   template:
