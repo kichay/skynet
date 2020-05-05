@@ -1,9 +1,19 @@
 #!/bin/python
 
-counter = 0
+isp1 = "up"
+isp2 = "up"
 
 def hook(h, m, Q):
-    global counter
-    if h == 2:
-        counter = counter + 1
-        print("luadns: testcounter =", counter)
+    global isp1, isp2
+    if m == "121":
+        if Q.current >= Q.pretty:
+            isp1 = "up"
+        else:
+            isp1 = "down"
+    if m == "122":
+        if Q.current >= Q.pretty:
+            isp2 = "up"
+        else:
+            isp2 = "down"
+    if (h == 2 or h == 3) and (m == "121" or m == "122"):
+        print("luadns: updating state / isp1 =", isp1, ", isp2 =", isp2)
