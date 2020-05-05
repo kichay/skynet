@@ -15,14 +15,6 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
-- name: Create ispretty modules directory
-  file:
-    path: /etc/ispretty
-    state: directory
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=
-
 - name: Generate ispretty.py
   template:
     src: ispretty/ispretty.py.j2
@@ -31,9 +23,17 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
+- name: Create ispretty modules directory
+  file:
+    path: /etc/ispretty
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=
+
 - name: Generate ispretty modules
   template:
-    src: "ispretty/{{ item }}.j2"
+    src: "ispretty/modules/{{ item }}.j2"
     dest: "/etc/ispretty/{{ item }}"
     owner: root
     group: root
@@ -44,7 +44,7 @@
 
 - name: Generate ispretty systemd files
   template:
-    src: "ispretty/{{ item }}.j2"
+    src: "ispretty/systemd/{{ item }}.j2"
     dest: "/etc/systemd/system/{{ item }}"
     owner: root
     group: root
@@ -64,7 +64,7 @@
 
 - name: Generate systemd keepalived-gateway.target
   template:
-    src: keepalived/keepalived-gateway.target.j2
+    src: keepalived/systemd/keepalived-gateway.target.j2
     dest: /etc/systemd/system/keepalived-gateway.target
     owner: root
     group: root
