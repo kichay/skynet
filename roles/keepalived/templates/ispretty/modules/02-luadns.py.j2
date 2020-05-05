@@ -1,5 +1,11 @@
 #!/bin/python
 
+import requests
+
+luaURI = "https://api.luadns.com/v1"
+luaUser = "kichay.d@gmail.com"
+luaPassword = "test123changeme"
+
 isp1 = "up"
 isp2 = "up"
 
@@ -17,3 +23,5 @@ def hook(h, m, Q):
             isp2 = "down"
     if (h == 2 or h == 3) and (m == "121" or m == "122"):
         print("luadns: updating state / isp1 =", isp1, ", isp2 =", isp2)
+        response = requests.get(luaURI)
+        print("luadns: response =", response)

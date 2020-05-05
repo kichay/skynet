@@ -11,6 +11,8 @@
     update_cache: yes
   loop:
   - python-systemd
+  - python-requests
+  - python-prometheus_client
   - nftables
   - keepalived
   - unbound
