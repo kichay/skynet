@@ -1,5 +1,10 @@
 ---
-- name: Install latest packages
+- name: Upgrade packages
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install packages
   pacman:
     name: "{{ item }}"
     state: latest
