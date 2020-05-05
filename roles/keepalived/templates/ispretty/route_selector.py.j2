@@ -1,0 +1,15 @@
+#!/bin/python
+
+import os
+
+Cup = "/bin/ip route replace default via 5.130.78.1 dev isp1 proto 112 metric 75"
+Cdown = "/bin/ip route replace default via 109.174.122.1 dev isp2 proto 112 metric 75"
+
+def hook(h,m,Q):
+    if m == "121":
+        if h == 2:
+            print("route_selector:", Cdown)
+            os.system(Cdown)
+        elif h == 3:
+            print("route_selector:", Cup)
+            os.system(Cup)

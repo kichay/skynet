@@ -1,0 +1,9 @@
+#!/bin/python
+
+def hook(h,m,Q):
+    if h == 1:
+        print("logger: got new hook for mark", m)
+    elif h == 2:
+        print("logger: got down hook for mark", m)
+    elif h == 3:
+        print("logger: got up hook for mark", m)
