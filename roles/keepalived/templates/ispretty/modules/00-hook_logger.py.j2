@@ -2,8 +2,12 @@
 
 def hook(h, m, Q):
     if h == 1:
-        print("logger: got new hook for mark", m)
+        print("hook_logger: got NEW hook / mark =", m, ", host =", Q.host, ", Q =", Q.current)
     elif h == 2:
-        print("logger: got down hook for mark", m)
+        print("hook_logger: got DOWN hook / mark =", m, ", host =", Q.host, ", Q =", Q.current)
     elif h == 3:
-        print("logger: got up hook for mark", m)
+        print("hook_logger: got UP hook / mark =", m, ", host =", Q.host, ", Q =", Q.current)
+    elif h == 4:
+        print("hook_logger: got STEP_DOWN hook / mark =", m, ", host =", Q.host, ", Q =", Q.current)
+    elif h == 5:
+        print("hook_logger: got STEP_UP hook / mark =", m, ", host =", Q.host, ", Q =", Q.current)

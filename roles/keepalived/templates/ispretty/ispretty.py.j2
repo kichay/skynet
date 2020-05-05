@@ -24,6 +24,7 @@ class tQ:
         self.pretty = 50
         self.current = 100
         self.hook = 1
+        self.host = ""
 
     def __cast(self):
         if self.current > self.max:
@@ -31,21 +32,27 @@ class tQ:
         if self.current < self.min:
             self.current = self.min
 
-    def failed(self):
+    def failed(self, host):
+        self.host = host
         if self.current >= self.pretty and self.current - self.step < self.pretty:
             self.hook = 2
+        elif self.current != self.min:
+            self.hook = 4
         self.current = self.current - self.step
         self.__cast()
 
-    def passed(self):
+    def passed(self, host):
+        self.host = host
         if self.current < self.pretty and self.current + self.step >= self.pretty:
             self.hook = 3
+        elif self.current != self.max:
+            self.hook = 5
         self.current = self.current + self.step
         self.__cast()
 
     def getHook(self):
         hook = self.hook
-        self.hook = None
+        self.hook = 0
         return hook
 
 j = journal.Reader()
@@ -70,15 +77,13 @@ while p.poll():
                     Q[r.group(2)] = tQ()
                     print("core: got new mark:", r.group(2))
                 if entry['JOB_RESULT'] == 'done':
-                    Q[r.group(2)].passed()
-                    print("core: passed ping probe to",r.group(1),"marked with",r.group(2))
+                    Q[r.group(2)].passed(r.group(1))
+                    print("core: passed ping probe to", r.group(1), "marked with", r.group(2))
                 else:
-                    Q[r.group(2)].failed()
-                    print("core: failed ping probe to",r.group(1),"marked with",r.group(2))
+                    Q[r.group(2)].failed(r.group(1))
+                    print("core: failed ping probe to", r.group(1), "marked with", r.group(2))
                 for m in Q:
                     h = Q[m].getHook()
-                    if h:
-                        for f in HOOKS:
-                            print("core: calling function", f, "by pretty hook for mark", m)
-                            f(h, m, Q[m])
+                    for f in HOOKS:
+                        f(h, m, Q[m])
                 sys.stdout.flush()

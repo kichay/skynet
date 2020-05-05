@@ -1,4 +1,9 @@
 #!/bin/python
 
+counter = 0
+
 def hook(h, m, Q):
-    pass
+    global counter
+    if h == 2:
+        counter = counter + 1
+        print("luadns: testcounter =", counter)
