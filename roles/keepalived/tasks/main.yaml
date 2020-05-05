@@ -43,9 +43,9 @@
   - 01-route_selector.py
   - 02-luadns.py
 
-- name: Generate ispretty systemd files
+- name: Generate systemd files
   template:
-    src: "ispretty/systemd/{{ item }}.j2"
+    src: "systemd/{{ item }}.j2"
     dest: "/etc/systemd/system/{{ item }}"
     owner: root
     group: root
@@ -54,22 +54,8 @@
   - ping@.timer
   - ping@.service
   - ispretty.service
-
-- name: Generate fake DHCPc service
-  template:
-    src: fakedhcpc@.service.j2
-    dest: /etc/systemd/system/fakedhcpc@.service
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-
-- name: Generate systemd keepalived-gateway.target
-  template:
-    src: keepalived/systemd/keepalived-gateway.target.j2
-    dest: /etc/systemd/system/keepalived-gateway.target
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
+  - fakedhcpc@.service
+  - keepalived-gateway.target
 
 - name: Enable, start/restart keepalived unit
   systemd:
