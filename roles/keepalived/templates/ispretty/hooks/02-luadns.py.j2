@@ -10,108 +10,40 @@ isp1 = 1 # 0
 isp2 = 1 # 0
 lua = 0 # 1
 
-C1 = '''
-{
-    "name": "cookie-monster.ru",
-    "records": [
-        {
-            "name": "cookie-monster.ru.",
-            "type": "A",
-            "content": "5.130.78.89",
-            "ttl": 300
-        },
-        {
-            "name": "*.cookie-monster.ru.",
-            "type": "A",
-            "content": "5.130.78.89",
-            "ttl": 300
-        }
-    ]
-}
-'''
-
-C2 = '''
-{
-    "name":"cookie-monster.ru",
-    "records":[
-        {
-            "name": "cookie-monster.ru.",
-            "type": "A",
-            "content": "109.174.122.53",
-            "ttl": 300
-        },
-        {
-            "name": "*.cookie-monster.ru.",
-            "type": "A",
-            "content": "109.174.122.53",
-            "ttl": 300
-        }
-    ]
-}
-'''
-
-Cboth = '''
-{
-    "name": "cookie-monster.ru",
-    "records": [
-        {
-            "name": "cookie-monster.ru.",
-            "type": "A",
-            "content": "5.130.78.89",
-            "ttl": 300
-        },
-        {
-            "name": "*.cookie-monster.ru.",
-            "type": "A",
-            "content": "5.130.78.89",
-            "ttl": 300
-        },
-        {
-            "name": "cookie-monster.ru.",
-            "type": "A",
-            "content": "109.174.122.53",
-            "ttl": 300
-        },
-        {
-            "name": "*.cookie-monster.ru.",
-            "type": "A",
-            "content": "109.174.122.53",
-            "ttl": 300
-        }
-    ]
-}
-'''
-
-Ccurrent = Cboth
+CONFIG_PATH = "/etc/luadns/"
+J1 = open(CONFIG_PATH + "isp1.json").read()
+J1 = open(CONFIG_PATH + "isp2.json").read()
+J12 = open(CONFIG_PATH + "isp1+2.json").read()
+Jcurrent = J12
 
 def hook(h, m, Q):
-    global isp1, isp2, lua, Ccurrent
+    global isp1, isp2, lua, Jcurrent
     if h == 2 or h == 3:
         lua = 0
         if m == "121":
             if Q.current >= Q.pretty:
                 isp1 = 1
                 if isp2 == 1:
-                    Ccurrent = Cboth
+                    Jcurrent = J12
                 else:
-                    Ccurrent = C1
+                    Jcurrent = J1
             else:
                 isp1 = 0
                 if isp2 == 1:
-                    Ccurrent = C2
+                    Jcurrent = J2
                 else:
                     lua = 1
         if m == "122":
             if Q.current >= Q.pretty:
                 isp2 = 1
                 if isp1 == 1:
-                    Ccurrent = Cboth
+                    Jcurrent = J12
                 else:
-                    Ccurrent = C2
+                    Jcurrent = J2
             else:
                 isp2 = 0
                 if isp1 == 1:
-                    Ccurrent = C1
+                    Jcurrent = J1
                 else:
                     lua = 1
     if lua == 0:
@@ -120,7 +52,7 @@ def hook(h, m, Q):
             luaZoneURI,
             auth = requests.auth.HTTPBasicAuth(luaUser, luaPassword),
             headers = {"Accept": "application/json"},
-            data = Ccurrent
+            data = Jcurrent
         )
         print("luadns: response =", response, "/", response.text)
         if response.status_code == 200:

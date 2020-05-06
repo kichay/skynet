@@ -57,6 +57,26 @@
   - fakedhcpc@.service
   - keepalived-gateway.target
 
+- name: Create luadns JSON directory
+  file:
+    path: /etc/luadns
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=
+
+- name: Generate luadns JSON files
+  template:
+    src: "luadns/{{ item }}.j2"
+    dest: "/etc/luadns/{{ item }}"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  loop:
+  - isp1.json
+  - isp2.json
+  - isp1+2.json
+
 - name: Enable, start/restart keepalived unit
   systemd:
     name: keepalived

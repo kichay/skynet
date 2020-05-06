@@ -10,4 +10,4 @@
   #- systemd-timesyncd
   #- nftables
   #- unbound
-  #- keepalived
+  - keepalived
