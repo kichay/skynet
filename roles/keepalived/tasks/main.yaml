@@ -23,7 +23,7 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
-- name: Create ispretty modules directory
+- name: Create ispretty hooks directory
   file:
     path: /etc/ispretty
     state: directory
@@ -31,9 +31,9 @@
     group: root
     mode: u=rwx,g=rx,o=
 
-- name: Generate ispretty modules
+- name: Generate ispretty hooks
   template:
-    src: "ispretty/modules/{{ item }}.j2"
+    src: "ispretty/hooks/{{ item }}.j2"
     dest: "/etc/ispretty/{{ item }}"
     owner: root
     group: root
