@@ -2,26 +2,126 @@
 
 import requests
 
-luaURI = "https://api.luadns.com/v1"
-luaUser = "kichay.d@gmail.com"
-luaPassword = "test123changeme"
+luaUser = "{{ luadns.luaUser }}"
+luaPassword = "{{ luadns.luaPassword }}"
+luaZoneURI = "https://api.luadns.com/v1/zones/43583"
 
-isp1 = "up"
-isp2 = "up"
+isp1 = 1 # 0
+isp2 = 1 # 0
+lua = 0 # 1
+
+C1 = '''
+{
+    "name": "cookie-monster.ru",
+    "records": [
+        {
+            "name": "cookie-monster.ru.",
+            "type": "A",
+            "content": "5.130.78.89",
+            "ttl": 300
+        },
+        {
+            "name": "*.cookie-monster.ru.",
+            "type": "A",
+            "content": "5.130.78.89",
+            "ttl": 300
+        }
+    ]
+}
+'''
+
+C2 = '''
+{
+    "name":"cookie-monster.ru",
+    "records":[
+        {
+            "name": "cookie-monster.ru.",
+            "type": "A",
+            "content": "109.174.122.53",
+            "ttl": 300
+        },
+        {
+            "name": "*.cookie-monster.ru.",
+            "type": "A",
+            "content": "109.174.122.53",
+            "ttl": 300
+        }
+    ]
+}
+'''
+
+Cboth = '''
+{
+    "name": "cookie-monster.ru",
+    "records": [
+        {
+            "name": "cookie-monster.ru.",
+            "type": "A",
+            "content": "5.130.78.89",
+            "ttl": 300
+        },
+        {
+            "name": "*.cookie-monster.ru.",
+            "type": "A",
+            "content": "5.130.78.89",
+            "ttl": 300
+        },
+        {
+            "name": "cookie-monster.ru.",
+            "type": "A",
+            "content": "109.174.122.53",
+            "ttl": 300
+        },
+        {
+            "name": "*.cookie-monster.ru.",
+            "type": "A",
+            "content": "109.174.122.53",
+            "ttl": 300
+        }
+    ]
+}
+'''
+
+Ccurrent = Cboth
 
 def hook(h, m, Q):
-    global isp1, isp2
-    if m == "121":
-        if Q.current >= Q.pretty:
-            isp1 = "up"
-        else:
-            isp1 = "down"
-    if m == "122":
-        if Q.current >= Q.pretty:
-            isp2 = "up"
-        else:
-            isp2 = "down"
-    if (h == 2 or h == 3) and (m == "121" or m == "122"):
+    global isp1, isp2, lua, Ccurrent
+    if h == 2 or h == 3:
+        lua = 0
+        if m == "121":
+            if Q.current >= Q.pretty:
+                isp1 = 1
+                if isp2 == 1:
+                    Ccurrent = Cboth
+                else:
+                    Ccurrent = C1
+            else:
+                isp1 = 0
+                if isp2 == 1:
+                    Ccurrent = C2
+                else:
+                    lua = 1
+        if m == "122":
+            if Q.current >= Q.pretty:
+                isp2 = 1
+                if isp1 == 1:
+                    Ccurrent = Cboth
+                else:
+                    Ccurrent = C2
+            else:
+                isp2 = 0
+                if isp1 == 1:
+                    Ccurrent = C1
+                else:
+                    lua = 1
+    if lua == 0:
         print("luadns: updating state / isp1 =", isp1, ", isp2 =", isp2)
-        response = requests.get(luaURI)
-        print("luadns: response =", response)
+        response = requests.put(
+            luaZoneURI,
+            auth = requests.auth.HTTPBasicAuth(luaUser, luaPassword),
+            headers = {"Accept": "application/json"},
+            data = Ccurrent
+        )
+        print("luadns: response =", response, "/", response.text)
+        if response.status_code == 200:
+            lua = 1
