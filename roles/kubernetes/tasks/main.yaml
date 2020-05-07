@@ -17,6 +17,14 @@
     group: root
     mode: u=rw,g=r,o=r
 
+- name: Create kubelet working directory
+  file:
+    path: /var/lib/kubelet
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
 - name: Enable, start/restart kubelet unit
   systemd:
     name: kubelet
