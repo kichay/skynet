@@ -10,5 +10,8 @@
   #- systemd-timesyncd
   #- nftables
   #- unbound
-  #- containerd
+  - containerd
+  - crictl
+  - cni
+  - kubernetes
   #- keepalived

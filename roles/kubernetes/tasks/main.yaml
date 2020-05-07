@@ -1,0 +1,25 @@
+---
+- name: Download kubeadm, kubelet, kubectl
+  get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubernetes.version }}/bin/linux/amd64/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: u=rwx,g=rx,o=rx
+  loop:
+  - kubeadm
+  - kubelet
+  - kubectl
+
+- name: Generate kubelet.service
+  template:
+    src: kubelet.service.j2
+    dest: /etc/systemd/system/kubelet.service
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable, start/restart kubelet unit
+  systemd:
+    name: kubelet
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

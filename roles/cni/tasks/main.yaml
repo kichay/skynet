@@ -1,0 +1,22 @@
+---
+- name: Create cni binary directory
+  file:
+    path: /opt/cni/bin
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx
+
+- name: Unarchive cni plugins
+  unarchive:
+    src: "https://github.com/containernetworking/plugins/releases/download/{{ cni.version }}/cni-plugins-linux-amd64-{{ cni.version }}.tgz"
+    dest: /opt/cni/bin
+    remote_src: yes
+
+- name: Create cni config directory
+  file:
+    path: /etc/cni/net.d
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx,g=rx,o=rx

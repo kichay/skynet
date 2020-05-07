@@ -1,0 +1,6 @@
+---
+- name: Unarchive crictl
+  unarchive:
+    src: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl.version }}/crictl-{{ crictl.version }}-linux-amd64.tar.gz"
+    dest: /usr/local/bin
+    remote_src: yes
