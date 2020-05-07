@@ -3,12 +3,12 @@
   hosts: skynet
   become: yes
   roles:
-  - pacman
-  - linux-modules
-  - sysctl
-  - systemd-networkd
-  - systemd-timesyncd
-  - nftables
-  - unbound
-  - containerd
-  - keepalived
+  #- pacman
+  #- linux-modules
+  #- sysctl
+  #- systemd-networkd
+  #- systemd-timesyncd
+  #- nftables
+  #- unbound
+  #- containerd
+  #- keepalived
