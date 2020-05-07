@@ -1,3 +1,5 @@
 ---
 crictl:
   version: v1.18.0
+cni:
+  version: v0.8.2
