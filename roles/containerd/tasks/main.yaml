@@ -7,12 +7,6 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
-- name: Unarchive CNI plugins
-  unarchive:
-    src: "https://github.com/containernetworking/plugins/releases/download/{{ cni.version }}/cni-plugins-linux-amd64-{{ cni.version }}.tgz"
-    dest: /opt/cni/bin
-    remote_src: yes
-
 - name: Create CNI config directory
   file:
     path: /etc/cni/net.d
@@ -20,14 +14,6 @@
     owner: root
     group: root
     mode: u=rwx,g=rx,o=rx
-
-- name: Generate CNI configuration
-  template:
-    src: 10-containerd-net.conflist.j2
-    dest: /etc/cni/net.d/10-containerd-net.conflist
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
 
 - name: Create containerd config directory
   file:
@@ -51,3 +37,17 @@
     state: restarted
     daemon_reload: yes
     enabled: yes
+
+- name: Unarchive crictl
+  unarchive:
+    src: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl.version }}/crictl-{{ crictl.version }}-linux-amd64.tar.gz"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: Generate crictl config file
+  template:
+    src: crictl.yaml.j2
+    dest: /etc/crictl.yaml
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
