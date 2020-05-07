@@ -3,15 +3,20 @@
   modprobe:
     name: "{{ item }}"
     state: present
-  loop:
-  - nf_nat_pptp
+  loop: "{{ linux.modules }}"
 
-- name: Generate /etc/modules-load.d files
+- name: Generate /etc/modules-load.conf file
   template:
-    src: "modules-load.d/{{ item }}.j2"
-    dest: "/etc/modules-load.d/{{ item }}"
+    src: modules-load.conf.j2
+    dest: /etc/modules-load.conf
     owner: root
     group: root
     mode: u=rw,g=r,o=r
-  loop:
-  - nf_nat_pptp.conf
+
+- name: Create a symbolic link for modules-load.conf
+  file:
+    src: /etc/modules-load.conf
+    dest: /etc/modules-load.d/modules-load.conf
+    owner: root
+    group: root
+    state: link

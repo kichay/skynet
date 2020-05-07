@@ -29,7 +29,7 @@
     state: directory
     owner: root
     group: root
-    mode: u=rwx,g=rx,o=
+    mode: u=rwx,g=rx,o=rx
 
 - name: Generate ispretty hooks
   template:
@@ -63,7 +63,7 @@
     state: directory
     owner: root
     group: root
-    mode: u=rwx,g=rx,o=
+    mode: u=rwx,g=rx,o=rx
 
 - name: Generate luadns JSON files
   template:

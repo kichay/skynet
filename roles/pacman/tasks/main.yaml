@@ -17,3 +17,8 @@
   - keepalived
   - unbound
   - busybox
+  - containerd
+  - conntrack-tools
+  - socat
+  - ebtables
+  - ethtool

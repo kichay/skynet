@@ -1,0 +1,12 @@
+---
+linux:
+  modules:
+  - nf_nat_pptp
+  - br_netfilter
+  - overlay
+  sysctl:
+    1:
+    - net.ipv4.ip_nonlocal_bind
+    - net.ipv4.ip_forward
+    - net.netfilter.nf_conntrack_helper
+    - net.bridge.bridge-nf-call-iptables
