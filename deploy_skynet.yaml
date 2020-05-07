@@ -12,6 +12,5 @@
   #- unbound
   - containerd
   - crictl
-  - cni
   - kubernetes
   #- keepalived
