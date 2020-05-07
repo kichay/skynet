@@ -9,7 +9,7 @@
   #- systemd-networkd
   #- systemd-timesyncd
   #- nftables
-  #- unbound
+  - unbound
   - containerd
   - kubernetes
   #- keepalived
