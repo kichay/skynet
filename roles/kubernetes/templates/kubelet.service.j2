@@ -1,17 +1,14 @@
 [Unit]
 Description=Kubernetes Kubelet Server
-Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Documentation=http://kubernetes.io/docs/
 After=containerd.service
 Requires=containerd.service
 
 [Service]
-WorkingDirectory=/var/lib/kubelet
-EnvironmentFile=-/var/lib/kubelet/kubeadm-flags.env
-ExecStart=/usr/local/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS
-Restart=on-failure
-KillMode=process
+ExecStart=/usr/local/bin/kubelet --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml --container-runtime=remote --container-runtime-endpoint=unix:///run/containerd/containerd.sock
 Restart=always
-RestartSec=15
+StartLimitInterval=0
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
