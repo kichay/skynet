@@ -10,6 +10,6 @@
   #- systemd-timesyncd
   #- nftables
   #- unbound
-  - containerd
-  - kubernetes
   #- keepalived
+  #- containerd
+  #- kubernetes
