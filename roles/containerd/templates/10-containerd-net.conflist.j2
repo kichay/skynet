@@ -3,9 +3,9 @@
   "name": "containerd-net",
   "plugins": [
     {
-      "type": "ipvlan",
+      "type": "macvlan",
       "master": "skynet",
-      "mode": "l2",
+      "mode": "bridge",
       "ipam": {
         "type": "host-local",
         "subnet": "{{ ipam["subnet"] }}/{{ ipam["network"] }}",
