@@ -3,6 +3,7 @@ Name=skynet
 
 [Network]
 Address={{ networkd["networks"]["skynet"]["address"] }}/{{ networkd["networks"]["skynet"]["network"] }}
+IPVLAN=podnet
 
 [Route]
 Gateway=192.168.128.1

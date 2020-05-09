@@ -3,16 +3,16 @@
   "name": "containerd-net",
   "plugins": [
     {
-      "type": "bridge",
-      "bridge": "cni0",
-      "isGateway": true,
-      "ipMasq": true,
-      "promiscMode": true,
+      "type": "ipvlan",
+      "master": "skynet",
+      "mode": "l2",
       "ipam": {
         "type": "host-local",
-        "subnet": "10.88.0.0/16",
+        "subnet": "{{ ipam["subnet"] }}/{{ ipam["network"] }}",
+        "rangeStart": "{{ ipam["rangeStart"] }}",
+        "rangeEnd": "{{ ipam["rangeEnd"] }}",
         "routes": [
-          { "dst": "0.0.0.0/0" }
+          { "dst": "0.0.0.0/0", "gw": "{{ ipam["gateway"] }}" }
         ]
       }
     },
