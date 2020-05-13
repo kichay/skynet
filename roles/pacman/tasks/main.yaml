@@ -20,5 +20,5 @@
   - containerd
   - conntrack-tools
   - socat
-  - ebtables
+  - iptables-nft
   - ethtool

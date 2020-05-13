@@ -4,7 +4,6 @@ linux:
   - nf_nat_pptp
   - br_netfilter
   - overlay
-  - iptable_filter
   sysctl:
     1:
     - net.ipv4.ip_nonlocal_bind

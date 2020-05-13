@@ -1,11 +1,10 @@
 {
-  "cniVersion": "0.3.1",
+  "cniVersion": "0.4.0",
   "name": "containerd-net",
   "plugins": [
     {
-      "type": "macvlan",
-      "master": "skynet",
-      "mode": "bridge",
+      "type": "bridge",
+      "bridge": "podbridge",
       "ipam": {
         "type": "host-local",
         "subnet": "{{ ipam["subnet"] }}/{{ ipam["network"] }}",
@@ -13,12 +12,21 @@
         "rangeEnd": "{{ ipam["rangeEnd"] }}",
         "routes": [
           { "dst": "0.0.0.0/0", "gw": "{{ ipam["gateway"] }}" }
-        ]
+        ],
+        "dns": {
+          "nameservers": [
+            "10.88.0.1"
+          ]
+        }
       }
     },
     {
       "type": "portmap",
       "capabilities": {"portMappings": true}
-    }
+    },
+    {
+      "type": "firewall",
+	    "backend": "nftables"
+	  }
   ]
 }
