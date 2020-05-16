@@ -12,4 +12,4 @@
   #- unbound
   #- keepalived
   #- containerd
-  - kubernetes
+  #- kubernetes
