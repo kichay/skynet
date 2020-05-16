@@ -7,11 +7,20 @@
       "bridge": "podbridge",
       "ipam": {
         "type": "host-local",
-        "subnet": "{{ ipam["subnet"] }}/{{ ipam["network"] }}",
-        "rangeStart": "{{ ipam["rangeStart"] }}",
-        "rangeEnd": "{{ ipam["rangeEnd"] }}",
+        "ranges": [
+          [
+            {
+              "subnet": "{{ ipam["subnet"] }}/{{ ipam["network"] }}",
+					    "rangeStart": "{{ ipam["rangeStart"] }}",
+					    "rangeEnd": "{{ ipam["rangeEnd"] }}",
+					    "gateway": "{{ ipam["gateway"] }}"
+            }
+          ]
+        ],
         "routes": [
-          { "dst": "0.0.0.0/0", "gw": "{{ ipam["gateway"] }}" }
+          {
+            "dst": "0.0.0.0/0"
+          }
         ],
         "dns": {
           "nameservers": [
