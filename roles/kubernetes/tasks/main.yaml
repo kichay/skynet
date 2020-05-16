@@ -17,6 +17,14 @@
     group: root
     mode: u=rw,g=r,o=r
 
+- name: Generate kubeadm.yaml
+  template:
+    src: kubeadm.yaml.j2
+    dest: /root/kubeadm.yaml
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
 - name: Enable, start/restart kubelet unit
   systemd:
     name: kubelet
