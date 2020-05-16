@@ -21,6 +21,7 @@
   - 60-isp1.netdev
   - 60-isp2.netdev
   - 60-skynet.netdev
+  - 60-podvlan.netdev
   - 60-podnet.netdev
   - 60-home.netdev
 
@@ -46,6 +47,7 @@
   - 70-isp1.network
   - 70-isp2.network
   - 70-skynet.network
+  - 70-podvlan.network
   - 70-podnet.network
   - 70-home.network
 

@@ -3,8 +3,8 @@
   "name": "containerd-net",
   "plugins": [
     {
-      "type": "bridge",
-      "bridge": "podbridge",
+      "type": "macvlan",
+      "master": "podvlan",
       "ipam": {
         "type": "host-local",
         "ranges": [
@@ -21,12 +21,7 @@
           {
             "dst": "0.0.0.0/0"
           }
-        ],
-        "dns": {
-          "nameservers": [
-            "10.88.0.1"
-          ]
-        }
+        ]
       }
     },
     {
