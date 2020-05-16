@@ -11,5 +11,5 @@
   #- nftables
   #- unbound
   #- keepalived
-  - containerd
+  #- containerd
   #- kubernetes
