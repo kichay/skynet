@@ -9,16 +9,4 @@
     name: "{{ item }}"
     state: latest
     update_cache: yes
-  loop:
-  - python-systemd
-  - python-requests
-  - python-prometheus_client
-  - nftables
-  - keepalived
-  - unbound
-  - busybox
-  - containerd
-  - conntrack-tools
-  - socat
-  - iptables-nft
-  - ethtool
+  loop: "{{ pacman.packages }}"
