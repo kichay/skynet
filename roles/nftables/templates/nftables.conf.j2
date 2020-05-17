@@ -34,7 +34,7 @@ table inet filter {
 
         type filter hook input priority filter; policy drop;
         ct state { established, related } accept
-        iifname { lo, skynet } accept
+        iifname { lo, skynet, podnet } accept
         iifname home tcp dport 53 accept
         iifname home udp dport 53 accept
         tcp dport 22 accept
