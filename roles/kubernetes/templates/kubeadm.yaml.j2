@@ -12,7 +12,7 @@ networking:
   serviceSubnet: "10.96.0.0/12"
   podSubnet: "10.88.0.0/16"
 kubernetesVersion: "{{ kubernetes["version"] }}"
-#controlPlaneEndpoint: "192.168.128.1:6443"
+controlPlaneEndpoint: "192.168.128.1:6443"
 apiServer:
   extraArgs:
     advertise-address: "{{ networkd["networks"]["skynet"]["address"] }}"
