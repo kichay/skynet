@@ -45,6 +45,7 @@ controlPlaneEndpoint: 192.168.128.1:6443
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 kind: KubeProxyConfiguration
 mode: ipvs
+bindAddress: {{ networkd["networks"]["skynet"]["address"] }}
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
