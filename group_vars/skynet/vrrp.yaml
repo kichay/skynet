@@ -1,7 +1,9 @@
 ---
 vrrp:
+  id: 1
   device: skynet
   password: skynet
+  priority: "{{ vrrp_priority }}"
   vip:
     skynet:
       address: 192.168.128.1

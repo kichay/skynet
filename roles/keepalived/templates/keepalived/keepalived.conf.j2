@@ -21,7 +21,10 @@ static_rules {
 vrrp_instance "gateway" {
 
     interface {{ vrrp.device }}
-    virtual_router_id 1
+    virtual_router_id {{ vrrp.id }}
+    higher_prio_send_advert "true"
+    priority {{ vrrp.priority }}
+    preempt
 
     authentication {
 

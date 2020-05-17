@@ -1,6 +1,6 @@
 ---
 networkd:
-  arp_mon: 192.168.111.1 192.168.111.2
+  arp_mon: "{% for address in arp_mon.list %}{{ address }} {% endfor %}"
   networks:
     skynet:
       address: 192.168.128.11
