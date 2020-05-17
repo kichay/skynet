@@ -1,0 +1,19 @@
+---
+vrrp:
+  skynet:
+    vip: 192.168.128.1
+    network: 32
+  home:
+    vip: 192.168.123.1
+    network: 24
+  isp1:
+    vip: 5.130.78.89
+    network: 24
+    gateway: 5.130.78.1
+    routeMark: 121
+    defaultRoute: true
+  isp2:
+    vip: 109.174.122.53
+    network: 26
+    gateway: 109.174.122.1
+    routeMark: 122

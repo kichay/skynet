@@ -9,10 +9,12 @@ global_defs {
 
 static_rules {
 
-    fwmark 121 lookup 121
-    fwmark 122 lookup 122
-    from 5.130.78.89 lookup 121
-    from 109.174.122.53 lookup 122
+    {% for key, value in vrrp.items() -%}
+    {% if value["routeMark"] is defined -%}
+    fwmark {{ value["routeMark"] }} lookup {{ value["routeMark"] }}
+    from {{ value["vip"] }} lookup {{ value["routeMark"] }}
+    {% endif -%}
+    {% endfor %}
 
 }
 
@@ -30,18 +32,22 @@ vrrp_instance "gateway" {
 
     virtual_ipaddress {
 
-        192.168.128.1 dev skynet
-        5.130.78.89/24 dev isp1
-        109.174.122.53/26 dev isp2
-        192.168.123.1/24 dev home
+        {% for key, value in vrrp.items() -%}
+        {{ value["vip"] }}/{{ value["network"] }} dev {{ key }}
+        {% endfor %}
 
     }
 
     virtual_routes {
 
-        0.0.0.0/0 via 5.130.78.1 dev isp1 table 121 no_track
-        0.0.0.0/0 via 109.174.122.1 dev isp2 table 122 no_track
-        0.0.0.0/0 via 5.130.78.1 dev isp1 metric 75 no_track
+        {% for key, value in vrrp.items() -%}
+        {% if value["defaultRoute"] is defined and value["defaultRoute"] is sameas true -%}
+        0.0.0.0/0 via {{ value["gateway"] }} dev {{ key }} metric 75 no_track
+        {% endif -%}
+        {% if value["routeMark"] is defined -%}
+        0.0.0.0/0 via {{ value["gateway"] }} dev {{ key }} table {{ value["routeMark"] }} no_track
+        {% endif -%}
+        {% endfor %}
 
     }
 
