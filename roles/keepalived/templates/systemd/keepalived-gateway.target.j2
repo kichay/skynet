@@ -1,16 +1,7 @@
 [Unit]
 Description=keepalived controlled target
 Requires=fakedhcpc@isp2.service
-Requires=ping@1.0.0.1_121.timer
-Requires=ping@1.1.1.1_121.timer
-Requires=ping@8.8.4.4_121.timer
-Requires=ping@8.8.8.8_121.timer
-# Requires=ping@9.9.9.9_121.timer
-Requires=ping@149.112.112.112_121.timer
-Requires=ping@1.0.0.1_122.timer
-Requires=ping@1.1.1.1_122.timer
-Requires=ping@8.8.4.4_122.timer
-Requires=ping@8.8.8.8_122.timer
-# Requires=ping@9.9.9.9_122.timer
-Requires=ping@149.112.112.112_122.timer
 Requires=ispretty.service
+{% for item in ispretty.list -%}
+Requires=ping@{{ item.address }}_{{ item.fwmark }}.timer
+{% endfor -%}

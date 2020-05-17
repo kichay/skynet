@@ -9,10 +9,10 @@ global_defs {
 
 static_rules {
 
-    {% for key, value in vrrp.items() -%}
-    {% if value["routeMark"] is defined -%}
-    fwmark {{ value["routeMark"] }} lookup {{ value["routeMark"] }}
-    from {{ value["vip"] }} lookup {{ value["routeMark"] }}
+    {% for key, value in vrrp.vip.items() -%}
+    {% if value["fwmark"] is defined -%}
+    fwmark {{ value["fwmark"] }} lookup {{ value["fwmark"] }}
+    from {{ value["address"] }} lookup {{ value["fwmark"] }}
     {% endif -%}
     {% endfor %}
 
@@ -20,32 +20,32 @@ static_rules {
 
 vrrp_instance "gateway" {
 
-    interface skynet
+    interface {{ vrrp.device }}
     virtual_router_id 1
 
     authentication {
 
         auth_type PASS
-        auth_pass skynet
+        auth_pass {{ vrrp.password }}
 
     }
 
     virtual_ipaddress {
 
-        {% for key, value in vrrp.items() -%}
-        {{ value["vip"] }}/{{ value["network"] }} dev {{ key }}
+        {% for key, value in vrrp.vip.items() -%}
+        {{ value["address"] }}/{{ value["network"] }} dev {{ key }}
         {% endfor %}
 
     }
 
     virtual_routes {
 
-        {% for key, value in vrrp.items() -%}
-        {% if value["defaultRoute"] is defined and value["defaultRoute"] is sameas true -%}
+        {% for key, value in vrrp.vip.items() -%}
+        {% if value["default"] is defined and value["default"] is sameas true -%}
         0.0.0.0/0 via {{ value["gateway"] }} dev {{ key }} metric 75 no_track
         {% endif -%}
-        {% if value["routeMark"] is defined -%}
-        0.0.0.0/0 via {{ value["gateway"] }} dev {{ key }} table {{ value["routeMark"] }} no_track
+        {% if value["fwmark"] is defined -%}
+        0.0.0.0/0 via {{ value["gateway"] }} dev {{ key }} table {{ value["fwmark"] }} no_track
         {% endif -%}
         {% endfor %}
 
