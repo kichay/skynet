@@ -10,12 +10,15 @@ localAPIEndpoint:
   bindPort: 6443
 nodeRegistration:
   criSocket: "unix:///run/containerd/containerd.sock"
-  taints: {{ node["taints"] }}
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+certificateKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: JoinConfiguration
-caCertPath: /etc/kubernetes/pki/ca.crt
 controlPlane:
+  certificateKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
   localAPIEndpoint:
     advertiseAddress: {{ networkd["networks"]["skynet"]["address"] }}
     bindPort: 6443
@@ -28,7 +31,9 @@ discovery:
   tlsBootstrapToken: abcdef.0123456789abcdef
 nodeRegistration:
   criSocket: "unix:///run/containerd/containerd.sock"
-  taints: {{ node["taints"] }}
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
