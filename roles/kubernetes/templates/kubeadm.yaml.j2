@@ -2,9 +2,9 @@
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 bootstrapTokens:
-- token: "abcdef.0123456789abcdef"
-  description: "kubeadm bootstrap token"
-  ttl: "24h"
+- token: abcdef.0123456789abcdef
+  description: kubeadm bootstrap token
+  ttl: 24h
 localAPIEndpoint:
   advertiseAddress: {{ networkd["networks"]["skynet"]["address"] }}
   bindPort: 6443
@@ -13,12 +13,12 @@ nodeRegistration:
   taints:
   - effect: NoSchedule
     key: node-role.kubernetes.io/master
-certificateKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+certificateKey: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: JoinConfiguration
 controlPlane:
-  certificateKey: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  certificateKey: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
   localAPIEndpoint:
     advertiseAddress: {{ networkd["networks"]["skynet"]["address"] }}
     bindPort: 6443
@@ -46,7 +46,6 @@ controlPlaneEndpoint: {{ vrrp["vip"]["skynet"]["address"] }}:6443
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 kind: KubeProxyConfiguration
 mode: ipvs
-bindAddress: {{ networkd["networks"]["skynet"]["address"] }}
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
