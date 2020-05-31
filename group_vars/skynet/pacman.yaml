@@ -14,3 +14,4 @@ pacman:
   - iptables-nft
   - ethtool
   - ipvsadm
+  - lvm2
