@@ -3,7 +3,6 @@ pacman:
   packages:
   - python-systemd
   - python-requests
-  - python-prometheus_client
   - nftables
   - keepalived
   - unbound

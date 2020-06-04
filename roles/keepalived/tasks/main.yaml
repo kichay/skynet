@@ -75,7 +75,7 @@
   loop:
   - isp1.json
   - isp2.json
-  - isp1+2.json
+  - both.json
 
 - name: Enable, start/restart keepalived unit
   systemd:

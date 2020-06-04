@@ -2,11 +2,11 @@
 
 import os
 
-Cup = "/bin/ip route replace default via {{ vrrp["vip"]["isp1"]["gateway"] }} dev isp1 proto 112 metric 75"
-Cdown = "/bin/ip route replace default via {{ vrrp["vip"]["isp2"]["gateway"] }} dev isp2 proto 112 metric 75"
+Cup = "{{ route_selector.up }}"
+Cdown = "{{ route_selector.down }}"
 
 def hook(h, m, Q):
-    if m == "121":
+    if m == "{{ route_selector.mark }}":
         if h == 2:
             print("route_selector:", Cdown)
             os.system(Cdown)

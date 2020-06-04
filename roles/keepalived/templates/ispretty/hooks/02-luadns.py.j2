@@ -4,17 +4,17 @@ import requests
 
 luaUser = "{{ luadns.luaUser }}"
 luaPassword = "{{ luadns.luaPassword }}"
-luaZoneURI = "https://api.luadns.com/v1/zones/43583"
+luaZoneURI = "https://api.luadns.com/v1/zones/{{ luadns.zone }}"
 
-isp1 = 1 # 0
-isp2 = 1 # 0
-lua = 0 # 1
+isp1 = 1 # init isp1 status
+isp2 = 1 # init isp2 status
+lua = 0  # init luadns sync status
 
 CONFIG_PATH = "/etc/luadns/"
 J1 = open(CONFIG_PATH + "isp1.json").read()
 J2 = open(CONFIG_PATH + "isp2.json").read()
-J12 = open(CONFIG_PATH + "isp1+2.json").read()
-Jcurrent = J12
+Jb = open(CONFIG_PATH + "both.json").read()
+Jcurrent = Jb
 
 def hook(h, m, Q):
     global isp1, isp2, lua, Jcurrent
@@ -24,7 +24,7 @@ def hook(h, m, Q):
             if Q.current >= Q.pretty:
                 isp1 = 1
                 if isp2 == 1:
-                    Jcurrent = J12
+                    Jcurrent = Jb
                 else:
                     Jcurrent = J1
             else:
@@ -37,7 +37,7 @@ def hook(h, m, Q):
             if Q.current >= Q.pretty:
                 isp2 = 1
                 if isp1 == 1:
-                    Jcurrent = J12
+                    Jcurrent = Jb
                 else:
                     Jcurrent = J2
             else:

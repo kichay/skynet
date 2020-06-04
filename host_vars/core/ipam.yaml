@@ -1,6 +1,6 @@
 ipam:
-  subnet: 10.88.0.0
-  network: 16
+  subnet: "{{ kubernetes.kubeadm.networking.podSubnet.split('/')[0] }}"
+  network: "{{ kubernetes.kubeadm.networking.podSubnet.split('/')[1] }}"
   rangeStart: 10.88.1.2
   rangeEnd: 10.88.1.254
   gateway: 10.88.1.1

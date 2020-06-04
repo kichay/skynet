@@ -1,0 +1,5 @@
+---
+route_selector:
+  mark: 121
+  up: "/bin/ip route replace default via {{ vrrp.vip.isp1.gateway }} dev isp1 proto 112 metric 75"
+  down: "/bin/ip route replace default via {{ vrrp.vip.isp2.gateway }} dev isp2 proto 112 metric 75"

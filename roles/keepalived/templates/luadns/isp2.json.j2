@@ -1,17 +1,1 @@
-{
-    "name":"cookie-monster.ru",
-    "records":[
-        {
-            "name": "cookie-monster.ru.",
-            "type": "A",
-            "content": "{{ vrrp.vip.isp2.address }}",
-            "ttl": 300
-        },
-        {
-            "name": "*.cookie-monster.ru.",
-            "type": "A",
-            "content": "{{ vrrp.vip.isp2.address }}",
-            "ttl": 300
-        }
-    ]
-}
+{{ luadns.json.isp2 | to_json }}

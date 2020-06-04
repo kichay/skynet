@@ -1,4 +1,4 @@
-runtime-endpoint: unix:///run/containerd/containerd.sock
-image-endpoint: unix:///run/containerd/containerd.sock
+runtime-endpoint: {{ containerd.criSocket }}
+image-endpoint: {{ containerd.criSocket }}
 timeout: 10
 debug: false

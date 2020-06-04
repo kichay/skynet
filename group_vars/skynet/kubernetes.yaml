@@ -1,3 +1,14 @@
 ---
 kubernetes:
   version: v1.18.2
+  kubeadm:
+    bootstrap:
+      token: abcdef.0123456789abcdef
+      ttl: 24h
+      description: kubeadm bootstrap token
+    controlPlane:
+      certificateKey: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      port: 6443
+    networking:
+      serviceSubnet: 10.96.0.0/12
+      podSubnet: 10.88.0.0/16
