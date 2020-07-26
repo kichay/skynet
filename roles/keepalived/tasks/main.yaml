@@ -41,7 +41,6 @@
   loop:
   - 00-hook_logger.py
   - 01-route_selector.py
-  - 02-luadns.py
 
 - name: Generate systemd files
   template:
@@ -56,26 +55,6 @@
   - ispretty.service
   - fakedhcpc@.service
   - keepalived-gateway.target
-
-- name: Create luadns JSON directory
-  file:
-    path: /etc/luadns
-    state: directory
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-
-- name: Generate luadns JSON files
-  template:
-    src: "luadns/{{ item }}.j2"
-    dest: "/etc/luadns/{{ item }}"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  loop:
-  - isp1.json
-  - isp2.json
-  - both.json
 
 - name: Enable, start/restart keepalived unit
   systemd:
