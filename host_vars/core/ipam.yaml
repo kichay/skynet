@@ -1,3 +1,4 @@
+---
 ipam:
   subnet: "{{ kubernetes.kubeadm.networking.podSubnet.split('/')[0] }}"
   network: "{{ kubernetes.kubeadm.networking.podSubnet.split('/')[1] }}"
