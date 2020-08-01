@@ -2,95 +2,18 @@
 
 flush ruleset
 
-table bridge filter {
+{% for table_name, table_chains in nftables.items() -%}
+table {{ table_name }} {
 
-    chain input {
+    {% for chain_name, chain_rules in table_chains.items() -%}
+    chain {{ chain_name }} {
 
-        type filter hook input priority filter; policy accept;
-        iifname bond vlan id 121 ip daddr 5.130.78.89 accept
-        iifname bond vlan id 121 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 5.130.78.89 accept
-        iifname bond vlan id 122 ip daddr { 109.174.122.53, 255.255.255.255 } accept
-        iifname bond vlan id 122 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip 109.174.122.53 accept
-        iifname bond vlan id { 121, 122 } drop
-
-    }
-
-    chain output {
-
-        type filter hook output priority filter; policy accept;
-        oifname bond vlan id 121 ip saddr 5.130.78.89 accept
-        oifname bond vlan id 121 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 5.130.78.89 accept
-        oifname bond vlan id 122 ip saddr { 109.174.122.53, 0.0.0.0 } accept
-        oifname bond vlan id 122 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip 109.174.122.53 accept
-        oifname bond vlan id { 121, 122 } drop
+        {% for rule in chain_rules -%}
+        {{ rule }}
+        {% endfor %}
 
     }
+    {% endfor %}
 
 }
-
-table inet filter {
-
-    chain input {
-
-        type filter hook input priority filter; policy drop;
-        ct state { established, related } accept
-        iifname { lo, skynet, podnet } accept
-        iifname home tcp dport 53 accept
-        iifname home udp dport 53 accept
-        tcp dport 22 accept
-        icmp type echo-request accept
-        iifname isp2 ip daddr 255.255.255.255 udp dport 68 udp sport 67 accept
-
-    }
-
-    chain output {
-
-        type filter hook output priority filter; policy accept;
-        oifname isp2 ip saddr 0.0.0.0 udp sport 68 udp dport 67 accept
-        oifname isp2 ip saddr 0.0.0.0 drop 
-
-    }
-
-    chain forward {
-
-        type filter hook forward priority filter; policy accept;
-        iifname isp1 ct state new ct mark set 121 continue
-        iifname isp2 ct state new ct mark set 122 continue
-        ct state established,related accept
-        iifname home ether saddr dc:53:60:f1:a4:41 accept
-        iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
-        iifname home oifname != { isp1, isp2 } drop
-
-    }
-
-}
-
-table ip mangle {
-
-    chain prerouting {
-
-        type filter hook prerouting priority mangle; policy accept;
-        iifname != { isp1, isp2 } ct mark { 121, 122 } meta mark set ct mark
-
-    }
-
-}
-
-table ip nat {
-
-    chain prerouting {
-
-        type nat hook prerouting priority dstnat; policy accept;
-        ip daddr 5.130.78.89 tcp dport { 80, 443 } dnat ip to 192.168.128.14
-        ip daddr 109.174.122.53 tcp dport { 80, 443 } dnat ip to 192.168.128.14
-
-    }
-
-    chain postrouting {
-
-        type nat hook postrouting priority srcnat; policy accept;
-        oifname { isp1, isp2, management } masquerade
-
-    }
-
-}
+{% endfor %}

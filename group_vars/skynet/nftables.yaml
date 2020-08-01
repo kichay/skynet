@@ -1,2 +1,51 @@
 ---
 nftables:
+  bridge filter:
+    input:
+    - type filter hook input priority filter; policy accept;
+    - iifname bond vlan id {{ networking.vlan_ids.isp1 }} ip daddr {{ networking.vrrp.vip.isp1.address }} accept
+    - iifname bond vlan id {{ networking.vlan_ids.isp1 }} arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip {{ networking.vrrp.vip.isp1.address }} accept
+    - iifname bond vlan id {{ networking.vlan_ids.isp2 }} ip daddr { {{ networking.vrrp.vip.isp2.address }}, 255.255.255.255 } accept
+    - iifname bond vlan id {{ networking.vlan_ids.isp2 }} arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp daddr ip {{ networking.vrrp.vip.isp2.address }} accept
+    - iifname bond vlan id { {{ networking.vlan_ids.isp1 }}, {{ networking.vlan_ids.isp2 }} } drop
+    output:
+    - type filter hook output priority filter; policy accept;
+    - oifname bond vlan id {{ networking.vlan_ids.isp1 }} ip saddr {{ networking.vrrp.vip.isp1.address }} accept
+    - oifname bond vlan id {{ networking.vlan_ids.isp1 }} arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip {{ networking.vrrp.vip.isp1.address }} accept
+    - oifname bond vlan id {{ networking.vlan_ids.isp2 }} ip saddr { {{ networking.vrrp.vip.isp2.address }}, 0.0.0.0 } accept
+    - oifname bond vlan id {{ networking.vlan_ids.isp2 }} arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 arp saddr ip {{ networking.vrrp.vip.isp2.address }} accept
+    - oifname bond vlan id { {{ networking.vlan_ids.isp1 }}, {{ networking.vlan_ids.isp2 }} } drop
+  inet filter:
+    input:
+    - type filter hook input priority filter; policy drop;
+    - ct state { established, related } accept
+    - iifname { lo, skynet, podnet } accept
+    - iifname home tcp dport 53 accept
+    - iifname home udp dport 53 accept
+    - tcp dport 22 accept
+    - icmp type echo-request accept
+    - iifname isp2 ip daddr 255.255.255.255 udp dport 68 udp sport 67 accept
+    output:
+    - type filter hook output priority filter; policy accept;
+    - oifname isp2 ip saddr 0.0.0.0 udp sport 68 udp dport 67 accept
+    - oifname isp2 ip saddr 0.0.0.0 drop
+    forward:
+    - type filter hook forward priority filter; policy accept;
+    - iifname isp1 ct state new ct mark set {{ networking.vlan_ids.isp1 }} continue
+    - iifname isp2 ct state new ct mark set {{ networking.vlan_ids.isp2 }} continue
+    - ct state established,related accept
+    - iifname home ether saddr dc:53:60:f1:a4:41 accept
+    - iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
+    - iifname home oifname != { isp1, isp2 } drop
+  inet mangle:
+    prerouting:
+    - type filter hook prerouting priority mangle; policy accept;
+    - iifname != { isp1, isp2 } ct mark { {{ networking.vlan_ids.isp1 }}, {{ networking.vlan_ids.isp2 }} } meta mark set ct mark
+  inetnat:
+    prerouting:
+    - type nat hook prerouting priority dstnat; policy accept;
+    - ip daddr {{ networking.vrrp.vip.isp1.address }} tcp dport { 80, 443 } dnat ip to 192.168.128.14
+    - ip daddr {{ networking.vrrp.vip.isp2.address }} tcp dport { 80, 443 } dnat ip to 192.168.128.14
+    postrouting:
+    - type nat hook postrouting priority srcnat; policy accept;
+    - oifname { isp1, isp2, management } masquerade
