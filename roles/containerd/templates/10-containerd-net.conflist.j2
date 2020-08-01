@@ -10,10 +10,10 @@
         "ranges": [
           [
             {
-              "subnet": "{{ ipam["subnet"] }}/{{ ipam["network"] }}",
-              "rangeStart": "{{ ipam["rangeStart"] }}",
-              "rangeEnd": "{{ ipam["rangeEnd"] }}",
-              "gateway": "{{ ipam["gateway"] }}"
+              "subnet": "{{ networking.ipam.subnet }}/{{ networking.ipam.network }}",
+              "rangeStart": "{{ networking.ipam.rangeStart }}",
+              "rangeEnd": "{{ networking.ipam.rangeEnd }}",
+              "gateway": "{{ networking.ipam.gateway }}"
             }
           ]
         ],

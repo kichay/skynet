@@ -2,8 +2,8 @@
 Name=skynet
 
 [Network]
-Address={{ networkd["networks"]["skynet"]["address"] }}/{{ networkd["networks"]["skynet"]["network"] }}
+Address={{ networking.ip.skynet.address }}/{{ networking.ip.skynet.network }}
 
 [Route]
-Gateway={{ vrrp["vip"]["skynet"]["address"] }}
+Gateway={{ networking.vrrp.vip.skynet.address }}
 Metric=100

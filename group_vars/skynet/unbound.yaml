@@ -23,5 +23,5 @@ unbound:
   - 10.0.0.0/8
   - 192.168.0.0/16
   interfaces:
-  - "{{ vrrp.vip.skynet.address }}"
-  - "{{ vrrp.vip.home.address }}"
+  - "{{ networking.vrrp.vip.skynet.address }}"
+  - "{{ networking.vrrp.vip.home.address }}"

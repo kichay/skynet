@@ -1,0 +1,49 @@
+---
+networking:
+
+  arp_mon_list:
+  - 192.168.111.1
+  - 192.168.111.2
+
+  vlan_ids:
+    isp1: 121
+    isp2: 122
+    home: 123
+    skynet: 128
+    podvlan: 129
+
+  isp1:
+    mac: 60:a4:4c:6d:c6:00
+
+  isp2:
+    mac: c8:3a:35:d8:e9:53
+
+  vrrp:
+    id: 1
+    device: skynet
+    password: skynet
+    priority: "{{ vrrp_priority }}"
+    vip:
+      skynet:
+        address: 192.168.128.1
+        network: 32
+      home:
+        address: 192.168.123.1
+        network: 24
+      isp1:
+        address: 5.130.78.89
+        network: 24
+        gateway: 5.130.78.1
+        fwmark: 121
+        default: true
+      isp2:
+        address: 109.174.122.53
+        network: 26
+        gateway: 109.174.122.1
+        fwmark: 122
+
+  ip: "{{ ip }}"
+
+  interfaces: "{{ interfaces }}"
+
+  ipam: "{{ ipam }}"

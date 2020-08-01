@@ -9,7 +9,7 @@ global_defs {
 
 static_rules {
 
-    {% for key, value in vrrp.vip.items() -%}
+    {% for key, value in networking.vrrp.vip.items() -%}
     {% if value["fwmark"] is defined -%}
     fwmark {{ value["fwmark"] }} lookup {{ value["fwmark"] }}
     from {{ value["address"] }} lookup {{ value["fwmark"] }}
@@ -20,22 +20,22 @@ static_rules {
 
 vrrp_instance "gateway" {
 
-    interface {{ vrrp.device }}
-    virtual_router_id {{ vrrp.id }}
+    interface {{ networking.vrrp.device }}
+    virtual_router_id {{ networking.vrrp.id }}
     higher_prio_send_advert "true"
-    priority {{ vrrp.priority }}
+    priority {{ networking.vrrp.priority }}
     preempt
 
     authentication {
 
         auth_type PASS
-        auth_pass {{ vrrp.password }}
+        auth_pass {{ networking.vrrp.password }}
 
     }
 
     virtual_ipaddress {
 
-        {% for key, value in vrrp.vip.items() -%}
+        {% for key, value in networking.vrrp.vip.items() -%}
         {{ value["address"] }}/{{ value["network"] }} dev {{ key }}
         {% endfor %}
 
@@ -43,7 +43,7 @@ vrrp_instance "gateway" {
 
     virtual_routes {
 
-        {% for key, value in vrrp.vip.items() -%}
+        {% for key, value in networking.vrrp.vip.items() -%}
         {% if value["default"] is defined and value["default"] is sameas true -%}
         0.0.0.0/0 via {{ value["gateway"] }} dev {{ key }} metric 75 no_track
         {% endif -%}

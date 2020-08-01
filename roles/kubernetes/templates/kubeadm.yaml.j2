@@ -6,7 +6,7 @@ bootstrapTokens:
   description: {{ kubernetes.kubeadm.bootstrap.description }}
   ttl: {{ kubernetes.kubeadm.bootstrap.ttl }}
 localAPIEndpoint:
-  advertiseAddress: {{ networkd["networks"]["skynet"]["address"] }}
+  advertiseAddress: {{ networking.ip.skynet.address }}
   bindPort: {{ kubernetes.kubeadm.controlPlane.port }}
 nodeRegistration:
   criSocket: "{{ containerd.criSocket }}"
@@ -20,11 +20,11 @@ kind: JoinConfiguration
 controlPlane:
   certificateKey: {{ kubernetes.kubeadm.controlPlane.certificateKey }}
   localAPIEndpoint:
-    advertiseAddress: {{ networkd["networks"]["skynet"]["address"] }}
+    advertiseAddress: {{ networking.ip.skynet.address }}
     bindPort: {{ kubernetes.kubeadm.controlPlane.port }}
 discovery:
   bootstrapToken:
-    apiServerEndpoint: {{ vrrp["vip"]["skynet"]["address"] }}:{{ kubernetes.kubeadm.controlPlane.port }}
+    apiServerEndpoint: {{ networking.vrrp.vip.skynet.address }}:{{ kubernetes.kubeadm.controlPlane.port }}
     token: {{ kubernetes.kubeadm.bootstrap.token }}
     unsafeSkipCAVerification: true
   timeout: 5m0s
@@ -41,7 +41,7 @@ networking:
   serviceSubnet: {{ kubernetes.kubeadm.networking.serviceSubnet }}
   podSubnet: {{ kubernetes.kubeadm.networking.podSubnet }}
 kubernetesVersion: {{ kubernetes["version"] }}
-controlPlaneEndpoint: {{ vrrp["vip"]["skynet"]["address"] }}:{{ kubernetes.kubeadm.controlPlane.port }}
+controlPlaneEndpoint: {{ networking.vrrp.vip.skynet.address }}:{{ kubernetes.kubeadm.controlPlane.port }}
 ---
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 kind: KubeProxyConfiguration

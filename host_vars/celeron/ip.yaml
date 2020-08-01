@@ -1,0 +1,8 @@
+---
+ip:
+  skynet:
+    address: 192.168.128.12
+    network: "24"
+  management:
+    address: 192.168.111.12
+    network: "24"

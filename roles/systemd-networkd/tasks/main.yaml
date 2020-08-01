@@ -1,6 +1,6 @@
 ---
 - name: Generate systemd.link files
-  loop: "{{ interfaces }}"
+  loop: "{{ networking.interfaces }}"
   template:
     src: 50-interface.link.j2
     dest: "/etc/systemd/network/50-{{ item['name'] }}.link"
@@ -26,7 +26,7 @@
   - 60-home.netdev
 
 - name: Generate systemd.network files for links
-  loop: "{{ interfaces }}"
+  loop: "{{ networking.interfaces }}"
   template:
     src: 70-interface.network.j2
     dest: "/etc/systemd/network/65-{{ item['name'] }}.network"

@@ -6,7 +6,7 @@
   #- pacman
   #- linux-modules
   #- sysctl
-  #- systemd-networkd  # TODO: fix templates
+  #- systemd-networkd
   #- systemd-timesyncd
   #- nftables          # TODO: fix templates
   #- unbound

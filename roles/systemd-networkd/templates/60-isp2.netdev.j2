@@ -2,7 +2,7 @@
 Name=isp2
 Description=ISP2 VLAN
 Kind=vlan
-MACAddress={{ isp2["mac"] }}
+MACAddress={{ networking.isp2.mac }}
 
 [VLAN]
-Id=122
+Id={{ networking.vlan_ids.isp2 }}
