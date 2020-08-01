@@ -1,8 +1,6 @@
 ---
 pacman:
   packages:
-  - python-systemd
-  - python-requests
   - nftables
   - keepalived
   - unbound
@@ -13,4 +11,3 @@ pacman:
   - iptables-nft
   - ethtool
   - ipvsadm
-  - lvm2

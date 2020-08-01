@@ -15,33 +15,6 @@
     group: root
     mode: u=rwx,g=rx,o=rx
 
-- name: Generate ispretty.py
-  template:
-    src: ispretty/ispretty.py.j2
-    dest: /usr/local/bin/ispretty.py
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-
-- name: Create ispretty hooks directory
-  file:
-    path: /etc/ispretty
-    state: directory
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-
-- name: Generate ispretty hooks
-  template:
-    src: "ispretty/hooks/{{ item }}.j2"
-    dest: "/etc/ispretty/{{ item }}"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  loop:
-  - 00-hook_logger.py
-  - 01-route_selector.py
-
 - name: Generate systemd files
   template:
     src: "systemd/{{ item }}.j2"
@@ -50,9 +23,6 @@
     group: root
     mode: u=rw,g=r,o=r
   loop:
-  - ping@.timer
-  - ping@.service
-  - ispretty.service
   - fakedhcpc@.service
   - keepalived-gateway.target
 
