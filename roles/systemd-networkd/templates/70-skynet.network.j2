@@ -7,3 +7,10 @@ Address={{ networking.ip.skynet.address }}/{{ networking.ip.skynet.network }}
 [Route]
 Gateway={{ networking.vrrp.vip.skynet.address }}
 Metric=100
+
+{% for route in networking.ip.skynet.routes %}
+[Route]
+Gateway={{ route.gateway }}
+Destination={{ route.destination }}
+
+{% endfor %}

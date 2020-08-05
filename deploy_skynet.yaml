@@ -6,7 +6,7 @@
   #- pacman
   #- linux-modules
   #- sysctl
-  #- systemd-networkd
+  - systemd-networkd
   #- systemd-timesyncd
   #- nftables
   #- unbound

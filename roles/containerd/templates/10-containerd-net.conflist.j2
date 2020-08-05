@@ -5,12 +5,14 @@
     {
       "type": "bridge",
       "bridge": "podnet",
+      "isGateway": true,
+      "ipMasq": false,
       "ipam": {
         "type": "host-local",
         "ranges": [
           [
             {
-              "subnet": "{{ networking.ipam.subnet }}/{{ networking.ipam.network }}",
+              "subnet": "{{ networking.ipam.subnet }}",
               "rangeStart": "{{ networking.ipam.rangeStart }}",
               "rangeEnd": "{{ networking.ipam.rangeEnd }}",
               "gateway": "{{ networking.ipam.gateway }}"

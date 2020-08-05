@@ -10,7 +10,6 @@ networking:
     isp2: 122
     home: 123
     skynet: 128
-    podvlan: 129
 
   isp1:
     mac: 60:a4:4c:6d:c6:00
