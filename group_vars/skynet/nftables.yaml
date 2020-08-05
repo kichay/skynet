@@ -23,7 +23,7 @@ nftables:
     - iifname { lo, skynet, podnet } accept
     - iifname home tcp dport 53 accept
     - iifname home udp dport 53 accept
-    - tcp dport { 22, 80, 443 } accept
+    - tcp dport { 22, 80, 443, 30443, 30080 } accept
     - icmp type echo-request accept
     - iifname isp2 ip daddr 255.255.255.255 udp dport 68 udp sport 67 accept
     output:
