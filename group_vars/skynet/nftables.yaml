@@ -18,6 +18,7 @@ nftables:
   inet filter:
     input:
     - type filter hook input priority filter; policy drop;
+    - iifname home ether saddr dc:53:60:f1:a4:41 accept
     - ct state { established, related } accept
     - iifname { lo, skynet, podnet } accept
     - iifname home tcp dport 53 accept
@@ -31,17 +32,17 @@ nftables:
     - oifname isp2 ip saddr 0.0.0.0 drop
     forward:
     - type filter hook forward priority filter; policy accept;
-    - iifname isp1 ct state new ct mark set {{ networking.vlan_ids.isp1 }} continue
-    - iifname isp2 ct state new ct mark set {{ networking.vlan_ids.isp2 }} continue
-    - ct state established,related accept
     - iifname home ether saddr dc:53:60:f1:a4:41 accept
+    - ct state established,related accept
     - iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
     - iifname home oifname != { isp1, isp2 } drop
   inet mangle:
     prerouting:
     - type filter hook prerouting priority mangle; policy accept;
-    - iifname != { isp1, isp2 } ct mark { {{ networking.vlan_ids.isp1 }}, {{ networking.vlan_ids.isp2 }} } meta mark set ct mark
-  inetnat:
+    - iifname != { isp1, isp2 } ct mark { {{ networking.vlan_ids.isp1 }}, {{ networking.vlan_ids.isp2 }} } meta mark set ct mark continue
+    - iifname isp1 ct state new ct mark set {{ networking.vlan_ids.isp1 }} continue
+    - iifname isp2 ct state new ct mark set {{ networking.vlan_ids.isp2 }} continue
+  inet nat:
     prerouting:
     - type nat hook prerouting priority dstnat; policy accept;
     - ip daddr {{ networking.vrrp.vip.isp1.address }} tcp dport { 80, 443 } dnat ip to 192.168.128.14

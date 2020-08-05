@@ -12,7 +12,6 @@ static_rules {
     {% for key, value in networking.vrrp.vip.items() -%}
     {% if value["fwmark"] is defined -%}
     fwmark {{ value["fwmark"] }} lookup {{ value["fwmark"] }}
-    from {{ value["address"] }} lookup {{ value["fwmark"] }}
     {% endif -%}
     {% endfor %}
 
