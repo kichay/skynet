@@ -23,6 +23,11 @@ server:
   use-caps-for-id: yes
   tls-cert-bundle: "/etc/ssl/certs/ca-certificates.crt"
 
+  {% for host, ip in unbound.hosts.items() -%}
+  local-zone: "{{ host }}.{{ unbound.domain }}" static
+  local-data: "{{ host }}.{{ unbound.domain }} A {{ ip }}"
+  {% endfor %}
+
 forward-zone:
   name: "."    
   forward-tls-upstream: yes
