@@ -34,7 +34,6 @@ nftables:
     - type filter hook forward priority filter; policy accept;
     - iifname home ether saddr dc:53:60:f1:a4:41 accept
     - ct state established,related accept
-    - iifname home oifname skynet ip daddr 192.168.128.14 tcp dport { 80, 443 } accept
     - iifname home oifname != { isp1, isp2 } drop
   inet mangle:
     prerouting:
@@ -45,9 +44,8 @@ nftables:
   inet nat:
     prerouting:
     - type nat hook prerouting priority dstnat; policy accept;
-    - ip daddr { {{ networking.vrrp.vip.isp1.address }}, {{ networking.vrrp.vip.isp2.address }} } tcp dport { 443, 80 } dnat ip to 192.168.128.14
-    #- ip daddr { {{ networking.vrrp.vip.isp1.address }}, {{ networking.vrrp.vip.isp2.address }} } tcp dport 80 redirect to 30080
-    #- ip daddr { {{ networking.vrrp.vip.isp1.address }}, {{ networking.vrrp.vip.isp2.address }} } tcp dport 443 redirect to 30443
+    - ip daddr { {{ networking.vrrp.vip.isp1.address }}, {{ networking.vrrp.vip.isp2.address }} } tcp dport 80 redirect to 30080
+    - ip daddr { {{ networking.vrrp.vip.isp1.address }}, {{ networking.vrrp.vip.isp2.address }} } tcp dport 443 redirect to 30443
     postrouting:
     - type nat hook postrouting priority srcnat; policy accept;
     - oifname { isp1, isp2, management } masquerade
