@@ -39,9 +39,9 @@ nftables:
   inet mangle:
     prerouting:
     - type filter hook prerouting priority mangle; policy accept;
-    - iifname != { isp1, isp2 } ct mark { {{ networking.vlan_ids.isp1 }}, {{ networking.vlan_ids.isp2 }} } meta mark set ct mark continue
     - iifname isp1 ct state new ct mark set {{ networking.vlan_ids.isp1 }} continue
     - iifname isp2 ct state new ct mark set {{ networking.vlan_ids.isp2 }} continue
+    - iifname != { isp1, isp2 } ct mark { {{ networking.vlan_ids.isp1 }}, {{ networking.vlan_ids.isp2 }} } meta mark set ct mark continue
   inet nat:
     prerouting:
     - type nat hook prerouting priority dstnat; policy accept;
