@@ -24,7 +24,7 @@ nftables:
     - iifname home tcp dport 53 accept
     - iifname home udp dport 53 accept
     - tcp dport { 22, 80, 443, 30443, 30080 } accept
-    - icmp type echo-request accept
+    - icmp type { echo-request, destination-unreachable } accept
     - iifname isp2 ip daddr 255.255.255.255 udp dport 68 udp sport 67 accept
     output:
     - type filter hook output priority filter; policy accept;
