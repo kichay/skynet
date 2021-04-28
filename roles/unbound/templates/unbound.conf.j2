@@ -1,5 +1,6 @@
 server:
   verbosity: 1
+  tcp-idle-timeout: 3
   {% for interface in unbound.interfaces -%}
   interface: {{ interface }}
   {% endfor %}

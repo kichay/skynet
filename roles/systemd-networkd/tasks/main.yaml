@@ -16,7 +16,6 @@
     group: root
     mode: u=rw,g=r,o=r
   loop:
-  - 60-bond.netdev
   - 60-management.netdev
   - 60-isp1.netdev
   - 60-isp2.netdev
@@ -41,7 +40,6 @@
     mode: u=rw,g=r,o=r
   loop:
   - 70-management.network
-  - 70-bond.network
   - 70-isp1.network
   - 70-isp2.network
   - 70-skynet.network

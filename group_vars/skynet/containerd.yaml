@@ -1,8 +1,6 @@
 ---
-crictl:
-  version: v1.18.0
 cni:
-  version: v0.8.2
+  version: v0.9.1
 containerd:
   criPath: /run/containerd/containerd.sock
   criSocket: unix:///run/containerd/containerd.sock

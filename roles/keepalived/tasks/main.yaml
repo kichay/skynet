@@ -6,29 +6,3 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
-
-- name: Generate notify_fifo_script.sh
-  template:
-    src: keepalived/notify_fifo_script.sh.j2
-    dest: /etc/keepalived/notify_fifo_script.sh
-    owner: root
-    group: root
-    mode: u=rwx,g=rx,o=rx
-
-- name: Generate systemd files
-  template:
-    src: "systemd/{{ item }}.j2"
-    dest: "/etc/systemd/system/{{ item }}"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-  loop:
-  - fakedhcpc@.service
-  - keepalived-gateway.target
-
-- name: Enable, start/restart keepalived unit
-  systemd:
-    name: keepalived
-    state: restarted
-    daemon_reload: yes
-    enabled: yes

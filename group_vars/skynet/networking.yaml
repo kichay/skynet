@@ -11,12 +11,6 @@ networking:
     home: 123
     skynet: 128
 
-  isp1:
-    mac: 60:a4:4c:6d:c6:00
-
-  isp2:
-    mac: c8:3a:35:d8:e9:53
-
   vrrp:
     id: 1
     device: skynet

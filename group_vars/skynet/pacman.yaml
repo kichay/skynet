@@ -4,10 +4,13 @@ pacman:
   - nftables
   - keepalived
   - unbound
-  - busybox
   - containerd
+  - crictl
   - conntrack-tools
   - socat
   - iptables-nft
   - ethtool
   - ipvsadm
+  - kubeadm
+  - kubectl
+  - kubelet

@@ -1,13 +1,4 @@
 ---
-- name: Download kubeadm, kubelet, kubectl
-  get_url:
-    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubernetes.version }}/bin/linux/amd64/{{ item }}"
-    dest: "/usr/local/bin/{{ item }}"
-    mode: u=rwx,g=rx,o=rx
-  loop:
-  - kubeadm
-  - kubelet
-  - kubectl
 
 - name: Generate kubelet.service
   template:
