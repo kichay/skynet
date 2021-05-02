@@ -20,6 +20,7 @@ nftables:
     - iifname home ether saddr dc:53:60:f1:a4:41 accept
     - ct state established,related accept
     - iifname home oifname != { isp1, isp2 } drop
+    - iifname management oifname != { isp1, isp2 } drop
   inet mangle:
     prerouting:
     - type filter hook prerouting priority mangle; policy accept;

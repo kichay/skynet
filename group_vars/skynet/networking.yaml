@@ -17,6 +17,9 @@ networking:
     password: skynet
     priority: "{{ vrrp_priority }}"
     vip:
+      management:
+        address: 192.168.111.10
+        network: 32
       skynet:
         address: 192.168.128.1
         network: 32
