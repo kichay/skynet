@@ -25,6 +25,7 @@ unbound:
   interfaces:
   - "{{ networking.vrrp.vip.skynet.address }}"
   - "{{ networking.vrrp.vip.home.address }}"
+  - "{{ networking.vrrp.vip.management.address }}"
   domain: skynet
   hosts:
     core: 192.168.128.11
